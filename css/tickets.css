@@ -1,0 +1,79 @@
+/* Ticket Archive Style Sheet */
+
+.ticket-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ticket-table th,
+.ticket-table td {
+  text-align: left;
+  padding: 12px;
+}
+
+.ticket-table th {
+  border-bottom: 1px solid #000;
+}
+
+.ticket-table tr:not(:last-child) {
+  border-bottom: 1px solid #ddd;
+}
+
+.ticket-table td a {
+  text-decoration: none;
+}
+
+.ticket-table td a:hover {
+  text-decoration: underline;
+}
+
+.ticket-description {
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status-chip {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 16px;
+  background-color: #ccc;
+  color: #fff;
+  font-size: 0.8em;
+  margin: 2px;
+}
+
+.status-chip[data-status='New'] {
+  background-color: rgb(74, 158, 206);
+}
+
+.status-chip[data-status='Processing'] {
+  background-color: rgb(174, 36, 197);
+}
+
+.status-chip[data-status='Done'] {
+  background-color: rgb(76, 168, 164);
+}
+
+.ticket-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+#ticket_status,
+#ticket_type {
+  margin-left: 10px;
+}
+
+#search {
+  border-radius: 20px;
+  padding: 10px 15px;
+  margin-left: 10px;
+  background-color: #fff;
+  border: 1px solid #aaa;
+  color: #000;
+  margin-left: 0;
+}

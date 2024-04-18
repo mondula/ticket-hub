@@ -1,0 +1,6 @@
+/* MTS User Page Style Sheet */
+
+.profile-head {
+    display: flex;
+    justify-content: space-between;
+}

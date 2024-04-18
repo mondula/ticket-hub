@@ -1,0 +1,96 @@
+<?php
+
+function mts_register_page_settings() {
+    add_option('mts_options', array()); // Initialize the option if it doesn't exist
+    register_setting('mts_options_group', 'mts_options'); // Register a setting group
+}
+add_action('admin_init', 'mts_register_page_settings');
+
+function mts_add_admin_menu() {
+    // This creates the main menu item for MTS
+    add_menu_page('MTS', 'MTS', 'manage_options', 'mts-main-menu', 'mts_page_options', 'dashicons-tickets', 6);
+
+    // Add a submenu for Settings
+    add_submenu_page('mts-main-menu', 'Settings', 'Page Settings', 'manage_options', 'mts-page-settings', 'mts_page_options');
+}
+add_action('admin_menu', 'mts_add_admin_menu');
+
+function mts_settings_init() {
+    // Register settings, sections, and fields
+    add_settings_section('mts_page_section', 'Page Settings', 'mts_settings_section_callback', 'mts');
+
+    // Add settings fields for selecting pages
+    $fields = array('ticket-form' => 'Ticket Form Page', 'tickets' => 'Tickets Page', 'changelog' => 'Changelog Page', 'faqs' => 'FAQs Page', 'documentation' => 'Documentation Page', 'mts-user' => 'MTS User Page');
+    foreach ($fields as $field => $label) {
+        add_settings_field($field, $label, 'mts_settings_field_callback', 'mts', 'mts_page_section', array('label_for' => $field));
+    }
+}
+add_action('admin_init', 'mts_settings_init');
+
+function mts_settings_section_callback() {
+    echo 'Select the pages for each plugin functionality.';
+}
+
+function mts_settings_field_callback($args) {
+    $options = get_option('mts_options');
+    $field = $args['label_for'];
+    // Create a dropdown of all pages for each setting
+    wp_dropdown_pages(array(
+        'name' => 'mts_options[' . $field . ']',
+        'echo' => 1,
+        'show_option_none' => '&mdash; Select &mdash;',
+        'option_none_value' => '0',
+        'selected' => isset($options[$field]) ? $options[$field] : ''
+    ));
+}
+
+function mts_page_options() {
+    ?>
+    <form action="options.php" method="post">
+        <h2>MTS Settings</h2>
+        <?php
+        settings_fields('mts_options_group');
+        do_settings_sections('mts');
+        submit_button('Save Settings');
+        ?>
+    </form>
+    <?php
+}
+
+function mts_append_shortcode_to_content($content) {
+    global $post;
+    $options = get_option('mts_options');
+
+    // Check if the current page is one of the selected pages and append the corresponding shortcode
+    foreach ($options as $key => $page_id) {
+        if ($post->ID == $page_id) {
+            $shortcode = '';
+            switch ($key) {
+                case 'ticket-form':
+                    $shortcode = '[ticket-form]';
+                    break;
+                case 'changelog':
+                    $shortcode = '[changelog]';
+                    break;
+                case 'faqs':
+                    $shortcode = '[faqs]';
+                    break;
+                case 'documentation':
+                    $shortcode = '[documentation]';
+                    break;
+                case 'tickets':
+                    $shortcode = '[tickets]';
+                    break;
+                case 'mts-user':
+                    $shortcode = '[mts-user]';
+                    break;
+            }
+            if ($shortcode) {
+                $content .= do_shortcode($shortcode);
+            }
+        }
+    }
+
+    return $content;
+}
+add_filter('the_content', 'mts_append_shortcode_to_content');
