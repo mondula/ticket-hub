@@ -1,0 +1,35 @@
+services:
+  wordpress:
+    build: .
+    depends_on:
+      - db
+    image: wordpress:latest
+    volumes:
+      - ./ticket-hub:/var/www/html/wp-content/plugins/ticket-hub
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=wordpress
+      - WORDPRESS_DB_NAME=wordpress
+    ports:
+      - "8000:80"
+    restart: always
+
+  db:
+    image: mysql:8.0
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    restart: always
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"  # Web interface
+      - "1025:1025"  # SMTP server
+
+volumes:
+  db_data:
