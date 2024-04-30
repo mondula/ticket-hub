@@ -1,0 +1,99 @@
+/* FAQs Style Sheet */
+
+.faq-accordion .accordion-item {
+    margin-bottom: 20px;
+    padding: 30px 40px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+}
+
+.faq-accordion h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.faq-accordion .accordion-content ul {
+    margin-bottom: 20px;
+    margin-left: 15px;
+}
+
+.faq-accordion .accordion-content ul li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.accordion-title {
+    cursor: pointer;
+    position: relative;
+}
+
+.accordion-title h2,
+.accordion-title h3 {
+    font-size: 1.2rem;
+    margin-bottom: unset;
+    display: inline;
+}
+
+.accordion-title h2 {
+    margin-right: 10px;
+    font-weight: 700;
+}
+
+.accordion-title h3 {
+    font-weight: 400;
+}
+
+.accordion-toggle {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+}
+
+.accordion-toggle::after {
+    content: '';
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="21.829" height="12.328" viewBox="0 0 21.829 12.328"><path id="Pfad_1" data-name="Pfad 1" d="M20.414,0l-9.5,9.5L1.414,0,0,1.414,10.915,12.328,21.829,1.414Z" transform="translate(0 0)"/></svg>');
+    width: 22px;
+    height: 12px;
+    display: block;
+    background-repeat: no-repeat;
+}
+
+.accordion-title.active .accordion-toggle::after {
+    content: '';
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="18.035" height="18.035" viewBox="0 0 18.035 18.035"><g id="Gruppe_10" data-name="Gruppe 10" transform="translate(-1576.793 -660.793)"><line id="Linie_3" data-name="Linie 3" y1="16.621" x2="16.621" transform="translate(1577.5 661.5)" fill="none" stroke="%23000" stroke-width="2"/><line id="Linie_4" data-name="Linie 4" x1="16.621" y1="16.621" transform="translate(1577.5 661.5)" fill="none" stroke="%23000" stroke-width="2"/></g></svg>');
+    width: 18px;
+    height: 18px;
+    display: block;
+    background-repeat: no-repeat;
+}
+
+.accordion-content {
+    padding: 30px 0 0 0;
+    display: none;
+}
+
+@media (max-width: 999px) {
+    .accordion-title h2,
+    .accordion-title h3 {
+        display: block;
+    }
+    .accordion-title h2 {
+        margin-right: 20%;
+    }
+    .accordion-title h3 {
+        margin-top: 5px;
+    }
+}
+@media (max-width: 499px) {
+    .faq-accordion .accordion-item {
+        padding: 15px 20px;
+    }
+    .accordion-toggle {
+        right: 0px;
+        top: 5px;
+    }
+    .accordion-title h2,
+    .accordion-title h3 {
+        font-size: 1.1rem;
+    }
+}
