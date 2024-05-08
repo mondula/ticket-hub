@@ -175,16 +175,19 @@ function fetch_tickets_ajax() {
     // }
 
     // Convert array to string if needed for output
-    $pagination_html = implode(' ', $pagination);
-    $pagination_html = "<div class='pagination-wrap'>";
-    foreach ($pagination as $page) {
-        if (strpos($page, 'current') !== false) {
-            $pagination_html .= "<button class='page-number active'>" . strip_tags($page, '<a>') . "</button>";
-        } else {
-            $pagination_html .= "<button class='page-number'>" . strip_tags($page, '<a>') . "</button>";
+    $pagination_html = '';
+    if (is_array($pagination)) {
+        $pagination_html = implode(' ', $pagination);
+        $pagination_html = "<div class='pagination-wrap'>";
+        foreach ($pagination as $page) {
+            if (strpos($page, 'current') !== false) {
+                $pagination_html .= "<button class='page-number active'>" . strip_tags($page, '<a>') . "</button>";
+            } else {
+                $pagination_html .= "<button class='page-number'>" . strip_tags($page, '<a>') . "</button>";
+            }
         }
+        $pagination_html .= "</div>";
     }
-    $pagination_html .= "</div>";
 
     // Properly encode the entire output as JSON
     $final_output = json_encode(array('tickets' => $output, 'pagination' => $pagination_html));
@@ -195,4 +198,4 @@ function fetch_tickets_ajax() {
     die();
 }
 add_action('wp_ajax_fetch_tickets', 'fetch_tickets_ajax');
-add_action('wp_ajax_nopriv_fetch_tickets', 'fetch_tickets_ajax'); // If needed for non-logged-in users
+add_action('wp_ajax_nopriv_fetch_tickets', 'fetch_tickets_ajax');

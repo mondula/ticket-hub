@@ -22,8 +22,8 @@ jQuery(document).ready(function($) {
             dataType: 'json', // Ensuring we handle JSON correctly
             data: {
                 action: 'fetch_tickets',
-                archive: archive,
-                page: page,
+                archive,
+                page,
                 user_id: ajax_params.user_id,
                 search: searchValue,
                 status: statusValue,

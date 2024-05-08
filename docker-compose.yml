@@ -25,6 +25,7 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
     restart: always
+    
   mailhog:
     image: mailhog/mailhog
     ports:
