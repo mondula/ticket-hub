@@ -262,22 +262,29 @@ function display_comment_with_replies($comment, $depth = 0) {
     echo '</div>'; // Close .comment-wrapper
 }
 
-add_filter('the_content', function($content) {
-    if (is_singular('ticket') && in_the_loop() && is_main_query()) {
-        // Start output buffering
-        ob_start();
+// add_filter('the_content', function($content) {
+//     if (is_singular('ticket') && is_main_query()) {
+//         // Start output buffering
+//         ob_start();
 
-        // Your custom content code here
-        // You can include your shortcode or directly integrate the HTML and PHP code that generates your ticket details
-        echo do_shortcode('[ticket id="' . get_the_ID() . '"]');
+//         // Your custom content code here
+//         // You can include your shortcode or directly integrate the HTML and PHP code that generates your ticket details
+//         echo do_shortcode('[ticket id="' . get_the_ID() . '"]');
 
-        // Get the buffered content
-        $ticket_content = ob_get_clean();
+//         // Get the buffered content
+//         $ticket_content = ob_get_clean();
 
-        // Return the modified content
-        return $ticket_content;
-    }
+//         // Return the modified content
+//         return $ticket_content;
+//     }
 
-    // Return the unmodified content for all other posts/pages
-    return $content;
-});
+//     // Return the unmodified content for all other posts/pages
+//     return $content;
+// });
+
+// add_filter('the_title', function($title, $id) {
+//     if (get_post_type($id) === 'ticket') {
+//         return '';
+//     }
+//     return $title;
+// }, 10, 2);

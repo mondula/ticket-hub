@@ -36,8 +36,6 @@ add_action('init', function() {
         'comment_tickets' => true,
     );
 
-    add_role('mts_user', 'TicketHub User', $capabilities);
-
     register_post_status('archive', array(
         'label'                     => 'Archived',
         'public'                    => true,
@@ -48,27 +46,36 @@ add_action('init', function() {
     ));
 });
 
-// add_filter( 'template_include', function($template) {
-//     global $post;
+add_filter('single_template', function($template) {
+    global $post;
 
-//     // Check if it's a single ticket post. Adjust 'ticket' to your custom post type.
-//     if ( is_singular('ticket') ) {
-//         // Check if the theme or child theme has a single-ticket.php file.
-//         $theme_file = locate_template('single-ticket.php');
+    // Check if the current post is of type 'ticket'
+    if (is_singular('ticket')) {
+        // Paths to the block and traditional PHP templates within your plugin
+        $block_template = plugin_dir_path(__FILE__) . 'block-templates/single-ticket.html';
+        $custom_template = plugin_dir_path(__FILE__) . 'templates/single-ticket.php';
 
-//         if ( $theme_file ) {
-//             $template = $theme_file;
-//         } else {
-//             // Use plugin's template as a fallback.
-//             $plugin_template = plugin_dir_path(__FILE__) . 'templates/single-ticket.php';
-//             if ( file_exists( $plugin_template ) ) {
-//                 $template = $plugin_template;
-//             }
-//         }
-//     }
+        // Determine if the active theme is a block theme
+        if (wp_is_block_theme()) {
+            // Check if the block template exists and use it if available
+            if (file_exists($block_template)) {
+                return $block_template;
+            }
+        } else {
+            // Fallback to the traditional PHP template if the block template isn't applicable or doesn't exist
+            if (file_exists($custom_template)) {
+                return $custom_template;
+            }
+        }
+    }
 
-//     return $template;
-// }, 99 );
+    // Return the default template if no custom template conditions are met
+    return $template;
+});
+
+register_activation_hook(__FILE__, function() {
+    add_role('mts_user', 'TicketHub User', ['submit_tickets' => true, 'comment_tickets' => true]);
+});
 
 register_deactivation_hook(__FILE__, function() {
     $users = get_users(array('role' => 'mts_user'));
@@ -80,11 +87,7 @@ register_deactivation_hook(__FILE__, function() {
 });
 
 add_action('after_setup_theme', function() {
-    // Get the current user object
-    $user = wp_get_current_user();
-
-    // Check if the user has the 'mts_user' role
-    if (in_array('mts_user', (array) $user->roles)) {
+    if (in_array('mts_user', (array) wp_get_current_user()->roles)) {
         show_admin_bar(false);
     }
 });
@@ -117,5 +120,5 @@ function enqueue_admin_post_status_script() {
         <?php
     }
 }
-add_action('admin_footer-post.php', 'enqueue_admin_post_status_script'); // For post edit screen
-add_action('admin_footer-edit.php', 'enqueue_admin_post_status_script'); // For post list screen
+add_action('admin_footer-post.php', 'enqueue_admin_post_status_script');
+add_action('admin_footer-edit.php', 'enqueue_admin_post_status_script');

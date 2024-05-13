@@ -2,13 +2,7 @@
 
 <main>
     <div class="wrapper">
-        <?php
-        if (have_posts()) : 
-            while (have_posts()) : the_post();
-                the_content();
-            endwhile;
-        endif;
-        ?>
+        <?php echo do_shortcode('[ticket id="' . get_the_ID() . '"]'); ?>
     </div>
 </main>
 

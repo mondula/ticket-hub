@@ -35,7 +35,7 @@ add_action( 'init', function() {
 		),
 		'public' => true,
 		'show_in_menu' => 'mts-main-menu',
-		'show_in_rest' => false,
+		'show_in_rest' => true,
 		'menu_position' => 3,
 		'supports' => array(
 			0 => 'title',

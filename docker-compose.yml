@@ -11,6 +11,7 @@ services:
       - WORDPRESS_DB_USER=wordpress
       - WORDPRESS_DB_PASSWORD=wordpress
       - WORDPRESS_DB_NAME=wordpress
+      - WORDPRESS_DEBUG=true  # Enable WordPress debugging
     ports:
       - "8000:80"
     restart: always
