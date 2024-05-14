@@ -89,19 +89,6 @@ add_action( 'init', function() {
 		'delete_with_user' => false,
         'taxonomies' => ['ticket_tag']  // Enable tag support
 	));
-
-    if ( post_type_exists( 'ticket' ) ) {
-        $template = plugin_dir_path( __FILE__ ) . 'block-templates/single-ticket.html';
-        $post_type_object = get_post_type_object('ticket');
-        $post_type_object->template = array(
-            array('core/template-part', array('slug' => 'header')),
-            array('core/group', array(), array(
-                array('core/post-content')
-            )),
-            array('core/template-part', array('slug' => 'footer')),
-        );
-        $post_type_object->template_lock = 'all'; // Optional: Lock the template to prevent users from altering the structure
-    }
 });
 
 add_action('edit_form_after_title', function($post) {

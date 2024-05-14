@@ -51,21 +51,14 @@ add_filter('single_template', function($template) {
 
     // Check if the current post is of type 'ticket'
     if (is_singular('ticket')) {
-        // Paths to the block and traditional PHP templates within your plugin
-        $block_template = plugin_dir_path(__FILE__) . 'block-templates/single-ticket.html';
-        $custom_template = plugin_dir_path(__FILE__) . 'templates/single-ticket.php';
-
-        // Determine if the active theme is a block theme
+        $custom_template = '';
         if (wp_is_block_theme()) {
-            // Check if the block template exists and use it if available
-            if (file_exists($block_template)) {
-                return $block_template;
-            }
+            $custom_template = plugin_dir_path(__FILE__) . 'block-templates/single-ticket.php';
         } else {
-            // Fallback to the traditional PHP template if the block template isn't applicable or doesn't exist
-            if (file_exists($custom_template)) {
-                return $custom_template;
-            }
+            $custom_template = plugin_dir_path(__FILE__) . 'templates/single-ticket.php';
+        }
+        if (file_exists($custom_template)) {
+            return $custom_template;
         }
     }
 
