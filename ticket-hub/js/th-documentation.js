@@ -2,12 +2,12 @@
  * Documentation Script
  */
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
     function filterDocuments() {
         var searchValue = $('#search').val().toUpperCase();
         var typeFilterValue = $('#document_type').val();
 
-        $('.document-table tbody tr').each(function() {
+        $('.th-document-table tbody tr').each(function () {
             var $row = $(this);
             var nameText = $row.find('td:eq(1)').text().toUpperCase(); // Assuming the Name is in the second column
             var documentType = $row.data('documentType');

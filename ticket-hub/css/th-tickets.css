@@ -58,7 +58,7 @@
   background-color: rgb(76, 168, 164);
 }
 
-.ticket-controls {
+.th-ticket-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -100,7 +100,8 @@
 }
 
 .switch-label {
-  font-size: 15px; /* Example font size, adjust as needed */
+  font-size: 15px;
+  /* Example font size, adjust as needed */
 }
 
 /* The switch - the box around the slider */
@@ -176,17 +177,22 @@ input:checked+.slider:before {
   align-items: center;
   justify-content: center;
   border: none;
-  background-color: #eee; /* Default background color */
+  background-color: #eee;
+  /* Default background color */
   color: #333;
   text-align: center;
-  border-radius: 50%; /* Makes the buttons circular */
+  border-radius: 50%;
+  /* Makes the buttons circular */
   width: 35px;
   height: 35px;
-  line-height: 35px; /* Centers the text vertically */
+  line-height: 35px;
+  /* Centers the text vertically */
   margin: 5px;
   cursor: pointer;
-  outline: none; /* Removes focus outline */
-  transition: background-color 0.3s; /* Smooth background color transition */
+  outline: none;
+  /* Removes focus outline */
+  transition: background-color 0.3s;
+  /* Smooth background color transition */
   font-size: 15px;
 }
 
@@ -195,11 +201,13 @@ input:checked+.slider:before {
 }
 
 .page-number:hover {
-  background-color: #ddd; /* Hover background color */
+  background-color: #ddd;
+  /* Hover background color */
 }
 
 .page-number.active {
-  background-color: #000; /* Active page background color */
+  background-color: #000;
+  /* Active page background color */
   color: #fff;
 }
 
@@ -236,7 +244,7 @@ input:checked+.slider:before {
 }
 
 @media (max-width: 768px) {
-  .ticket-controls .tickets-filter-container {
+  .th-ticket-controls .tickets-filter-container {
     display: block;
     max-width: 150px;
     margin-top: 30px;
@@ -263,7 +271,7 @@ input:checked+.slider:before {
     font-weight: 600;
   }
 
-  .ticket-controls {
+  .th-ticket-controls {
     display: unset;
   }
 

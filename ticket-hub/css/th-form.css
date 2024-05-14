@@ -1,6 +1,6 @@
 /* Ticket Form Style Sheet */
 
-.ticket-form {
+.th-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -10,7 +10,7 @@
     max-width: 600px
 }
 
-.ticket-form label {
+.th-form label {
     display: flex;
     flex-direction: column;
     line-height: 1.5;
@@ -22,14 +22,14 @@
     font-size: 16px
 }
 
-.ticket-form label span {
+.th-form label span {
     color: red;
     display: contents;
 }
 
-.ticket-form input[type="text"],
-.ticket-form input[type="email"],
-.ticket-form textarea {
+.th-form input[type="text"],
+.th-form input[type="email"],
+.th-form textarea {
     margin: 0;
     padding: 10px;
     border: 1px solid #ccc;
@@ -41,18 +41,18 @@
     margin-top: 5px
 }
 
-.ticket-form textarea {
+.th-form textarea {
     height: 150px
 }
 
-.ticket-form input,
-.ticket-form select,
-.ticket-form textarea {
+.th-form input,
+.th-form select,
+.th-form textarea {
     margin-top: 5px
 }
 
-.ticket-form select,
-.ticket-form input[type="submit"] {
+.th-form select,
+.th-form input[type="submit"] {
     width: min-content
 }
 
@@ -68,6 +68,5 @@ input::file-selector-button {
     padding: 10px 15px;
     margin-right: 15px;
     border: none;
-    font-family: 'Open Sans', sans-serif;
     font-size: 15px
 }

@@ -1,12 +1,12 @@
 <?php
 
-add_shortcode('ticket', function($atts) {
+add_shortcode('th_ticket', function ($atts) {
 
     static $ticket_enqueue = false;
 
     if (!$ticket_enqueue) {
-        wp_enqueue_script( 'lightbox-script', PLUGIN_ROOT . 'js/lightbox.js', array('jquery'), '', true );
-        wp_enqueue_style( 'ticket-style', PLUGIN_ROOT . 'css/ticket.css', array(), '', 'all' );
+        wp_enqueue_script('lightbox-script', PLUGIN_ROOT . 'js/lightbox.js', array('jquery'), '', true);
+        wp_enqueue_style('th-ticket-style', PLUGIN_ROOT . 'css/th-ticket.css', array(), '', 'all');
         $ticket_enqueue = true;
     }
 
@@ -30,15 +30,15 @@ add_shortcode('ticket', function($atts) {
             if (empty($first_name) && empty($last_name)) {
                 $ticket_author = get_the_author_meta('display_name', $author_id); // Get the author's display name
             }
-            // Get current ticket tags
+            // Get current th_ticket tags
             $current_tags = wp_get_post_terms($post_id, 'ticket_tag', array("fields" => "slugs"));
 
             // Query for related tickets
             $related_args = array(
-                'post_type' => 'ticket',
+                'post_type' => 'th_ticket',
                 'post_status' => 'publish',
                 'posts_per_page' => -1,
-                'post__not_in' => array($post_id), // Exclude current ticket
+                'post__not_in' => array($post_id), // Exclude current th_ticket
                 'tax_query' => array(
                     array(
                         'taxonomy' => 'ticket_tag',
@@ -48,12 +48,12 @@ add_shortcode('ticket', function($atts) {
                 )
             );
             $related_tickets = new WP_Query($related_args);
-            ?>
-            <div class="ticket-details">
+?>
+            <div class="th-ticket-details">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="22" height="13" viewBox="0 0 22 13">
                     <g id="Gruppe_54" data-name="Gruppe 54" transform="translate(21.648 13) rotate(180)">
                         <g id="Gruppe_53" data-name="Gruppe 53" transform="translate(-0.355)">
-                        <path id="Pfad_16" data-name="Pfad 16" d="M21.639,6.363a1.071,1.071,0,0,0-.258-.657L16.289.3A1.093,1.093,0,0,0,14.9.217a.994.994,0,0,0,.01,1.392l3.58,3.8H.955a.955.955,0,1,0,0,1.909H18.487l-3.58,3.8a1.052,1.052,0,0,0-.01,1.392,1.079,1.079,0,0,0,1.392-.08l5.092-5.41A.919.919,0,0,0,21.639,6.363Z" transform="translate(0.364 0)"/>
+                            <path id="Pfad_16" data-name="Pfad 16" d="M21.639,6.363a1.071,1.071,0,0,0-.258-.657L16.289.3A1.093,1.093,0,0,0,14.9.217a.994.994,0,0,0,.01,1.392l3.58,3.8H.955a.955.955,0,1,0,0,1.909H18.487l-3.58,3.8a1.052,1.052,0,0,0-.01,1.392,1.079,1.079,0,0,0,1.392-.08l5.092-5.41A.919.919,0,0,0,21.639,6.363Z" transform="translate(0.364 0)" />
                         </g>
                     </g>
                 </svg>
@@ -77,10 +77,10 @@ add_shortcode('ticket', function($atts) {
 
                 $value = get_post_meta($post_id, 'description', true);
                 if (!empty($value)) {
-                    echo '<div class="ticket-field"><h4>Description</h4><p>' . esc_html($value) . '<p></div>';
+                    echo '<div class="th-ticket-field"><h4>Description</h4><p>' . esc_html($value) . '<p></div>';
                 }
 
-               // Define the rest of the fields excluding the 'id'.
+                // Define the rest of the fields excluding the 'id'.
                 $fields = [
                     'status' => 'Status',
                     'type' => 'Type',
@@ -104,24 +104,24 @@ add_shortcode('ticket', function($atts) {
                     </svg>';
 
                 // Iterate through fields and display
-                echo '<div class="ticket-info">';
+                echo '<div class="th-ticket-info">';
                 $index = 0;
                 foreach ($fields as $field => $label) {
                     $value = get_post_meta($post_id, $field, true);
-                        echo '<div class="ticket-field"><h4>' . esc_html($label) . '</h4><p>' . esc_html($value) . '<p></div>';
+                    echo '<div class="th-ticket-field"><h4>' . esc_html($label) . '</h4><p>' . esc_html($value) . '<p></div>';
                     if ($index == 1) {
-                        echo '<div class="ticket-field"><h4>Name</h4><p>' . $ticket_author. '<p></div>';
-                        echo '<div class="ticket-field"><h4>E-Mail</h4><p>' . $email . '<p></div>';
+                        echo '<div class="th-ticket-field"><h4>Name</h4><p>' . $ticket_author . '<p></div>';
+                        echo '<div class="th-ticket-field"><h4>E-Mail</h4><p>' . $email . '<p></div>';
                     }
                     $index++;
                 }
                 echo '</div>';
 
                 // Standard fields already included, now include custom fields
-                $custom_fields = get_option('mts_custom_fields', []);
+                $custom_fields = get_option('th_custom_fields', []);
                 foreach ($custom_fields as $field) {
                     $field_value = get_post_meta($post_id, 'custom_' . sanitize_title($field['label']), true);
-                    echo '<div class="ticket-field">';
+                    echo '<div class="th-ticket-field">';
                     echo '<h4>' . esc_html($field['label']);
                     echo '</h4>';
                     if ($field['type'] === 'text' || $field['type'] === 'textarea') {
@@ -156,12 +156,12 @@ add_shortcode('ticket', function($atts) {
                 }
 
                 // Output the attachments, starting with images
-                echo '<div class="ticket-field"><h4>Attachments</h4>';
-                echo '<div class="ticket-attachments">';
+                echo '<div class="th-ticket-field"><h4>Attachments</h4>';
+                echo '<div class="th-ticket-attachments">';
                 foreach ($image_attachments as $attachment) {
                     $image_url = wp_get_attachment_url($attachment->ID);
                     if ($image_url) {
-                        echo '<a href="' . esc_url($image_url) . '" class="lightbox-trigger"><div class="image-container"><img src="' . esc_url($image_url) . '" alt="' . esc_attr($attachment->post_title) . '" class="ticket-image">' . $zoomSVG . '</div></a>';
+                        echo '<a href="' . esc_url($image_url) . '" class="lightbox-trigger"><div class="image-container"><img src="' . esc_url($image_url) . '" alt="' . esc_attr($attachment->post_title) . '" class="th-ticket-image">' . $zoomSVG . '</div></a>';
                     }
                 }
                 echo '</div>';
@@ -172,21 +172,21 @@ add_shortcode('ticket', function($atts) {
 
                 ?>
             </div>
-            <?php
+<?php
 
             // Usage within your existing shortcode logic
             if (current_user_can('comment_tickets') || current_user_can('administrator')) {
                 echo '<hr>';
-                echo '<div class="ticket-comments">';
+                echo '<div class="th-ticket-comments">';
                 echo '<h4>Comments</h4>';
-    
-                // Retrieve top-level comments for the current ticket post
+
+                // Retrieve top-level comments for the current th_ticket post
                 $top_level_comments = get_comments(array(
                     'post_id' => $post_id,
                     'status' => 'approve',
                     'parent' => 0 // Only get top-level comments
                 ));
-    
+
                 if ($top_level_comments) {
                     foreach ($top_level_comments as $comment) {
                         // Display each top-level comment and its nested replies
@@ -195,11 +195,11 @@ add_shortcode('ticket', function($atts) {
                 } else {
                     echo '<p>No comments yet.</p>';
                 }
-    
-                echo '</div>'; // End of ticket-comments div
-                // At the end of your shortcode function, after displaying the ticket details and comments
-                echo '<div class="ticket-comment-form">';
-                // Check if comments are open for the ticket post
+
+                echo '</div>'; // End of th-ticket-comments div
+                // At the end of your shortcode function, after displaying the th-ticket details and comments
+                echo '<div class="th_ticket-comment-form">';
+                // Check if comments are open for the th_ticket post
                 if (comments_open($post_id)) {
                     $args = array(
                         'post_id' => $post_id,
@@ -211,27 +211,27 @@ add_shortcode('ticket', function($atts) {
                         'comment_notes_after' => '', // Custom text after the form
                         'submit_button' => '<button type="submit" class="button1">%4$s</button>' // Add your custom class here
                     );
-                    // Display the comment form for the ticket post
+                    // Display the comment form for the th_ticket post
                     comment_form($args);
                 } else {
                     echo '<p>Comments are closed for this ticket.</p>';
                 }
-                echo '</div>'; // End of ticket-comment-form div
+                echo '</div>'; // End of th-ticket-comment-form div
             }
-
         } else {
             echo '<p>This ticket is private and cannot be displayed.</p>';
         }
     } else {
         echo '<p>Invalid ticket ID.</p>';
-    }    
+    }
 
     // Return the content
     return ob_get_clean();
 });
 
 // Function to display a comment and its nested replies
-function display_comment_with_replies($comment, $depth = 0) {
+function display_comment_with_replies($comment, $depth = 0)
+{
     echo '<div class="comment-wrapper" style="left: relative;">'; // Wrapper div
 
     if ($depth > 0) {
@@ -240,11 +240,11 @@ function display_comment_with_replies($comment, $depth = 0) {
     }
 
     // Existing comment display code
-    echo '<div class="ticket-comment" style="margin-left:' . ($depth * 30) . 'px;">'; // Indent nested comments
+    echo '<div class="th-ticket-comment" style="margin-left:' . ($depth * 30) . 'px;">'; // Indent nested comments
     echo '<div class="comment-author"><h5>' . esc_html($comment->comment_author) . '</h5></div>';
     echo '<div class="comment-content"><p>' . esc_html($comment->comment_content) . '</p></div>';
     echo '<div class="comment-date"><p>' . esc_html(get_comment_date('', $comment)) . '</p></div>';
-    echo '</div>'; // Close .ticket-comment
+    echo '</div>'; // Close .th-ticket-comment
 
     // Check for replies
     $replies = get_comments(array(
@@ -263,13 +263,13 @@ function display_comment_with_replies($comment, $depth = 0) {
 }
 
 // add_filter('the_content', function($content) {
-//     if (is_singular('ticket') && is_main_query()) {
+//     if (is_singular('th_ticket') && is_main_query()) {
 //         // Start output buffering
 //         ob_start();
 
 //         // Your custom content code here
-//         // You can include your shortcode or directly integrate the HTML and PHP code that generates your ticket details
-//         echo do_shortcode('[ticket id="' . get_the_ID() . '"]');
+//         // You can include your shortcode or directly integrate the HTML and PHP code that generates your th_ticket details
+//         echo do_shortcode('[th_ticket id="' . get_the_ID() . '"]');
 
 //         // Get the buffered content
 //         $ticket_content = ob_get_clean();
@@ -283,7 +283,7 @@ function display_comment_with_replies($comment, $depth = 0) {
 // });
 
 // add_filter('the_title', function($title, $id) {
-//     if (get_post_type($id) === 'ticket') {
+//     if (get_post_type($id) === 'th_ticket') {
 //         return '';
 //     }
 //     return $title;

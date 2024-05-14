@@ -1,0 +1,276 @@
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto !important;
+  position: relative;
+  padding: 0 30px;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+/*  Font End */
+
+.burger {
+  display: none;
+  cursor: pointer;
+}
+
+.burger div {
+  width: 30px;
+  height: 4px;
+  background-color: #fff;
+  margin-bottom: 4px;
+  transition: all 0.3s;
+  border-radius: 5px;
+}
+
+.burger.active div:nth-child(1) {
+  transform: rotate(-45deg) translate(-6px, 5px);
+}
+
+.burger.active div:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.active div:nth-child(3) {
+  transform: rotate(45deg) translate(-6px, -5px);
+}
+
+/* Buttons */
+.price-block a.button,
+.section-steps a.button {
+  background: #ff7a36;
+  padding: 20px 20px;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 2rem;
+  text-align: center;
+  display: block;
+  bottom: -32px;
+  position: relative;
+  transition: 0.5s ease;
+}
+
+.section-steps a.button {
+  max-width: 240px;
+  margin: 0 auto;
+}
+
+.section-contact input[type=submit]:hover,
+.section-pricing a.button:hover,
+.section-steps a.button:hover {
+  background-color: #24133b;
+  transform: translateY(4px);
+  transition: 0.5s ease;
+}
+
+/* End Buttons */
+
+/* Section Footer */
+.section-footer {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top;
+}
+
+.section-footer p {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+}
+
+.section-footer .footer-logo img {
+  max-width: 140px;
+}
+
+.section-footer .vc_single_image-img {
+  max-width: 320px;
+}
+
+.section-footer a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.section-footer a:hover {
+  text-decoration: underline;
+}
+
+/* End Section Footer */
+
+
+
+/* Mondula Support */
+
+main {
+  min-height: 100vh;
+  padding: 50px 0;
+}
+
+h1 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+h2.wp-block-post-title {
+  font-size: 1rem;
+  background: #000;
+  padding: 10px 30px;
+  margin-right: 50px;
+  border-radius: 30px;
+  color: #fff;
+  width: 80px;
+  text-align: center;
+}
+
+.wp-block-post-content {
+  border-left: 7px solid #d1d1d1;
+  padding-left: 45px;
+}
+
+p {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.mondula-container {
+  text-align: center;
+}
+
+/* Select Input CSS */
+
+.select1 {
+  width: auto;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #000;
+  color: #eee;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 50px 10px 25px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 12px;
+  font-size: 15px;
+}
+
+/* Button Input CSS */
+
+.button1 {
+  width: auto;
+  padding: 10px 25px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #000;
+  color: #eee;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: default;
+}
+
+.select1:hover,
+.button1:hover {
+  background-color: #262626;
+}
+
+/* Tooltip Button */
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-container button {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.tooltip-container svg {
+  max-height: 14px;
+}
+
+.tooltip-container span {
+  color: #eee;
+  font-size: 15px;
+}
+
+.tooltip-content {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -70px;
+}
+
+.tooltip-container:hover .tooltip-content {
+  visibility: visible;
+}
+
+@media (max-width: 1199px) {
+  .custom-logo {
+    max-width: 200px;
+    height: auto;
+  }
+}
+
+@media (max-width: 1079px) {
+  nav {
+    display: none;
+  }
+
+  nav.active {
+    display: block;
+    position: absolute;
+    top: 0;
+    background-color: #000;
+    width: 100%;
+    left: 0;
+    z-index: 998;
+    padding: 0 0 50px 42px;
+  }
+
+  header ul.menu {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .burger {
+    display: block;
+    z-index: 999;
+  }
+}
+
+@media (max-width: 768px) {
+  p {
+    font-size: 1rem;
+  }
+
+  header {
+    padding: 40px 0;
+  }
+
+  main {
+    padding: 40px 0;
+  }
+}

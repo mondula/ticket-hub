@@ -1,6 +1,6 @@
 <?php
 
-add_shortcode('ticket-form', function() {
+add_shortcode('th_form', function () {
     if (!current_user_can('submit_tickets') && !current_user_can('administrator')) {
         return '';
     }
@@ -8,19 +8,19 @@ add_shortcode('ticket-form', function() {
     static $ticket_form_enqueue = false;
 
     if (!$ticket_form_enqueue) {
-        wp_enqueue_style('ticket-form-style', PLUGIN_ROOT . 'css/ticket-form.css', array(), '', 'all');
-        wp_enqueue_script('ticket-form-script', PLUGIN_ROOT . 'js/ticket-form.js', array('jquery'), '', true);
+        wp_enqueue_style('th-form-style', PLUGIN_ROOT . 'css/th-form.css', array(), '', 'all');
+        wp_enqueue_script('th-form-script', PLUGIN_ROOT . 'js/th-form.js', array('jquery'), '', true);
         $ticket_form_enqueue = true;
     }
 
     // Fetch custom fields
-    $custom_fields = get_option('mts_custom_fields', []);
+    $custom_fields = get_option('th_custom_fields', []);
 
     ob_start();
-    ?>
-    <form id="ticket-form" class="ticket-form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post" enctype="multipart/form-data">
+?>
+    <form id="th-form" class="th-form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post" enctype="multipart/form-data">
         <?php wp_nonce_field('submit_ticket_nonce', 'ticket_nonce_field'); ?>
-        
+
         <!-- Standard fields -->
         <label> Username<span>*</span>
             <input type="text" name="your-username" required>
@@ -41,17 +41,17 @@ add_shortcode('ticket-form', function() {
         </label>
 
         <!-- Custom fields generated dynamically -->
-        <?php foreach ($custom_fields as $field): ?>
-            <label> <?php echo esc_html($field['label']) . $required_attr = $field['required'] ? '<span>*</span>' : '' ; ?>
-                <?php 
+        <?php foreach ($custom_fields as $field) : ?>
+            <label> <?php echo esc_html($field['label']) . $required_attr = $field['required'] ? '<span>*</span>' : ''; ?>
+                <?php
                 $required_attr = $field['required'] ? 'required' : ''; // Check if the field is marked as required
-                if ($field['type'] == 'text'): ?>
+                if ($field['type'] == 'text') : ?>
                     <input type="text" name="custom_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?>>
-                <?php elseif ($field['type'] == 'textarea'): ?>
+                <?php elseif ($field['type'] == 'textarea') : ?>
                     <textarea name="custom_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?>></textarea>
-                <?php elseif ($field['type'] == 'select' && !empty($field['options'])): ?>
+                <?php elseif ($field['type'] == 'select' && !empty($field['options'])) : ?>
                     <select name="custom_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?> class="select1">
-                        <?php foreach ($field['options'] as $option): ?>
+                        <?php foreach ($field['options'] as $option) : ?>
                             <option value="<?php echo esc_attr($option); ?>"><?php echo esc_html($option); ?></option>
                         <?php endforeach; ?>
                     </select>
@@ -62,11 +62,11 @@ add_shortcode('ticket-form', function() {
         <input type="hidden" name="action" value="submit_ticket_form">
         <input type="submit" class="button1" value="Submit">
     </form>
-    <?php
+<?php
     return ob_get_clean();
 });
 
-add_action('admin_post_submit_ticket_form', function() {
+add_action('admin_post_submit_ticket_form', function () {
     if (!current_user_can('submit_tickets') && !current_user_can('administrator')) {
         wp_die('You do not have permission to submit tickets.');
     }
@@ -92,7 +92,7 @@ add_action('admin_post_submit_ticket_form', function() {
     ]);
 
     // Check for prefix and suffix options
-    $options = get_option('mts_options');
+    $options = get_option('th_options');
     $prefix = isset($options['ticket_prefix']) ? $options['ticket_prefix'] : '';
     $suffix = isset($options['ticket_suffix']) ? $options['ticket_suffix'] : '';
     $formatted_post_id = sprintf('%06d', $post_id);
@@ -110,7 +110,7 @@ add_action('admin_post_submit_ticket_form', function() {
     update_post_meta($post_id, 'description', $description);
 
     // Save custom fields as post meta
-    $custom_fields = get_option('mts_custom_fields', []);
+    $custom_fields = get_option('th_custom_fields', []);
     $custom_fields_content = "";
     foreach ($custom_fields as $field) {
         if (isset($_POST['custom_' . sanitize_title($field['label'])])) {
@@ -146,7 +146,7 @@ add_action('admin_post_submit_ticket_form', function() {
                     'post_content' => '',
                     'post_status' => 'inherit'
                 ], $uploaded_file['file'], $post_id);  // Notice the $post_id, which ties the attachment to the ticket
-            
+
                 require_once(ABSPATH . 'wp-admin/includes/image.php');
                 $attach_data = wp_generate_attachment_metadata($attach_id, $uploaded_file['file']);
                 wp_update_attachment_metadata($attach_id, $attach_data);

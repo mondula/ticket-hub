@@ -2,7 +2,7 @@
  * Tickets Script
  */
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
 
     var page = 1; // Start on the first page
 
@@ -29,22 +29,22 @@ jQuery(document).ready(function($) {
                 status: statusValue,
                 type: typeValue
             },
-            success: function(data) {
+            success: function (data) {
                 $('#tickets-container').html(data.tickets);
                 $('#ticket-pagination').html(data.pagination);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error("Error fetching tickets:", xhr.responseText);
             }
         });
     }
 
-    $('#search').on('keyup', function() { fetchTickets(true); });
-    $('#ticket_status').on('change', function() { fetchTickets(true); });
-    $('#ticket_type').on('change', function() { fetchTickets(true); });
-    $('#toggleArchived').on('change', function() { fetchTickets(true); });
+    $('#search').on('keyup', function () { fetchTickets(true); });
+    $('#ticket_status').on('change', function () { fetchTickets(true); });
+    $('#ticket_type').on('change', function () { fetchTickets(true); });
+    $('#toggleArchived').on('change', function () { fetchTickets(true); });
 
-    $(document).on('click', '.page-number', function(e) {
+    $(document).on('click', '.page-number', function (e) {
         // Check if the inner HTML is '...'
         if ($(this).text().trim() === '…') return;
 
@@ -55,8 +55,8 @@ jQuery(document).ready(function($) {
             page = parseInt(match[1], 10);
             fetchTickets(false);
         }
-    });    
-    
+    });
+
     // Initial load
     fetchTickets(false);
 

@@ -1,19 +1,19 @@
 <?php
 
-add_shortcode('documentation', function() {
+add_shortcode('th_documentation', function () {
 
     static $documentation_enqueue = false;
 
     if (!$documentation_enqueue) {
-        wp_enqueue_script( 'documentation-script', PLUGIN_ROOT . 'js/documentation.js', array('jquery'), '', true );
-        wp_enqueue_style( 'documentation-style', PLUGIN_ROOT . 'css/documentation.css', array(), '', 'all' );
+        wp_enqueue_script('th-documentation-script', PLUGIN_ROOT . 'js/th-documentation.js', array('jquery'), '', true);
+        wp_enqueue_style('th-documentation-style', PLUGIN_ROOT . 'css/th-documentation.css', array(), '', 'all');
         $documentation_enqueue = true;
     }
 
     ob_start(); // Start output buffering
 
     $args = array(
-        'post_type'      => 'document', // Set to 'document' post type
+        'post_type'      => 'th_document', // Set to 'document' post type
         'posts_per_page' => -1, // Retrieve all document posts
         'post_status'    => 'publish', // Only select published posts
     );
@@ -37,31 +37,31 @@ add_shortcode('documentation', function() {
     wp_reset_postdata();
 
     // Output the search field and dropdown for filtering by document type (File types or Link)
-    echo '<div class="document-controls">';
+    echo '<div class="th-document-controls">';
     echo '<input type="text" id="search" placeholder="Search">';
     echo '<select id="document_type" class="select1"><option value="">All Types</option><option value="LINK">Link</option>';
     foreach ($file_types as $file_type) {
-        echo '<option value="'. esc_attr($file_type) .'">'. esc_html($file_type) .'</option>';
+        echo '<option value="' . esc_attr($file_type) . '">' . esc_html($file_type) . '</option>';
     }
     echo '</select>';
     echo '</div>';
 
     // Query for the actual display
     $the_query = new WP_Query($args);
-    echo '<table class="document-table"><thead><tr><th>Type</th><th>Name</th></tr></thead><tbody>';
+    echo '<table class="th-document-table"><thead><tr><th>Type</th><th>Name</th></tr></thead><tbody>';
     while ($the_query->have_posts()) {
         $the_query->the_post();
-    
+
         $document_id = get_the_ID();
         $document_name = get_the_title();
         $document_type = get_post_meta($document_id, 'type', true);
-    
+
         $type_display = '';
         $document_url = '#';
         $button_text = '';
         $download_attribute = '';
         $icon_svg = '';
-    
+
         if ($document_type === 'File') {
             $file_id = get_post_meta($document_id, 'file', true);
             $document_url = wp_get_attachment_url($file_id);
@@ -91,12 +91,12 @@ add_shortcode('documentation', function() {
                 </g>
             </svg>';
         }
-    
-        echo "<tr data-document-type='". esc_attr($document_type === 'File' ? $file_extension : 'LINK') ."'>";
+
+        echo "<tr data-document-type='" . esc_attr($document_type === 'File' ? $file_extension : 'LINK') . "'>";
         echo "<td>$type_display</td>";
         echo "<td>$document_name<a class='button1' href='$document_url' target='_blank'$download_attribute>$icon_svg $button_text</a></td>";
         echo "</tr>";
-    }     
+    }
     echo '</tbody></table>';
 
     wp_reset_postdata();
