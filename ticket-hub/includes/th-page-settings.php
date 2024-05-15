@@ -29,11 +29,15 @@ function th_settings_init() {
     add_settings_field('ticket_prefix', 'Ticket Prefix', 'th_text_field_callback', 'th_general', 'th_ticket_id_section', array('label_for' => 'ticket_prefix'));
     add_settings_field('ticket_suffix', 'Ticket Suffix', 'th_text_field_callback', 'th_general', 'th_ticket_id_section', array('label_for' => 'ticket_suffix'));
 
-    // Plus tab settings
-    add_settings_section('th_plus_settings_section', 'TicketHub Plus Settings', 'th_plus_settings_section_callback', 'th_plus');
-    add_settings_field('plus_feature_enable', 'Enable Plus Features', 'th_checkbox_field_callback', 'th_plus', 'th_plus_settings_section', array('label_for' => 'plus_feature_enable'));
+    // Check if the Plus plugin is active
+    if (function_exists('is_tickethub_plus_active') && is_tickethub_plus_active()) {
+        // Plus tab settings
+        add_settings_section('th_plus_settings_section', 'TicketHub Plus Settings', 'th_plus_settings_section_callback', 'th_plus');
+        add_settings_field('plus_feature_enable', 'Enable Plus Features', 'th_checkbox_field_callback', 'th_plus', 'th_plus_settings_section', array('label_for' => 'plus_feature_enable'));
+    }
 }
 add_action('admin_init', 'th_settings_init');
+
 
 
 
@@ -78,8 +82,10 @@ function th_checkbox_field_callback($args) {
     $field = $args['label_for'];
     $checked = isset($options[$field]) ? checked($options[$field], 1, false) : '';
     echo '<input type="checkbox" id="' . esc_attr($field) . '" name="th_options[' . esc_attr($field) . ']" value="1"' . $checked . ' />';
-}
-function th_page_options() {
+}function th_page_options() {
+    // Check if the Plus plugin is active
+    $is_plus_active = function_exists('is_tickethub_plus_active') ? is_tickethub_plus_active() : false;
+
     $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'general';
 
     ?>
@@ -87,14 +93,16 @@ function th_page_options() {
         <h2>TicketHub Settings</h2>
         <h2 class="nav-tab-wrapper">
             <a href="?page=th-page-settings&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>">General</a>
-            <a href="?page=th-page-settings&tab=plus" class="nav-tab <?php echo $active_tab == 'plus' ? 'nav-tab-active' : ''; ?>">Plus</a>
+            <?php if ($is_plus_active): ?>
+                <a href="?page=th-page-settings&tab=plus" class="nav-tab <?php echo $active_tab == 'plus' ? 'nav-tab-active' : ''; ?>">Plus</a>
+            <?php endif; ?>
         </h2>
         <form action="options.php" method="post">
             <?php
             settings_fields('th_options_group');
             if ($active_tab == 'general') {
                 do_settings_sections('th_general');
-            } elseif ($active_tab == 'plus') {
+            } elseif ($is_plus_active && $active_tab == 'plus') {
                 do_settings_sections('th_plus');
             }
             submit_button('Save Settings');
@@ -123,3 +131,9 @@ function th_append_shortcode_to_content($content)
     return $content;
 }
 add_filter('the_content', 'th_append_shortcode_to_content');
+
+
+function is_tickethub_plus_active() {
+    include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+    return is_plugin_active('ticketHubPlus/ticketHubPlus.php');
+}
