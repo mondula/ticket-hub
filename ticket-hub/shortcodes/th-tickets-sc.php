@@ -1,6 +1,6 @@
 <?php
 
-add_shortcode('tickets', function($atts) {
+add_shortcode('th_tickets', function ($atts) {
 
     // NOTE: This shortcode should only be unsed once per site!!!
 
@@ -11,12 +11,12 @@ add_shortcode('tickets', function($atts) {
     ), $atts);
 
     if (!$tickets_enqueue) {
-        wp_enqueue_script('tickets-script', PLUGIN_ROOT . 'js/tickets.js', array('jquery'), '', true);
+        wp_enqueue_script('th-tickets-script', PLUGIN_ROOT . 'js/th-tickets.js', array('jquery'), '', true);
         wp_localize_script('tickets-script', 'ajax_params', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'user_id' => $attributes['user_id']
         ));
-        wp_enqueue_style('tickets-style', PLUGIN_ROOT . 'css/tickets.css', array(), '', 'all');
+        wp_enqueue_style('th-tickets-style', PLUGIN_ROOT . 'css/th-tickets.css', array(), '', 'all');
         $tickets_enqueue = true;
     }
 
@@ -35,7 +35,7 @@ add_shortcode('tickets', function($atts) {
     );
 
     // Ticket controls remain unchanged
-    echo '<div class="ticket-controls">';
+    echo '<div class="th-ticket-controls">';
     echo '<input type="text" id="search" placeholder="Search">';
     echo '<div class="tickets-filter-container">';
     echo '<label for="toggleArchived" class="switch-container">';  // Start label here
@@ -70,7 +70,8 @@ add_shortcode('tickets', function($atts) {
     return ob_get_clean();
 });
 
-function fetch_tickets_ajax() {
+function fetch_tickets_ajax()
+{
     $archive = $_POST['archive'] === 'true';
     $search = sanitize_text_field($_POST['search']);
     $status = sanitize_text_field($_POST['status']);
@@ -128,7 +129,7 @@ function fetch_tickets_ajax() {
         $first_name = get_the_author_meta('first_name', $author_id);
         $last_name = get_the_author_meta('last_name', $author_id);
         $ticket_author = $first_name . ' ' . $last_name;
-        
+
         if (empty($first_name) && empty($last_name)) {
             $ticket_author = get_the_author_meta('display_name', $author_id);
         }
@@ -158,7 +159,7 @@ function fetch_tickets_ajax() {
         'end_size'  => 1, // Number of pages at the beginning and the end
         'type'      => 'array'
     ));
-    
+
     // Add 'first' and 'last' links conditionally
     // $end_size = 1; // Typically keep this at 1
     // $dot_gap = $end_size + $mid_size + 1; // +1 accounts for the current page

@@ -14,13 +14,14 @@ h3 {
     font-weight: 700;
     margin-bottom: 20px;
 }
+
 h4 {
     font-style: normal;
     font-weight: 700;
-    font-size: 1.4rem; 
+    font-size: 1.4rem;
 }
 
-.profile-head + p {
+.profile-head+p {
     margin-bottom: 60px;
 }
 
@@ -50,6 +51,7 @@ input[type="checkbox"] {
     -ms-appearance: none;
     -o-appearance: none;
 }
+
 input[type="checkbox"]::before {
     content: '';
     position: absolute;
@@ -62,9 +64,10 @@ input[type="checkbox"]::before {
     transform: rotate(45deg);
     opacity: 0;
 }
+
 input[type="checkbox"]:checked::before {
     opacity: 1;
-  }
+}
 
 .button {
     width: auto;
@@ -78,9 +81,11 @@ input[type="checkbox"]:checked::before {
     border-radius: 25px;
     font-size: 15px;
 }
+
 .button:hover {
     background-color: #262626;
 }
+
 .button1 {
     text-decoration: none;
 }

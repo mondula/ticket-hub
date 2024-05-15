@@ -1,13 +1,13 @@
 <?php
 
-add_shortcode('mts-user', function() {
+add_shortcode('th_profile', function () {
 
-    static $mts_user_enqueue = false;
+    static $th_user_enqueue = false;
 
 
-    if (!$mts_user_enqueue) {
-        wp_enqueue_style( 'mts-user-style', PLUGIN_ROOT . 'css/mts-user.css', array(), '', 'all' );
-        $mts_user_enqueue = true;
+    if (!$th_user_enqueue) {
+        wp_enqueue_style('th-profile-style', PLUGIN_ROOT . 'css/th-profile.css', array(), '', 'all');
+        $th_user_enqueue = true;
     }
 
     // Check if user is logged in
@@ -38,7 +38,7 @@ add_shortcode('mts-user', function() {
 
         $current_user = wp_get_current_user();
         $first_name = $current_user->user_firstname; // Get first name
-        
+
         // If first name is not set, fallback to displaying the username
         if (empty($first_name)) {
             $first_name = $current_user->display_name;
@@ -48,10 +48,10 @@ add_shortcode('mts-user', function() {
         echo '<div class="profile-head"><h3>Profile</h3><div><a href="' . esc_url($logout_url) . '" class="button1">Logout</a></div></div>';
         echo '<p>Hello ' . $first_name . '</p>';
 
-        // Call the 'tickets' shortcode with the current user's ID
+        // Call the 'th_tickets' shortcode with the current user's ID
         echo '<h4>Your Tickets</h4>';
         $user_id = $current_user->ID;
-        echo do_shortcode('[tickets user_id="' . $user_id . '"]');
+        echo do_shortcode('[th_tickets user_id="' . $user_id . '"]');
 
         return ob_get_clean();
     }

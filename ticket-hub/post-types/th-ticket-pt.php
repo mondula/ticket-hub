@@ -1,8 +1,9 @@
 <?php
 
-add_action( 'init', 'register_ticket_taxonomy' );
+add_action('init', 'register_ticket_taxonomy');
 
-function register_ticket_taxonomy() {
+function register_ticket_taxonomy()
+{
     register_taxonomy(
         'ticket_tag',  // Taxonomy name
         'ticket',      // Post type name
@@ -37,61 +38,61 @@ function register_ticket_taxonomy() {
     );
 }
 
-add_action( 'init', function() {
-	register_post_type( 'ticket', array(
-		'labels' => array(
-			'name' => 'Tickets',
-			'singular_name' => 'Ticket',
-			'menu_name' => 'Tickets',
-			'all_items' => 'Tickets',
-			'edit_item' => 'Edit Ticket',
-			'view_item' => 'View Ticket',
-			'view_items' => 'View Tickets',
-			'add_new_item' => 'Add New Ticket',
-			'add_new' => 'Add New Ticket',
-			'new_item' => 'New Ticket',
-			'parent_item_colon' => 'Parent Ticket:',
-			'search_items' => 'Search Tickets',
-			'not_found' => 'No tickets found',
-			'not_found_in_trash' => 'No tickets found in Trash',
-			'archives' => 'Ticket Archives',
-			'attributes' => 'Ticket Attributes',
-			'insert_into_item' => 'Insert into ticket',
-			'uploaded_to_this_item' => 'Uploaded to this ticket',
-			'filter_items_list' => 'Filter tickets list',
-			'filter_by_date' => 'Filter tickets by date',
-			'items_list_navigation' => 'Tickets list navigation',
-			'items_list' => 'Tickets list',
-			'item_published' => 'Ticket published.',
-			'item_published_privately' => 'Ticket published privately.',
-			'item_reverted_to_draft' => 'Ticket reverted to draft.',
-			'item_scheduled' => 'Ticket scheduled.',
-			'item_updated' => 'Ticket updated.',
-			'item_link' => 'Ticket Link',
-			'item_link_description' => 'A link to a ticket.',
-		),
-		'description' => 'These are the tickets are were created by people.',
-		'public' => true,
-		'show_in_menu' => 'mts-main-menu',
-		'show_in_rest' => true,
-		'menu_position' => 1,
-		'supports' => array(
-			0 => 'title',
-			1 => 'author',
-			2 => 'comments',
-		),
-		'has_archive' => 'ticket-archive',
-		'rewrite' => array(
-			'feeds' => false,
-			'pages' => false,
-		),
-		'can_export' => true,
-		'delete_with_user' => false,
+add_action('init', function () {
+    register_post_type('ticket', array(
+        'labels' => array(
+            'name' => 'Tickets',
+            'singular_name' => 'Ticket',
+            'menu_name' => 'Tickets',
+            'all_items' => 'Tickets',
+            'edit_item' => 'Edit Ticket',
+            'view_item' => 'View Ticket',
+            'view_items' => 'View Tickets',
+            'add_new_item' => 'Add New Ticket',
+            'add_new' => 'Add New Ticket',
+            'new_item' => 'New Ticket',
+            'parent_item_colon' => 'Parent Ticket:',
+            'search_items' => 'Search Tickets',
+            'not_found' => 'No tickets found',
+            'not_found_in_trash' => 'No tickets found in Trash',
+            'archives' => 'Ticket Archives',
+            'attributes' => 'Ticket Attributes',
+            'insert_into_item' => 'Insert into ticket',
+            'uploaded_to_this_item' => 'Uploaded to this ticket',
+            'filter_items_list' => 'Filter tickets list',
+            'filter_by_date' => 'Filter tickets by date',
+            'items_list_navigation' => 'Tickets list navigation',
+            'items_list' => 'Tickets list',
+            'item_published' => 'Ticket published.',
+            'item_published_privately' => 'Ticket published privately.',
+            'item_reverted_to_draft' => 'Ticket reverted to draft.',
+            'item_scheduled' => 'Ticket scheduled.',
+            'item_updated' => 'Ticket updated.',
+            'item_link' => 'Ticket Link',
+            'item_link_description' => 'A link to a ticket.',
+        ),
+        'description' => 'These are the tickets are were created by people.',
+        'public' => true,
+        'show_in_menu' => 'th_main_menu',
+        'show_in_rest' => true,
+        'menu_position' => 1,
+        'supports' => array(
+            0 => 'title',
+            1 => 'author',
+            2 => 'comments',
+        ),
+        'has_archive' => false,
+        'rewrite' => array(
+            'feeds' => false,
+            'pages' => false,
+        ),
+        'can_export' => true,
+        'delete_with_user' => false,
         'taxonomies' => ['ticket_tag']  // Enable tag support
-	));
+    ));
 });
 
-add_action('edit_form_after_title', function($post) {
+add_action('edit_form_after_title', function ($post) {
     if ($post->post_type != 'ticket') return; // Ensure this is a 'ticket' post type
 
     // Custom fields definitions with options for select fields
@@ -152,7 +153,7 @@ add_action('edit_form_after_title', function($post) {
     }
 
     // Retrieve the saved custom fields
-    $saved_custom_fields = get_option('mts_custom_fields', []);
+    $saved_custom_fields = get_option('th_custom_fields', []);
 
     // Output HTML for each saved custom field
     foreach ($saved_custom_fields as $field) {
@@ -177,7 +178,7 @@ add_action('edit_form_after_title', function($post) {
     wp_nonce_field('save_ticket_meta', 'ticket_meta_nonce');
 });
 
-add_action('save_post', function($post_id) {
+add_action('save_post', function ($post_id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (!isset($_POST['ticket_meta_nonce']) || !wp_verify_nonce($_POST['ticket_meta_nonce'], 'save_ticket_meta')) return;
 
@@ -192,7 +193,7 @@ add_action('save_post', function($post_id) {
     }
 
     // Retrieve the saved custom fields
-    $saved_custom_fields = get_option('mts_custom_fields', []);
+    $saved_custom_fields = get_option('th_custom_fields', []);
 
     // Save each custom field value
     foreach ($saved_custom_fields as $field) {
@@ -203,7 +204,7 @@ add_action('save_post', function($post_id) {
     }
 });
 
-add_action('updated_post_meta', function($meta_id, $post_id, $meta_key, $meta_value) {
+add_action('updated_post_meta', function ($meta_id, $post_id, $meta_key, $meta_value) {
     if ($meta_key == 'status') {
 
         $author_id = get_post_field('post_author', $post_id);
@@ -214,21 +215,21 @@ add_action('updated_post_meta', function($meta_id, $post_id, $meta_key, $meta_va
         if ($meta_value == 'Done') {
             update_post_meta($post_id, 'completed_date', current_time('mysql'));
         }
-        
+
         // Check if a valid email address is retrieved
         if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
             // Set up the email details
             $subject = 'Status Update Notification';
             $message = 'The status of your ticket (ID: <a href="' . $ticket_link . '">' . $id . '</a>) has been updated to: ' . $meta_value . '.';
             $headers = array('Content-Type: text/html; charset=UTF-8');
-            
+
             // Send the email notification
             wp_mail($email, $subject, $message, $headers);
         }
     }
 }, 10, 4);
 
-add_action('transition_post_status', function($new_status, $old_status, $post) {
+add_action('transition_post_status', function ($new_status, $old_status, $post) {
     if ($post->post_type != 'ticket') {
         return; // Ensure that this is a 'ticket' post type
     }
@@ -247,14 +248,14 @@ add_action('transition_post_status', function($new_status, $old_status, $post) {
             $subject = "Ticket Status Update: $status";
             $message = "The status of your ticket (ID: <a href='$ticket_link'>$ticket_id</a>) has changed to: $status.";
             $headers = array('Content-Type: text/html; charset=UTF-8');
-            
+
             // Send the email notification
             wp_mail($email, $subject, $message, $headers);
         }
     }
 }, 10, 3);
 
-add_action('wp_insert_comment', function($comment_id, $comment) {
+add_action('wp_insert_comment', function ($comment_id, $comment) {
     if (!isset($comment->comment_post_ID)) {
         return;
     }
@@ -277,20 +278,20 @@ add_action('wp_insert_comment', function($comment_id, $comment) {
             $subject = "New Comment on Ticket ID: $ticket_id";
             $message = "A new comment has been posted by $comment_author on your ticket (ID: <a href='$ticket_link'>$ticket_id</a>):<br/><br/> \"$comment_content\"";
             $headers = array('Content-Type: text/html; charset=UTF-8');
-            
+
             // Send the email notification
             wp_mail($email, $subject, $message, $headers);
         }
     }
 }, 10, 2);
 
-add_action('wp', function() {
+add_action('wp', function () {
     if (!wp_next_scheduled('archive_done_tickets')) {
         wp_schedule_event(time(), 'daily', 'archive_done_tickets');
     }
 });
 
-add_action('archive_done_tickets', function() {
+add_action('archive_done_tickets', function () {
     $args = array(
         'post_type'      => 'ticket',
         'post_status'    => 'publish',
@@ -318,7 +319,7 @@ add_action('archive_done_tickets', function() {
     }
 });
 
-add_filter('manage_ticket_posts_columns', function($columns) {
+add_filter('manage_ticket_posts_columns', function ($columns) {
     unset($columns['title']);  // Remove the title column
     $new_columns = [
         'cb' => $columns['cb'],  // Keep the checkbox for bulk actions
@@ -329,7 +330,7 @@ add_filter('manage_ticket_posts_columns', function($columns) {
     return array_merge($new_columns, $columns);
 });
 
-add_filter('manage_edit-ticket_sortable_columns', function($columns) {
+add_filter('manage_edit-ticket_sortable_columns', function ($columns) {
     $columns['id'] = 'id';
     $columns['status'] = 'status';
     $columns['type'] = 'type';
@@ -353,4 +354,3 @@ add_action('manage_ticket_posts_custom_column', function ($column, $post_id) {
             break;
     }
 }, 10, 2);
-

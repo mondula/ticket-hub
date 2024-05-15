@@ -1,19 +1,20 @@
 <?php
 
-add_action('admin_menu', function() {
+add_action('admin_menu', function () {
     add_submenu_page(
-        'mts-main-menu', // plugin main menu slug if you have one
+        'th_main_menu', // plugin main menu slug if you have one
         'Add User', // Page title
         'Users', // Menu title
         'create_users', // Capability
-        'add-mts-user', // Menu slug
-        'mts_user_form_page' // Callback function for the page content
+        'add-th-user', // Menu slug
+        'th_user_form_page' // Callback function for the page content
     );
 });
 
-function get_mts_users() {
-   $args = array(
-        'role'    => 'mts_user',
+function get_th_users()
+{
+    $args = array(
+        'role'    => 'th_user',
         'orderby' => 'user_nicename',
         'order'   => 'ASC'
     );
@@ -21,14 +22,15 @@ function get_mts_users() {
     return $user_query->get_results();
 }
 
-function mts_user_form_page() {
+function th_user_form_page()
+{
     // Check if the current user has the capability to create users
     if (!current_user_can('create_users')) {
         wp_die('You do not have permission to access this page.');
     }
 
     // Handle form submission
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_user_nonce']) && wp_verify_nonce($_POST['create_user_nonce'], 'create_mts_user')) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_user_nonce']) && wp_verify_nonce($_POST['create_user_nonce'], 'create_th_user')) {
         $first_name = sanitize_text_field($_POST['first_name']);
         $last_name = sanitize_text_field($_POST['last_name']);
         $email = sanitize_email($_POST['email']);
@@ -47,9 +49,9 @@ function mts_user_form_page() {
         } else {
             $user_id = wp_create_user($username, wp_generate_password(), $email);
             if (!is_wp_error($user_id)) {
-                // Set the role to 'mts_user'
+                // Set the role to 'th_user'
                 $user = new WP_User($user_id);
-                $user->set_role('mts_user');
+                $user->set_role('th_user');
                 // Add first and last name to user meta
                 update_user_meta($user_id, 'first_name', $first_name);
                 update_user_meta($user_id, 'last_name', $last_name);
@@ -64,11 +66,11 @@ function mts_user_form_page() {
     }
 
     // Display the form
-    ?>
+?>
     <div class="wrap">
         <h2>Add User</h2>
         <form method="post">
-            <?php wp_nonce_field('create_mts_user', 'create_user_nonce'); ?>
+            <?php wp_nonce_field('create_th_user', 'create_user_nonce'); ?>
             <table class="form-table">
                 <tr>
                     <th><label for="first_name">First Name</label></th>
@@ -97,9 +99,9 @@ function mts_user_form_page() {
             </thead>
             <tbody>
                 <?php
-                $mts_users = get_mts_users();
-                if (!empty($mts_users)) {
-                    foreach ($mts_users as $user) {
+                $th_users = get_th_users();
+                if (!empty($th_users)) {
+                    foreach ($th_users as $user) {
                         $first_name = get_user_meta($user->ID, 'first_name', true);
                         $last_name = get_user_meta($user->ID, 'last_name', true);
                         echo '<tr>';
@@ -116,5 +118,5 @@ function mts_user_form_page() {
             </tbody>
         </table>
     </div>
-    <?php
+<?php
 }

@@ -116,13 +116,11 @@
   border: none;
   margin-bottom: 30px;
   color: #24133b;
-  font-family: 'Open Sans', sans-serif;
   max-width: 80%;
 }
 
 .commentArea::placeholder {
   color: #24133b;
-  font-family: 'Open Sans', sans-serif;
 }
 
 hr {

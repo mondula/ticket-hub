@@ -13,7 +13,8 @@ Text Domain: tickethub
 
 define('PLUGIN_ROOT', plugin_dir_url(__FILE__));
 
-function mondula_require_files($directory, $files) {
+function mondula_require_files($directory, $files)
+{
     // Include a set of files from a specific directory.
     $path = plugin_dir_path(__FILE__) . $directory . '/';
     foreach ($files as $file) {
@@ -21,14 +22,14 @@ function mondula_require_files($directory, $files) {
     }
 }
 
-add_action('plugins_loaded', function() {
-    mondula_require_files('post-types', ['ticket-post-type.php', 'change-post-type.php', 'faq-post-type.php', 'document-post-type.php']);
+add_action('plugins_loaded', function () {
+    mondula_require_files('post-types', ['th-ticket-pt.php', 'th-change-pt.php', 'th-faq-pt.php', 'th-document-pt.php']);
 });
 
 
-add_action('init', function() {
-    mondula_require_files('includes', ['page-settings.php', 'user-subpage.php', 'ticket-form-subpage.php', 'ticket-tag-subpage.php']);
-    mondula_require_files('shortcodes', ['changelog.php', 'documentation.php', 'faqs.php', 'ticket-form.php', 'ticket.php', 'tickets.php', 'mts-user.php']);
+add_action('init', function () {
+    mondula_require_files('includes', ['th-page-settings.php', 'th-user-subpage.php', 'th-form-subpage.php', 'th-ticket-tag-subpage.php']);
+    mondula_require_files('shortcodes', ['th-changelog-sc.php', 'th-documentation-sc.php', 'th-faqs-sc.php', 'th-form-sc.php', 'th-ticket-sc.php', 'th-tickets-sc.php', 'th-profile-sc.php']);
 
     // Define custom capabilities for submitting and commenting on tickets.
     $capabilities = array(
@@ -46,14 +47,18 @@ add_action('init', function() {
     ));
 });
 
-add_filter('single_template', function($template) {
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_style('tickethub-style', PLUGIN_ROOT . 'css/ticket-hub.css', array(), '1.0', 'all');
+});
+
+add_filter('single_template', function ($template) {
     global $post;
 
     // Check if the current post is of type 'ticket'
     if (is_singular('ticket')) {
         $custom_template = '';
         if (wp_is_block_theme()) {
-            $custom_template = plugin_dir_path(__FILE__) . 'block-templates/single-ticket.php';
+            $custom_template = plugin_dir_path(__FILE__) . 'templates/single-ticket-blockified.php';
         } else {
             $custom_template = plugin_dir_path(__FILE__) . 'templates/single-ticket.php';
         }
@@ -66,51 +71,52 @@ add_filter('single_template', function($template) {
     return $template;
 });
 
-register_activation_hook(__FILE__, function() {
-    add_role('mts_user', 'TicketHub User', ['submit_tickets' => true, 'comment_tickets' => true]);
+register_activation_hook(__FILE__, function () {
+    add_role('th_user', 'TicketHub User', ['submit_tickets' => true, 'comment_tickets' => true]);
 });
 
-register_deactivation_hook(__FILE__, function() {
-    $users = get_users(array('role' => 'mts_user'));
+register_deactivation_hook(__FILE__, function () {
+    $users = get_users(array('role' => 'th_user'));
     foreach ($users as $user) {
         $user->set_role('subscriber');  // Change 'subscriber' to whatever default you consider appropriate
     }
 
-    remove_role('mts_user');
+    remove_role('th_user');
 });
 
-add_action('after_setup_theme', function() {
-    if (in_array('mts_user', (array) wp_get_current_user()->roles)) {
+add_action('after_setup_theme', function () {
+    if (in_array('th_user', (array) wp_get_current_user()->roles)) {
         show_admin_bar(false);
     }
 });
 
-function enqueue_admin_post_status_script() {
+function enqueue_admin_post_status_script()
+{
     global $post;
-    if ($post->post_type == 'ticket') { // change 'ticket' to your specific post type if different
-        ?>
+    if ($post->post_type == 'ticket') {
+?>
         <script>
-        jQuery(document).ready(function($){
-            // Append the new status to the status selector in the edit post and quick edit screens
-            $("select[name='post_status']").append("<option value='archive'>Archived</option>");
+            jQuery(document).ready(function($) {
+                // Append the new status to the status selector in the edit post and quick edit screens
+                $("select[name='post_status']").append("<option value='archive'>Archived</option>");
 
-            // Check if the current post status is 'archive' and update the selector
-            <?php if ('archive' == $post->post_status) : ?>
-                $("select[name='post_status']").val('archive');
-                $('#post-status-display').text('Archived');
-            <?php endif; ?>
+                // Check if the current post status is 'archive' and update the selector
+                <?php if ('archive' == $post->post_status) : ?>
+                    $("select[name='post_status']").val('archive');
+                    $('#post-status-display').text('Archived');
+                <?php endif; ?>
 
-            // Add the status to the quick edit
-            $(".editinline").click(function(){
-                var $row = $(this).closest('tr');
-                var $status = $row.find('.status').text();
-                if ('archive' === $status) {
-                    $('select[name="_status"]', '.inline-edit-row').val('archive');
-                }
+                // Add the status to the quick edit
+                $(".editinline").click(function() {
+                    var $row = $(this).closest('tr');
+                    var $status = $row.find('.status').text();
+                    if ('archive' === $status) {
+                        $('select[name="_status"]', '.inline-edit-row').val('archive');
+                    }
+                });
             });
-        });
         </script>
-        <?php
+<?php
     }
 }
 add_action('admin_footer-post.php', 'enqueue_admin_post_status_script');

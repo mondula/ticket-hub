@@ -1,7 +1,7 @@
 <?php
 
-add_action( 'init', function() {
-	register_post_type( 'change', array(
+add_action('init', function () {
+	register_post_type('th_change', array(
 		'labels' => array(
 			'name' => 'Changes',
 			'singular_name' => 'Change',
@@ -34,64 +34,64 @@ add_action( 'init', function() {
 			'item_link_description' => 'A link to a change.',
 		),
 		'public' => true,
-		'show_in_menu' => 'mts-main-menu',
+		'show_in_menu' => 'th_main_menu',
 		'show_in_rest' => true,
 		'menu_position' => 2,
 		'supports' => array(
 			0 => 'title',
 		),
-		'has_archive' => 'faq-archive',
+		'has_archive' => false,
 		'rewrite' => array(
 			'feeds' => false,
 			'pages' => false,
 		),
-		'can_export' => false,
+		'can_export' => true,
 		'delete_with_user' => false,
 	));
 });
 
-add_action('edit_form_after_title', function($post) {
-    // Check if we're on the 'change' post type
-    if ($post->post_type !== 'change') {
-        return;
-    }
+add_action('edit_form_after_title', function ($post) {
+	// Check if we're on the 'th_change' post type
+	if ($post->post_type !== 'th_change') {
+		return;
+	}
 
-    // Use nonce for verification to secure data handling
-    wp_nonce_field('mts_save_log_meta', 'mts_log_meta_nonce');
+	// Use nonce for verification to secure data handling
+	wp_nonce_field('th_save_log_meta', 'th_log_meta_nonce');
 
-    // Get the current value of the 'log' field, if any
-    $log_content = get_post_meta($post->ID, '_mts_log', true);
+	// Get the current value of the 'log' field, if any
+	$log_content = get_post_meta($post->ID, '_th_log', true);
 
-    // Settings for the wp_editor
-    $settings = array(
-        'textarea_name' => 'mts_log',
-        'media_buttons' => true,
-        'teeny' => false,
-        'tinymce' => true,
-        'quicktags' => true
-    );
+	// Settings for the wp_editor
+	$settings = array(
+		'textarea_name' => 'th_log',
+		'media_buttons' => true,
+		'teeny' => false,
+		'tinymce' => true,
+		'quicktags' => true
+	);
 
-    // Display the label
-    echo '<h3>Log</h3>';
+	// Display the label
+	echo '<h3>Log</h3>';
 
-    // Display the editor
-    wp_editor($log_content, 'mts_log_editor', $settings);
+	// Display the editor
+	wp_editor($log_content, 'th_log_editor', $settings);
 });
 
 
-add_action('save_post', function($post_id) {
-    // Check for nonce security
-    if (!isset($_POST['mts_log_meta_nonce']) || !wp_verify_nonce($_POST['mts_log_meta_nonce'], 'mts_save_log_meta')) {
-        return;
-    }
+add_action('save_post', function ($post_id) {
+	// Check for nonce security
+	if (!isset($_POST['th_log_meta_nonce']) || !wp_verify_nonce($_POST['th_log_meta_nonce'], 'th_save_log_meta')) {
+		return;
+	}
 
-    // Check if the current user has permission to edit the post
-    if (!current_user_can('edit_post', $post_id)) {
-        return;
-    }
+	// Check if the current user has permission to edit the post
+	if (!current_user_can('edit_post', $post_id)) {
+		return;
+	}
 
-    // Save/update the meta field in the database
-    if (isset($_POST['mts_log'])) {
-        update_post_meta($post_id, '_mts_log', $_POST['mts_log']);
-    }
+	// Save/update the meta field in the database
+	if (isset($_POST['th_log'])) {
+		update_post_meta($post_id, '_th_log', $_POST['th_log']);
+	}
 });
