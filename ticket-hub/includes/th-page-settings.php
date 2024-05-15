@@ -17,43 +17,25 @@ function th_add_admin_menu()
 }
 add_action('admin_menu', 'th_add_admin_menu');
 
-function th_settings_init()
-{
-    // Register settings, sections, and fields
-    add_settings_section('th_page_section', 'Page Settings', 'th_settings_section_callback', 'th');
-    add_settings_section(
-        'th_ticket_id_section', // Section ID
-        'Ticket ID Configuration', // Title
-        'th_ticket_id_section_callback', // Callback for rendering the section description
-        'th' // Menu slug
-    );
-
-    // Add settings fields for selecting pages
+function th_settings_init() {
+    // General tab settings
+    add_settings_section('th_page_section', 'Page Settings', 'th_settings_section_callback', 'th_general');
     $fields = array('th_form' => 'Ticket Form Page', 'th_tickets' => 'Tickets Page', 'th_changelog' => 'Changelog Page', 'th_faqs' => 'FAQs Page', 'th_documentation' => 'Documentation Page', 'th_profile' => 'TicketHub User Page');
     foreach ($fields as $field => $label) {
-        add_settings_field($field, $label, 'th_settings_field_callback', 'th', 'th_page_section', array('label_for' => $field));
+        add_settings_field($field, $label, 'th_settings_field_callback', 'th_general', 'th_page_section', array('label_for' => $field));
     }
 
-    // Add fields for Ticket ID prefix and suffix in the new section
-    add_settings_field(
-        'ticket_prefix', // Field ID
-        'Ticket Prefix', // Label
-        'th_text_field_callback', // Callback for rendering the field
-        'th', // Menu slug
-        'th_ticket_id_section', // Section ID
-        array('label_for' => 'ticket_prefix') // Pass the ID to the callback
-    );
+    add_settings_section('th_ticket_id_section', 'Ticket ID Configuration', 'th_ticket_id_section_callback', 'th_general');
+    add_settings_field('ticket_prefix', 'Ticket Prefix', 'th_text_field_callback', 'th_general', 'th_ticket_id_section', array('label_for' => 'ticket_prefix'));
+    add_settings_field('ticket_suffix', 'Ticket Suffix', 'th_text_field_callback', 'th_general', 'th_ticket_id_section', array('label_for' => 'ticket_suffix'));
 
-    add_settings_field(
-        'ticket_suffix',
-        'Ticket Suffix',
-        'th_text_field_callback',
-        'th',
-        'th_ticket_id_section',
-        array('label_for' => 'ticket_suffix')
-    );
+    // Plus tab settings
+    add_settings_section('th_plus_settings_section', 'TicketHub Plus Settings', 'th_plus_settings_section_callback', 'th_plus');
+    add_settings_field('plus_feature_enable', 'Enable Plus Features', 'th_checkbox_field_callback', 'th_plus', 'th_plus_settings_section', array('label_for' => 'plus_feature_enable'));
 }
 add_action('admin_init', 'th_settings_init');
+
+
 
 function th_ticket_id_section_callback()
 {
@@ -86,21 +68,42 @@ function th_settings_field_callback($args)
     ));
 }
 
-function th_page_options()
-{
-?>
+
+function th_plus_settings_section_callback() {
+    echo 'Adjust settings for the TicketHub Plus plugin features here.';
+}
+
+function th_checkbox_field_callback($args) {
+    $options = get_option('th_options');
+    $field = $args['label_for'];
+    $checked = isset($options[$field]) ? checked($options[$field], 1, false) : '';
+    echo '<input type="checkbox" id="' . esc_attr($field) . '" name="th_options[' . esc_attr($field) . ']" value="1"' . $checked . ' />';
+}
+function th_page_options() {
+    $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'general';
+
+    ?>
     <div class="wrap">
         <h2>TicketHub Settings</h2>
+        <h2 class="nav-tab-wrapper">
+            <a href="?page=th-page-settings&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>">General</a>
+            <a href="?page=th-page-settings&tab=plus" class="nav-tab <?php echo $active_tab == 'plus' ? 'nav-tab-active' : ''; ?>">Plus</a>
+        </h2>
         <form action="options.php" method="post">
             <?php
             settings_fields('th_options_group');
-            do_settings_sections('th');
+            if ($active_tab == 'general') {
+                do_settings_sections('th_general');
+            } elseif ($active_tab == 'plus') {
+                do_settings_sections('th_plus');
+            }
             submit_button('Save Settings');
             ?>
         </form>
     </div>
-<?php
+    <?php
 }
+
 
 function th_append_shortcode_to_content($content)
 {
