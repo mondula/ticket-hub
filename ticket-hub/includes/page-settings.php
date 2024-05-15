@@ -16,40 +16,25 @@ function mts_add_admin_menu() {
 add_action('admin_menu', 'mts_add_admin_menu');
 
 function mts_settings_init() {
-    // Register settings, sections, and fields
+    // General tab settings
     add_settings_section('mts_page_section', 'Page Settings', 'mts_settings_section_callback', 'mts');
-    add_settings_section(
-        'mts_ticket_id_section', // Section ID
-        'Ticket ID Configuration', // Title
-        'mts_ticket_id_section_callback', // Callback for rendering the section description
-        'mts' // Menu slug
-    );
-
-    // Add settings fields for selecting pages
     $fields = array('ticket-form' => 'Ticket Form Page', 'tickets' => 'Tickets Page', 'changelog' => 'Changelog Page', 'faqs' => 'FAQs Page', 'documentation' => 'Documentation Page', 'mts-user' => 'TicketHub User Page');
     foreach ($fields as $field => $label) {
         add_settings_field($field, $label, 'mts_settings_field_callback', 'mts', 'mts_page_section', array('label_for' => $field));
     }
 
-    // Add fields for Ticket ID prefix and suffix in the new section
-    add_settings_field(
-        'ticket_prefix', // Field ID
-        'Ticket Prefix', // Label
-        'mts_text_field_callback', // Callback for rendering the field
-        'mts', // Menu slug
-        'mts_ticket_id_section', // Section ID
-        array('label_for' => 'ticket_prefix') // Pass the ID to the callback
-    );
+    add_settings_section('mts_ticket_id_section', 'Ticket ID Configuration', 'mts_ticket_id_section_callback', 'mts');
+    add_settings_field('ticket_prefix', 'Ticket Prefix', 'mts_text_field_callback', 'mts', 'mts_ticket_id_section', array('label_for' => 'ticket_prefix'));
+    add_settings_field('ticket_suffix', 'Ticket Suffix', 'mts_text_field_callback', 'mts', 'mts_ticket_id_section', array('label_for' => 'ticket_suffix'));
 
-    add_settings_field(
-        'ticket_suffix',
-        'Ticket Suffix',
-        'mts_text_field_callback',
-        'mts',
-        'mts_ticket_id_section',
-        array('label_for' => 'ticket_suffix')
-    );
+    // Plus tab settings
+    if (is_tickethub_plus_active()) {
+        add_settings_section('mts_plus_settings_section', 'TicketHub Plus Settings', 'mts_plus_settings_section_callback', 'mts_plus');
+        add_settings_field('plus_feature_enable', 'Enable Plus Features', 'mts_checkbox_field_callback', 'mts_plus', 'mts_plus_settings_section', array('label_for' => 'plus_feature_enable'));
+    }
 }
+
+
 add_action('admin_init', 'mts_settings_init');
 
 function mts_ticket_id_section_callback() {
@@ -80,19 +65,39 @@ function mts_settings_field_callback($args) {
 }
 
 function mts_page_options() {
+    $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'general';
+
     ?>
     <div class="wrap">
         <h2>TicketHub Settings</h2>
+        <h2 class="nav-tab-wrapper">
+            <a href="?page=mts-page-settings&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>">General</a>
+            <?php if (is_tickethub_plus_active()): ?>
+                <a href="?page=mts-page-settings&tab=plus" class="nav-tab <?php echo $active_tab == 'plus' ? 'nav-tab-active' : ''; ?>">Plus</a>
+            <?php endif; ?>
+        </h2>
         <form action="options.php" method="post">
             <?php
             settings_fields('mts_options_group');
-            do_settings_sections('mts');
+            if ($active_tab == 'general') {
+                do_settings_sections('mts');
+            } elseif ($active_tab == 'plus') {
+                do_settings_sections('mts_plus');
+            }
             submit_button('Save Settings');
             ?>
         </form>
     </div>
     <?php
 }
+
+function mts_admin_notices() {
+    if (!is_tickethub_plus_active()) {
+        echo '<div class="notice notice-warning"><p>TicketHub Plus is not active. Some settings may not be available.</p></div>';
+    }
+}
+add_action('admin_notices', 'mts_admin_notices');
+
 
 function mts_append_shortcode_to_content($content) {
     global $post;
@@ -131,3 +136,19 @@ function mts_append_shortcode_to_content($content) {
     return $content;
 }
 add_filter('the_content', 'mts_append_shortcode_to_content');
+
+function is_tickethub_plus_active() {
+    include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+    return is_plugin_active('ticketHubPlus/ticketHubPlus.php');
+}
+
+function mts_plus_settings_section_callback() {
+    echo 'Adjust settings for the TicketHub Plus plugin features here.';
+}
+
+function mts_checkbox_field_callback($args) {
+    $options = get_option('mts_options');
+    $field = $args['label_for'];
+    $checked = isset($options[$field]) ? checked($options[$field], 1, false) : '';
+    echo '<input type="checkbox" id="' . esc_attr($field) . '" name="mts_options[' . esc_attr($field) . ']" value="1"' . $checked . ' />';
+}
