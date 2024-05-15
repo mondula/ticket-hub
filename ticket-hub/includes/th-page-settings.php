@@ -33,7 +33,6 @@ function th_settings_init() {
     if (function_exists('is_tickethub_plus_active') && is_tickethub_plus_active()) {
         // Plus tab settings
         add_settings_section('th_plus_settings_section', 'TicketHub Plus Settings', 'th_plus_settings_section_callback', 'th_plus');
-        add_settings_field('plus_feature_enable', 'Enable Plus Features', 'th_checkbox_field_callback', 'th_plus', 'th_plus_settings_section', array('label_for' => 'plus_feature_enable'));
     }
 }
 add_action('admin_init', 'th_settings_init');
@@ -73,16 +72,16 @@ function th_settings_field_callback($args)
 }
 
 
-function th_plus_settings_section_callback() {
-    echo 'Adjust settings for the TicketHub Plus plugin features here.';
-}
+
 
 function th_checkbox_field_callback($args) {
     $options = get_option('th_options');
     $field = $args['label_for'];
     $checked = isset($options[$field]) ? checked($options[$field], 1, false) : '';
     echo '<input type="checkbox" id="' . esc_attr($field) . '" name="th_options[' . esc_attr($field) . ']" value="1"' . $checked . ' />';
-}function th_page_options() {
+}
+
+function th_page_options() {
     // Check if the Plus plugin is active
     $is_plus_active = function_exists('is_tickethub_plus_active') ? is_tickethub_plus_active() : false;
 
@@ -103,6 +102,7 @@ function th_checkbox_field_callback($args) {
             if ($active_tab == 'general') {
                 do_settings_sections('th_general');
             } elseif ($is_plus_active && $active_tab == 'plus') {
+                settings_fields('th_plus_options_group'); // Ensure correct option group for Plus settings
                 do_settings_sections('th_plus');
             }
             submit_button('Save Settings');
