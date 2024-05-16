@@ -12,7 +12,7 @@ add_shortcode('th_tickets', function ($atts) {
 
     if (!$tickets_enqueue) {
         wp_enqueue_script('th-tickets-script', PLUGIN_ROOT . 'js/th-tickets.js', array('jquery'), '', true);
-        wp_localize_script('tickets-script', 'ajax_params', array(
+        wp_localize_script('th-tickets-script', 'ajax_params', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'user_id' => $attributes['user_id']
         ));
@@ -36,21 +36,21 @@ add_shortcode('th_tickets', function ($atts) {
 
     // Ticket controls remain unchanged
     echo '<div class="th-ticket-controls">';
-    echo '<input type="text" id="search" placeholder="Search">';
-    echo '<div class="tickets-filter-container">';
-    echo '<label for="toggleArchived" class="switch-container">';  // Start label here
+    echo '<input type="text" id="th-ticket-search" placeholder="Search">';
+    echo '<div class="th-tickets-filter-container">';
+    echo '<label for="th-toggle-archive" class="th-switch-container">';  // Start label here
     echo 'Archive';  // Label text
-    echo '<div class="switch">';
-    echo '<input type="checkbox" id="toggleArchived">';
-    echo '<span class="slider round"></span>';
+    echo '<div class="th-switch">';
+    echo '<input type="checkbox" id="th-toggle-archive">';
+    echo '<span class="th-slider th-round"></span>';
     echo '</div>';
     echo '</label>';  // Close label here
-    echo '<select id="ticket_status" class="select1"><option value="">Status</option>';
+    echo '<select id="th-ticket-status" class="th-select"><option value="">Status</option>';
     foreach ($status_choices as $value => $label) {
         echo '<option value="' . esc_attr($value) . '">' . esc_html($label) . '</option>';
     }
     echo '</select>';
-    echo '<select id="ticket_type" class="select1"><option value="">Type</option>';
+    echo '<select id="th-ticket-type" class="th-select"><option value="">Type</option>';
     foreach ($type_choices as $value => $label) {
         echo '<option value="' . esc_attr($value) . '">' . esc_html($label) . '</option>';
     }
@@ -58,58 +58,58 @@ add_shortcode('th_tickets', function ($atts) {
     echo '</div>';
     echo '</div>';
 
-    // Modified table headers to include "Date" and "Created by"
-    echo '<table class="ticket-table"><thead><tr><th>ID</th><th>Status</th><th>Type</th><th>Date</th>';
+    // Modified table headers to include "Date" and "Issuer"
+    echo '<table class="th-ticket-table"><thead><tr><th>ID</th><th>Status</th><th>Type</th><th>Date</th>';
     if (empty($attributes['user_id'])) {
-        echo '<th>Created by</th>';
+        echo '<th>Issuer</th>';
     }
-    echo '</tr></thead><tbody id="tickets-container">';
+    echo '</tr></thead><tbody id="th-tickets-container">';
     echo '</tbody></table>';
-    echo '<div id="ticket-pagination"></div>';  // Pagination container
+    echo '<div id="th-ticket-pagination"></div>';  // Pagination container
 
     return ob_get_clean();
 });
 
 function fetch_tickets_ajax()
 {
-    $archive = $_POST['archive'] === 'true';
-    $search = sanitize_text_field($_POST['search']);
-    $status = sanitize_text_field($_POST['status']);
-    $type = sanitize_text_field($_POST['type']);
+    $is_archive = $_POST['isArchive'] === 'true';
+    $search_value = sanitize_text_field($_POST['searchValue']);
+    $status_value = sanitize_text_field($_POST['statusValue']);
+    $type_value = sanitize_text_field($_POST['typeValue']);
     $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
     $user_id = intval($_POST['user_id']);
 
     $args = array(
-        'post_type'      => 'ticket',
+        'post_type'      => 'th_ticket',
         'posts_per_page' => 10,
         'paged'          => $page,
-        'post_status'    => $archive ? 'archive' : 'publish',
+        'post_status'    => $is_archive ? 'archive' : 'publish',
         'meta_query'     => array(
             'relation' => 'AND',
         )
     );
 
-    if (!empty($search)) {
+    if (!empty($search_value)) {
         $args['meta_query'][] = array(
-            'key'     => 'id', // Assuming 'ticket_id' is the meta key where IDs are stored
-            'value'   => $search,
+            'key'     => 'id',
+            'value'   => $search_value,
             'compare' => 'LIKE'
         );
     }
-    if (!empty($status)) {
+    if (!empty($status_value)) {
         $args['meta_query'][] = array(
             'key'     => 'status',
-            'value'   => $status,
+            'value'   => $status_value,
             'compare' => '='
         );
     }
     if (!empty($user_id)) {
         $args['author'] = $user_id;
     }
-    if (!empty($type)) {
+    if (!empty($type_value)) {
         $args['meta_query'][] = array(
             'key'     => 'type',
-            'value'   => $type,
+            'value'   => $type_value,
             'compare' => '='
         );
     }
@@ -135,12 +135,12 @@ function fetch_tickets_ajax()
         }
 
         $output .= "<tr>";
-        $output .= "<td><span class='mobile-table-header'>ID</span><a href='$ticket_link'>$ticket_id</a></td>";
-        $output .= "<td><span class='mobile-table-header'>Status</span><span class='status-chip' data-status='$ticket_status'>$ticket_status</span></td>";
-        $output .= "<td><span class='mobile-table-header'>Type</span>$ticket_type</td>";
-        $output .= "<td class='comment-date'><span class='mobile-table-header'>Date</span>$ticket_date</td>";
+        $output .= "<td><span class='th-mobile-table-header'>ID</span><a href='$ticket_link'>$ticket_id</a></td>";
+        $output .= "<td><span class='th-mobile-table-header'>Status</span><span class='th-status-chip' data-status='$ticket_status'>$ticket_status</span></td>";
+        $output .= "<td><span class='th-mobile-table-header'>Type</span>$ticket_type</td>";
+        $output .= "<td class='th-comment-date'><span class='th-mobile-table-header'>Date</span>$ticket_date</td>";
         if (empty($user_id)) {
-            $output .= "<td><span class='mobile-table-header'>Created by</span>$ticket_author</td>";
+            $output .= "<td><span class='th-mobile-table-header'>Created by</span>$ticket_author</td>";
         }
         $output .= "</tr>";
     }
@@ -160,31 +160,16 @@ function fetch_tickets_ajax()
         'type'      => 'array'
     ));
 
-    // Add 'first' and 'last' links conditionally
-    // $end_size = 1; // Typically keep this at 1
-    // $dot_gap = $end_size + $mid_size + 1; // +1 accounts for the current page
-
-    // if (!empty($pagination)) {
-    //     // Conditionally add first page link
-    //     if ($page > $dot_gap) { // Current page is farther than the first few pages
-    //         array_unshift($pagination, '<a class="page-numbers first" href="' . admin_url('admin-ajax.php') . '?page=1"></a>');
-    //     }
-    //     // Conditionally add last page link
-    //     if ($page < $the_query->max_num_pages - $dot_gap) { // Current page is farther than the last few pages
-    //         $pagination[] = '<a class="page-numbers" href="' . admin_url('admin-ajax.php') . '?page=' . $the_query->max_num_pages . '">Last</a>';
-    //     }
-    // }
-
     // Convert array to string if needed for output
     $pagination_html = '';
     if (is_array($pagination)) {
         $pagination_html = implode(' ', $pagination);
-        $pagination_html = "<div class='pagination-wrap'>";
+        $pagination_html = "<div class='th-pagination-wrap'>";
         foreach ($pagination as $page) {
             if (strpos($page, 'current') !== false) {
-                $pagination_html .= "<button class='page-number active'>" . strip_tags($page, '<a>') . "</button>";
+                $pagination_html .= "<button class='th-page-number active'>" . strip_tags($page, '<a>') . "</button>";
             } else {
-                $pagination_html .= "<button class='page-number'>" . strip_tags($page, '<a>') . "</button>";
+                $pagination_html .= "<button class='th-page-number'>" . strip_tags($page, '<a>') . "</button>";
             }
         }
         $pagination_html .= "</div>";

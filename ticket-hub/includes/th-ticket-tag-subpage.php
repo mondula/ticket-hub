@@ -10,6 +10,6 @@ function register_my_custom_menu_page()
         'Manage Ticket Tags', // Page title
         'Ticket Tags', // Menu title
         'manage_options', // Capability
-        'edit-tags.php?taxonomy=ticket_tag&post_type=ticket' // Menu slug (URL to the taxonomy management page)
+        'edit-tags.php?taxonomy=th_ticket_tag&post_type=th_ticket' // Menu slug (URL to the taxonomy management page)
     );
 }

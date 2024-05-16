@@ -74,15 +74,16 @@ add_action('edit_form_after_title', function ($post) {
         </select>
     </div><br />
 
-    <div id="file-upload-section" style="<?php echo ($type == 'File' ? '' : 'display: none;'); ?>">
+    <div id="th-file-upload-section" style="<?php echo ($type == 'File' ? '' : 'display: none;'); ?>">
         <label for="th-document-file">
             <h3>File</h3>
         </label>
-        <button type="button" id="upload-file-button" class="button">Select File</button>
-        <span id="file-name"><?php echo esc_html(get_the_title($file_id)); ?></span>
+        <input type="hidden" id="th-document-file-id" name="file_id" value="<?php echo esc_attr($file_id); ?>" />
+        <button type="button" id="th-upload-file-button" class="button">Select File</button>
+        <span id="th-file-name"><?php echo esc_html(get_the_title($file_id)); ?></span>
     </div>
 
-    <div id="link-section" style="<?php echo ($type == 'Link' ? '' : 'display: none;'); ?>">
+    <div id="th-link-section" style="<?php echo ($type == 'Link' ? '' : 'display: none;'); ?>">
         <label for="th-document-link">
             <h3>Link</h3>
         </label>
@@ -93,15 +94,15 @@ add_action('edit_form_after_title', function ($post) {
         jQuery(document).ready(function($) {
             $('#th-document-type').change(function() {
                 if ($(this).val() === 'File') {
-                    $('#file-upload-section').show();
-                    $('#link-section').hide();
+                    $('#th-file-upload-section').show();
+                    $('#th-link-section').hide();
                 } else {
-                    $('#file-upload-section').hide();
-                    $('#link-section').show();
+                    $('#th-file-upload-section').hide();
+                    $('#th-link-section').show();
                 }
             });
 
-            $('#upload-file-button').click(function(e) {
+            $('#th-upload-file-button').click(function(e) {
                 e.preventDefault();
                 var fileFrame;
 
@@ -121,7 +122,7 @@ add_action('edit_form_after_title', function ($post) {
                 fileFrame.on('select', function() {
                     var attachment = fileFrame.state().get('selection').first().toJSON();
                     $('#th-document-file-id').val(attachment.id);
-                    $('#file-name').text(attachment.title);
+                    $('#th-file-name').text(attachment.title);
                 });
 
                 fileFrame.open();
@@ -140,8 +141,11 @@ add_action('save_post', function ($post_id) {
     }
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return $post_id;
     if (!current_user_can('edit_post', $post_id)) return $post_id;
-
+    
     // Save/update custom fields data.
+    if (isset($_POST['file_id'])) {
+        update_post_meta($post_id, 'file', sanitize_text_field($_POST['file_id']));
+    }
     if (isset($_POST['type'])) {
         update_post_meta($post_id, 'type', sanitize_text_field($_POST['type']));
     }

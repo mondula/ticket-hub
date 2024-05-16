@@ -16,7 +16,7 @@ add_shortcode('th_profile', function () {
         $args = array(
             'echo'           => false,
             'redirect'       => (is_ssl() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], // Redirect back to the current page
-            'form_id'        => 'loginform',
+            'form_id'        => 'th-loginform',
             'label_username' => __('Username'),
             'label_password' => __('Password'),
             'label_remember' => __('Remember Me'),
@@ -45,7 +45,7 @@ add_shortcode('th_profile', function () {
         }
         $logout_url = wp_logout_url(get_permalink()); // This will redirect users to the same page after logging out
 
-        echo '<div class="profile-head"><h3>Profile</h3><div><a href="' . esc_url($logout_url) . '" class="button1">Logout</a></div></div>';
+        echo '<div class="th-profile-head"><h3>Profile</h3><div><a href="' . esc_url($logout_url) . '" class="th-button">Logout</a></div></div>';
         echo '<p>Hello ' . $first_name . '</p>';
 
         // Call the 'th_tickets' shortcode with the current user's ID

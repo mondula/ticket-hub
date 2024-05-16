@@ -11,27 +11,31 @@ jQuery(document).ready(function ($) {
             page = 1; // Reset to the first page when filters change
         }
 
-        var archive = $('#toggleArchived').is(':checked');
-        var searchValue = $('#search').val();
-        var statusValue = $('#ticket_status').val();
-        var typeValue = $('#ticket_type').val();
+        var isArchive = $('#th-toggle-archive').is(':checked');
+        var searchValue = $('#th-ticket-search').val();
+        var statusValue = $('#th-ticket-status').val();
+        var typeValue = $('#th-ticket-type').val();
+
+        let data = {
+            action: 'fetch_tickets',
+            isArchive,
+            page,
+            user_id: ajax_params.user_id,
+            searchValue,
+            statusValue,
+            typeValue
+        };
+        console.log(data);
 
         $.ajax({
             url: ajax_params.ajax_url,
             type: 'POST',
             dataType: 'json', // Ensuring we handle JSON correctly
-            data: {
-                action: 'fetch_tickets',
-                archive,
-                page,
-                user_id: ajax_params.user_id,
-                search: searchValue,
-                status: statusValue,
-                type: typeValue
-            },
+            data,
             success: function (data) {
-                $('#tickets-container').html(data.tickets);
-                $('#ticket-pagination').html(data.pagination);
+                console.log(data);
+                $('#th-tickets-container').html(data.tickets);
+                $('#th-ticket-pagination').html(data.pagination);
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching tickets:", xhr.responseText);
@@ -39,12 +43,12 @@ jQuery(document).ready(function ($) {
         });
     }
 
-    $('#search').on('keyup', function () { fetchTickets(true); });
-    $('#ticket_status').on('change', function () { fetchTickets(true); });
-    $('#ticket_type').on('change', function () { fetchTickets(true); });
-    $('#toggleArchived').on('change', function () { fetchTickets(true); });
+    $('#th-ticket-search').on('keyup', function () { fetchTickets(true); });
+    $('#th-ticket-status').on('change', function () { fetchTickets(true); });
+    $('#th-ticket-type').on('change', function () { fetchTickets(true); });
+    $('#th-toggle-archive').on('change', function () { fetchTickets(true); });
 
-    $(document).on('click', '.page-number', function (e) {
+    $(document).on('click', '.th-page-number', function (e) {
         // Check if the inner HTML is '...'
         if ($(this).text().trim() === '…') return;
 

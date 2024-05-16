@@ -39,7 +39,7 @@ add_shortcode('th_documentation', function () {
     // Output the search field and dropdown for filtering by document type (File types or Link)
     echo '<div class="th-document-controls">';
     echo '<input type="text" id="search" placeholder="Search">';
-    echo '<select id="document_type" class="select1"><option value="">All Types</option><option value="LINK">Link</option>';
+    echo '<select id="th-document-type" class="th-select"><option value="">All Types</option><option value="LINK">Link</option>';
     foreach ($file_types as $file_type) {
         echo '<option value="' . esc_attr($file_type) . '">' . esc_html($file_type) . '</option>';
     }
@@ -68,7 +68,7 @@ add_shortcode('th_documentation', function () {
             $mime_type = get_post_mime_type($file_id);
             $file_extension = strtoupper(array_reverse(explode('/', $mime_type))[0]);
             $type_display = $file_extension;
-            $button_text = '<span class="hide-text-mobile">' . 'Download' . '</span>';
+            $button_text = '<span class="th-hide-text-mobile">' . 'Download' . '</span>';
             $download_attribute = " download";
             // Set the download SVG icon for files
             $icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15.07" height="15.907" viewBox="0 0 15.07 15.907">
@@ -80,7 +80,7 @@ add_shortcode('th_documentation', function () {
         } elseif ($document_type === 'Link') {
             $document_url = get_post_meta($document_id, 'link', true);
             $type_display = 'LINK';
-            $button_text = '<span class="hide-text-mobile">' . 'Open' . '</span>';
+            $button_text = '<span class="th-hide-text-mobile">' . 'Open' . '</span>';
             // Set the open SVG icon for links
             $icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
                 <g id="Gruppe_99" data-name="Gruppe 99" transform="translate(-3 -0.01)">
@@ -92,9 +92,9 @@ add_shortcode('th_documentation', function () {
             </svg>';
         }
 
-        echo "<tr data-document-type='" . esc_attr($document_type === 'File' ? $file_extension : 'LINK') . "'>";
+        echo "<tr data-document-type='" . esc_attr($document_type === 'File' ? $mime_type : 'LINK') . "'>";
         echo "<td>$type_display</td>";
-        echo "<td>$document_name<a class='button1' href='$document_url' target='_blank'$download_attribute>$icon_svg $button_text</a></td>";
+        echo "<td>$document_name<a class='th-button' href='$document_url' target='_blank'$download_attribute>$icon_svg $button_text</a></td>";
         echo "</tr>";
     }
     echo '</tbody></table>';

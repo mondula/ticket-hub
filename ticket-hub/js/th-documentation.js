@@ -5,7 +5,7 @@
 jQuery(document).ready(function ($) {
     function filterDocuments() {
         var searchValue = $('#search').val().toUpperCase();
-        var typeFilterValue = $('#document_type').val();
+        var typeFilterValue = $('#th-document-type').val();
 
         $('.th-document-table tbody tr').each(function () {
             var $row = $(this);
@@ -23,5 +23,5 @@ jQuery(document).ready(function ($) {
     }
 
     $('#search').on('keyup', filterDocuments);
-    $('#document_type').on('change', filterDocuments);
+    $('#th-document-type').on('change', filterDocuments);
 });

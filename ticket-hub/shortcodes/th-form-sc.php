@@ -22,22 +22,14 @@ add_shortcode('th_form', function () {
         <?php wp_nonce_field('submit_ticket_nonce', 'ticket_nonce_field'); ?>
 
         <!-- Standard fields -->
-        <label> Username<span>*</span>
-            <input type="text" name="your-username" required>
+        <label>Short Description<span>*</span>
+            <input type="text" name="your-short-desc" required>
         </label>
-        <label> Device<span>*</span>
-            <select name="your-device" class="select1" required>
-                <option value="Desktop">Desktop</option>
-                <option value="Browser Typ und Version">Browser Type and Version</option>
-                <option value="Smartphone">Smartphone</option>
-                <option value="Tablet">Tablet</option>
-            </select>
-        </label>
-        <label> Description<span>*</span>
+        <label>Description<span>*</span>
             <textarea name="your-description" required></textarea>
         </label>
-        <label> Attachments (optional)
-            <input type="file" name="your-attachments[]" class="custom-file-upload" multiple accept=".jpg, .jpeg, .png, .gif, .pdf, .doc, .docx, .txt">
+        <label>Attachments (optional)
+            <input type="file" name="your-attachments[]" class="th-file-upload" multiple accept=".jpg, .jpeg, .png, .gif, .pdf, .doc, .docx, .txt">
         </label>
 
         <!-- Custom fields generated dynamically -->
@@ -50,7 +42,7 @@ add_shortcode('th_form', function () {
                 <?php elseif ($field['type'] == 'textarea') : ?>
                     <textarea name="custom_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?>></textarea>
                 <?php elseif ($field['type'] == 'select' && !empty($field['options'])) : ?>
-                    <select name="custom_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?> class="select1">
+                    <select name="custom_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?> class="th-select">
                         <?php foreach ($field['options'] as $option) : ?>
                             <option value="<?php echo esc_attr($option); ?>"><?php echo esc_html($option); ?></option>
                         <?php endforeach; ?>
@@ -60,7 +52,7 @@ add_shortcode('th_form', function () {
         <?php endforeach; ?>
 
         <input type="hidden" name="action" value="submit_ticket_form">
-        <input type="submit" class="button1" value="Submit">
+        <input type="submit" class="th-button" value="Submit">
     </form>
 <?php
     return ob_get_clean();
@@ -81,14 +73,13 @@ add_action('admin_post_submit_ticket_form', function () {
     $last_name = get_user_meta($current_user->ID, 'last_name', true);
     $email = $current_user->user_email;
 
-    $username = sanitize_text_field($_POST['your-username']);
-    $device = sanitize_text_field($_POST['your-device']);
+    $title = sanitize_text_field($_POST['your-short-desc']);
     $description = sanitize_textarea_field($_POST['your-description']);
 
-    // Create a new 'ticket' post
+    // Create a new 'th_ticket' post
     $post_id = wp_insert_post([
         'post_status'  => 'pending',
-        'post_type'    => 'ticket',
+        'post_type'    => 'th_ticket',
     ]);
 
     // Check for prefix and suffix options
@@ -99,14 +90,12 @@ add_action('admin_post_submit_ticket_form', function () {
     $id = $prefix . $formatted_post_id . $suffix;
     wp_update_post([
         'ID'         => $post_id,
-        'post_title' => sprintf('%s - %s %s - %s', $id, $first_name, $last_name, $device)
+        'post_title' => $title
     ]);
 
     // Add post meta
     update_post_meta($post_id, 'id', $id);
     update_post_meta($post_id, 'status', 'New');
-    update_post_meta($post_id, 'username', $username);
-    update_post_meta($post_id, 'device', $device);
     update_post_meta($post_id, 'description', $description);
 
     // Save custom fields as post meta
@@ -161,7 +150,7 @@ add_action('admin_post_submit_ticket_form', function () {
     } else {
         $name = trim($first_name . ' ' . $last_name);
     }
-    $message = "Name: $name\nEmail: $email\nUsername: $username\nDevice: $device\nDescription: $description\n";
+    $message = "Name: $name\nEmail: $email\nDescription: $description\n";
     if (!empty($custom_fields_content)) {
         $message .= "Additional Fields:\n" . $custom_fields_content;
     }

@@ -56,12 +56,12 @@
     width: min-content
 }
 
-input[type="file"] {
+.th-file-upload {
     border: none;
     padding-left: 0
 }
 
-input::file-selector-button {
+.th-file-upload::file-selector-button {
     color: #eee;
     background-color: #000;
     border-radius: 20px;

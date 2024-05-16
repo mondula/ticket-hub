@@ -1,11 +1,12 @@
 /* TicketHub User Page Style Sheet */
 
-.profile-head {
+.th-profile-head {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
-#loginform {
+#th-loginform {
     max-width: 600px;
 }
 
@@ -21,7 +22,7 @@ h4 {
     font-size: 1.4rem;
 }
 
-.profile-head+p {
+.th-profile-head+p {
     margin-bottom: 60px;
 }
 
@@ -86,6 +87,6 @@ input[type="checkbox"]:checked::before {
     background-color: #262626;
 }
 
-.button1 {
+.th-button {
     text-decoration: none;
 }

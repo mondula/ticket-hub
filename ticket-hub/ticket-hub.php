@@ -48,14 +48,14 @@ add_action('init', function () {
 });
 
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('tickethub-style', PLUGIN_ROOT . 'css/ticket-hub.css', array(), '1.0', 'all');
+    wp_enqueue_style('ticket-hub-style', PLUGIN_ROOT . 'css/ticket-hub.css', array(), '1.0', 'all');
 });
 
 add_filter('single_template', function ($template) {
     global $post;
 
-    // Check if the current post is of type 'ticket'
-    if (is_singular('ticket')) {
+    // Check if the current post is of type 'th_ticket'
+    if (is_singular('th_ticket')) {
         $custom_template = '';
         if (wp_is_block_theme()) {
             $custom_template = plugin_dir_path(__FILE__) . 'templates/single-ticket-blockified.php';
@@ -93,7 +93,7 @@ add_action('after_setup_theme', function () {
 function enqueue_admin_post_status_script()
 {
     global $post;
-    if ($post->post_type == 'ticket') {
+    if ($post->post_type == 'th_ticket') {
 ?>
         <script>
             jQuery(document).ready(function($) {

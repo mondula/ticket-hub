@@ -5,8 +5,8 @@ add_action('init', 'register_ticket_taxonomy');
 function register_ticket_taxonomy()
 {
     register_taxonomy(
-        'ticket_tag',  // Taxonomy name
-        'ticket',      // Post type name
+        'th_ticket_tag',  // Taxonomy name
+        'th_ticket',      // Post type name
         array(
             'labels' => array(
                 'name' => 'Ticket Tags',
@@ -31,7 +31,7 @@ function register_ticket_taxonomy()
             'show_tagcloud' => true,
             'hierarchical' => false, // This is false as tags are not hierarchical like categories
             'rewrite' => array(
-                'slug' => 'ticket-tag', // Customize the permalink structure
+                'slug' => false, // Customize the permalink structure
             ),
             'show_in_rest' => true // Enable the REST API endpoint
         )
@@ -39,7 +39,7 @@ function register_ticket_taxonomy()
 }
 
 add_action('init', function () {
-    register_post_type('ticket', array(
+    register_post_type('th_ticket', array(
         'labels' => array(
             'name' => 'Tickets',
             'singular_name' => 'Ticket',
@@ -88,12 +88,12 @@ add_action('init', function () {
         ),
         'can_export' => true,
         'delete_with_user' => false,
-        'taxonomies' => ['ticket_tag']  // Enable tag support
+        'taxonomies' => ['th_ticket_tag']  // Enable tag support
     ));
 });
 
 add_action('edit_form_after_title', function ($post) {
-    if ($post->post_type != 'ticket') return; // Ensure this is a 'ticket' post type
+    if ($post->post_type != 'th_ticket') return; // Ensure this is a 'th_ticket' post type
 
     // Custom fields definitions with options for select fields
     $fields = [
@@ -109,8 +109,6 @@ add_action('edit_form_after_title', function ($post) {
                 'Change request' => 'Change request'
             ]
         ],
-        'username' => ['type' => 'text', 'label' => 'Username'],
-        'device' => ['type' => 'select', 'label' => 'Device', 'options' => ['Desktop' => 'Desktop', 'Browser Type and Version' => 'Browser Typ and Version', 'Smartphone' => 'Smartphone', 'Tablet' => 'Tablet']],
         'description' => ['type' => 'textarea', 'label' => 'Description'],
     ];
 
@@ -183,7 +181,7 @@ add_action('save_post', function ($post_id) {
     if (!isset($_POST['ticket_meta_nonce']) || !wp_verify_nonce($_POST['ticket_meta_nonce'], 'save_ticket_meta')) return;
 
     // Custom fields keys
-    $fields = ['id', 'status', 'type', 'username', 'device', 'description'];
+    $fields = ['id', 'status', 'type', 'description'];
 
     // Save each field value
     foreach ($fields as $field) {
@@ -210,7 +208,7 @@ add_action('updated_post_meta', function ($meta_id, $post_id, $meta_key, $meta_v
         $author_id = get_post_field('post_author', $post_id);
         $email = get_the_author_meta('email', $author_id);
         $id = get_post_meta($post_id, 'id', true);
-        $ticket_link = get_permalink($post_id); // Get the permalink to the ticket
+        $ticket_link = get_permalink($post_id);
 
         if ($meta_value == 'Done') {
             update_post_meta($post_id, 'completed_date', current_time('mysql'));
@@ -230,8 +228,8 @@ add_action('updated_post_meta', function ($meta_id, $post_id, $meta_key, $meta_v
 }, 10, 4);
 
 add_action('transition_post_status', function ($new_status, $old_status, $post) {
-    if ($post->post_type != 'ticket') {
-        return; // Ensure that this is a 'ticket' post type
+    if ($post->post_type != 'th_ticket') {
+        return;
     }
 
     // Check if the status is changing to 'publish' or 'archive'
@@ -240,7 +238,7 @@ add_action('transition_post_status', function ($new_status, $old_status, $post) 
         $email = get_the_author_meta('email', $author_id);
         $ticket_id = get_post_meta($post->ID, 'id', true);
         $status = ucfirst($new_status);
-        $ticket_link = get_permalink($post->ID); // Get the permalink to the ticket
+        $ticket_link = get_permalink($post->ID);
 
         // Check if a valid email address is retrieved
         if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -263,8 +261,8 @@ add_action('wp_insert_comment', function ($comment_id, $comment) {
     $post_id = $comment->comment_post_ID;
     $post = get_post($post_id);
 
-    // Check if the comment is made on a 'ticket' post type
-    if ($post->post_type == 'ticket') {
+    // Check if the comment is made on a 'th_ticket' post type
+    if ($post->post_type == 'th_ticket') {
         $author_id = $post->post_author;
         $email = get_the_author_meta('email', $author_id);
         $ticket_id = get_post_meta($post_id, 'id', true);
@@ -293,7 +291,7 @@ add_action('wp', function () {
 
 add_action('archive_done_tickets', function () {
     $args = array(
-        'post_type'      => 'ticket',
+        'post_type'      => 'th_ticket',
         'post_status'    => 'publish',
         'posts_per_page' => -1,
         'meta_query'     => array(
