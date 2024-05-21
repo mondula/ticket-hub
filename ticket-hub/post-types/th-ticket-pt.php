@@ -39,6 +39,10 @@ function register_ticket_taxonomy()
 }
 
 add_action('init', function () {
+    // Get the option value
+    $options = get_option('th_plus_options');
+    $auto_publish = isset($options['auto_publish']) && $options['auto_publish'] ? true : false;
+
     register_post_type('th_ticket', array(
         'labels' => array(
             'name' => 'Tickets',
@@ -71,16 +75,12 @@ add_action('init', function () {
             'item_link' => 'Ticket Link',
             'item_link_description' => 'A link to a ticket.',
         ),
-        'description' => 'These are the tickets are were created by people.',
+        'description' => 'These are the tickets created by people.',
         'public' => true,
         'show_in_menu' => 'th_main_menu',
         'show_in_rest' => true,
         'menu_position' => 1,
-        'supports' => array(
-            0 => 'title',
-            1 => 'author',
-            2 => 'comments',
-        ),
+        'supports' => array('title', 'author', 'comments'),
         'has_archive' => false,
         'rewrite' => array(
             'feeds' => false,
@@ -88,9 +88,15 @@ add_action('init', function () {
         ),
         'can_export' => true,
         'delete_with_user' => false,
-        'taxonomies' => ['th_ticket_tag']  // Enable tag support
+        'taxonomies' => array('th_ticket_tag'), // Enable tag support
+        'capability_type' => 'post',
+        'map_meta_cap' => true,
+        'capabilities' => array(
+            'publish_posts' => $auto_publish ? 'publish_th_tickets' : 'draft_th_tickets',
+        ),
     ));
 });
+
 
 add_action('edit_form_after_title', function ($post) {
     if ($post->post_type != 'th_ticket') return; // Ensure this is a 'th_ticket' post type
@@ -352,3 +358,18 @@ add_action('manage_ticket_posts_custom_column', function ($column, $post_id) {
             break;
     }
 }, 10, 2);
+
+
+add_action('save_post_th_ticket', function ($post_id, $post, $update) {
+    if ($update) return; // Only set post status on creation
+
+    $options = get_option('th_plus_options');
+    $auto_publish = isset($options['auto_publish']) && $options['auto_publish'];
+
+    if ($auto_publish) {
+        wp_update_post(array(
+            'ID' => $post_id,
+            'post_status' => 'publish'
+        ));
+    }
+}, 10, 3);
