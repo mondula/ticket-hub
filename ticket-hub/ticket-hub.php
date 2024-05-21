@@ -12,6 +12,7 @@ Text Domain: tickethub
 */
 
 define('PLUGIN_ROOT', plugin_dir_url(__FILE__));
+define('TEXT_DOMAIN', 'tickethub');
 
 function mondula_require_files($directory, $files)
 {
@@ -22,9 +23,15 @@ function mondula_require_files($directory, $files)
     }
 }
 
-add_action('plugins_loaded', function () {
-    mondula_require_files('post-types', ['th-ticket-pt.php', 'th-change-pt.php', 'th-faq-pt.php', 'th-document-pt.php']);
-});
+mondula_require_files(
+    'post-types',
+    [
+        'th-ticket-pt.php',
+        'th-change-pt.php',
+        'th-faq-pt.php',
+        'th-document-pt.php'
+    ]
+);
 
 
 add_action('init', function () {
@@ -37,7 +44,7 @@ add_action('init', function () {
         'comment_tickets' => true,
     );
 
-    register_post_status('archive', array(
+    register_post_status('th_archive', array(
         'label'                     => 'Archived',
         'public'                    => true,
         'exclude_from_search'       => false,
@@ -72,7 +79,7 @@ add_filter('single_template', function ($template) {
 });
 
 register_activation_hook(__FILE__, function () {
-    add_role('th_user', 'TicketHub User', ['submit_tickets' => true, 'comment_tickets' => true]);
+    add_role('th_user', __('TicketHub User'), ['submit_tickets' => true, 'comment_tickets' => true]);
 });
 
 register_deactivation_hook(__FILE__, function () {
@@ -100,8 +107,8 @@ function enqueue_admin_post_status_script()
                 // Append the new status to the status selector in the edit post and quick edit screens
                 $("select[name='post_status']").append("<option value='archive'>Archived</option>");
 
-                // Check if the current post status is 'archive' and update the selector
-                <?php if ('archive' == $post->post_status) : ?>
+                // Check if the current post status is 'th_archive' and update the selector
+                <?php if ('th_archive' == $post->post_status) : ?>
                     $("select[name='post_status']").val('archive');
                     $('#post-status-display').text('Archived');
                 <?php endif; ?>

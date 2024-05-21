@@ -83,7 +83,7 @@ function fetch_tickets_ajax()
         'post_type'      => 'th_ticket',
         'posts_per_page' => 10,
         'paged'          => $page,
-        'post_status'    => $is_archive ? 'archive' : 'publish',
+        'post_status'    => $is_archive ? 'th_archive' : 'publish',
         'meta_query'     => array(
             'relation' => 'AND',
         )
@@ -91,14 +91,14 @@ function fetch_tickets_ajax()
 
     if (!empty($search_value)) {
         $args['meta_query'][] = array(
-            'key'     => 'id',
+            'key'     => 'th_ticket_id',
             'value'   => $search_value,
             'compare' => 'LIKE'
         );
     }
     if (!empty($status_value)) {
         $args['meta_query'][] = array(
-            'key'     => 'status',
+            'key'     => 'th_ticket_status',
             'value'   => $status_value,
             'compare' => '='
         );
@@ -108,7 +108,7 @@ function fetch_tickets_ajax()
     }
     if (!empty($type_value)) {
         $args['meta_query'][] = array(
-            'key'     => 'type',
+            'key'     => 'th_ticket_type',
             'value'   => $type_value,
             'compare' => '='
         );
@@ -120,9 +120,9 @@ function fetch_tickets_ajax()
     while ($the_query->have_posts()) {
         $the_query->the_post();
         $post_id = get_the_ID();
-        $ticket_id = esc_html(get_post_meta($post_id, 'id', true));
-        $ticket_status = esc_html(get_post_meta($post_id, 'status', true));
-        $ticket_type = esc_html(get_post_meta($post_id, 'type', true));
+        $ticket_id = esc_html(get_post_meta($post_id, 'th_ticket_id', true));
+        $ticket_status = esc_html(get_post_meta($post_id, 'th_ticket_status', true));
+        $ticket_type = esc_html(get_post_meta($post_id, 'th_ticket_type', true));
         $ticket_link = get_permalink();
         $ticket_date = get_the_date();
         $author_id = get_the_author_meta('ID');
@@ -154,13 +154,12 @@ function fetch_tickets_ajax()
         'current'   => $page,
         'mid_size'  => 2,
         'prev_next' => true,
-        'prev_text' => '', // Ensures the previous page is accessible
-        'next_text' => '', // Special span with class for styling
-        'end_size'  => 1, // Number of pages at the beginning and the end
+        'prev_text' => '',
+        'next_text' => '',
+        'end_size'  => 1,
         'type'      => 'array'
     ));
 
-    // Convert array to string if needed for output
     $pagination_html = '';
     if (is_array($pagination)) {
         $pagination_html = implode(' ', $pagination);
@@ -175,10 +174,8 @@ function fetch_tickets_ajax()
         $pagination_html .= "</div>";
     }
 
-    // Properly encode the entire output as JSON
     $final_output = json_encode(array('tickets' => $output, 'pagination' => $pagination_html));
 
-    // Ensure that headers are set to return JSON content
     header('Content-Type: application/json');
     echo $final_output;
     die();

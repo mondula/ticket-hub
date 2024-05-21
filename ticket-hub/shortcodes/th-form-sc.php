@@ -38,11 +38,11 @@ add_shortcode('th_form', function () {
                 <?php
                 $required_attr = $field['required'] ? 'required' : ''; // Check if the field is marked as required
                 if ($field['type'] == 'text') : ?>
-                    <input type="text" name="custom_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?>>
+                    <input type="text" name="thcf_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?>>
                 <?php elseif ($field['type'] == 'textarea') : ?>
-                    <textarea name="custom_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?>></textarea>
+                    <textarea name="thcf_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?>></textarea>
                 <?php elseif ($field['type'] == 'select' && !empty($field['options'])) : ?>
-                    <select name="custom_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?> class="th-select">
+                    <select name="thcf_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?> class="th-select">
                         <?php foreach ($field['options'] as $option) : ?>
                             <option value="<?php echo esc_attr($option); ?>"><?php echo esc_html($option); ?></option>
                         <?php endforeach; ?>
@@ -63,7 +63,6 @@ add_action('admin_post_submit_ticket_form', function () {
         wp_die('You do not have permission to submit tickets.');
     }
 
-    // Verify the nonce
     if (!isset($_POST['ticket_nonce_field']) || !wp_verify_nonce($_POST['ticket_nonce_field'], 'submit_ticket_nonce')) {
         wp_die('Security check failed');
     }
@@ -76,13 +75,11 @@ add_action('admin_post_submit_ticket_form', function () {
     $title = sanitize_text_field($_POST['your-short-desc']);
     $description = sanitize_textarea_field($_POST['your-description']);
 
-    // Create a new 'th_ticket' post
     $post_id = wp_insert_post([
         'post_status'  => 'pending',
         'post_type'    => 'th_ticket',
     ]);
 
-    // Check for prefix and suffix options
     $options = get_option('th_options');
     $prefix = isset($options['ticket_prefix']) ? $options['ticket_prefix'] : '';
     $suffix = isset($options['ticket_suffix']) ? $options['ticket_suffix'] : '';
@@ -93,18 +90,16 @@ add_action('admin_post_submit_ticket_form', function () {
         'post_title' => $title
     ]);
 
-    // Add post meta
-    update_post_meta($post_id, 'id', $id);
-    update_post_meta($post_id, 'status', 'New');
-    update_post_meta($post_id, 'description', $description);
+    update_post_meta($post_id, 'th_ticket_id', $id);
+    update_post_meta($post_id, 'th_ticket_status', 'New');
+    update_post_meta($post_id, 'th_ticket_description', $description);
 
-    // Save custom fields as post meta
     $custom_fields = get_option('th_custom_fields', []);
     $custom_fields_content = "";
     foreach ($custom_fields as $field) {
-        if (isset($_POST['custom_' . sanitize_title($field['label'])])) {
-            $field_value = sanitize_text_field($_POST['custom_' . sanitize_title($field['label'])]);
-            update_post_meta($post_id, 'custom_' . sanitize_title($field['label']), $field_value);
+        if (isset($_POST['thcf_' . sanitize_title($field['label'])])) {
+            $field_value = sanitize_text_field($_POST['thcf_' . sanitize_title($field['label'])]);
+            update_post_meta($post_id, 'thcf_' . sanitize_title($field['label']), $field_value);
             $custom_fields_content .= $field['label'] . ": " . $field_value . "\n";
         }
     }

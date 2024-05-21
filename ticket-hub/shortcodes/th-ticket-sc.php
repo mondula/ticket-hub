@@ -10,18 +10,13 @@ add_shortcode('th_ticket', function ($atts) {
         $ticket_enqueue = true;
     }
 
-    // Extract the ID from shortcode attributes
     $atts = shortcode_atts(array('id' => ''), $atts);
     $post_id = $atts['id'];
 
-    // Start output buffering
     ob_start();
 
-    // Ensure we have a post ID and it's a valid post
     if ($post_id && get_post($post_id)) {
-        // Check post status
         if (get_post_status($post_id) != 'private') {
-            // Get the author ID
             $author_id = get_post_field('post_author', $post_id);
             $email = get_the_author_meta('email', $author_id);
             $first_name = get_the_author_meta('first_name', $author_id);
@@ -30,10 +25,8 @@ add_shortcode('th_ticket', function ($atts) {
             if (empty($first_name) && empty($last_name)) {
                 $ticket_author = get_the_author_meta('display_name', $author_id); // Get the author's display name
             }
-            // Get current th_ticket tags
             $current_tags = wp_get_post_terms($post_id, 'th_ticket_tag', array("fields" => "slugs"));
 
-            // Query for related tickets
             $related_args = array(
                 'post_type' => 'th_ticket',
                 'post_status' => 'publish',
@@ -59,12 +52,11 @@ add_shortcode('th_ticket', function ($atts) {
                 </svg>
                 <a onclick="history.back()" class="th-back-to-archive">Back</a>
                 <?php
-                $ticket_id = get_post_meta($post_id, 'id', true);
+                $ticket_id = get_post_meta($post_id, 'th_ticket_id', true);
                 if (!empty($ticket_id)) {
                     echo '<h3>' . esc_html($ticket_id) . '</h3>';
                 }
 
-                // Display related tickets
                 if ($related_tickets->have_posts()) {
                     echo '<div class="th-related-tickets">';
                     echo '<div><span>Related Tickets</span></div>';
@@ -75,15 +67,14 @@ add_shortcode('th_ticket', function ($atts) {
                     echo '</div>';
                 }
 
-                $value = get_post_meta($post_id, 'description', true);
+                $value = get_post_meta($post_id, 'th_ticket_description', true);
                 if (!empty($value)) {
                     echo '<div class="th-ticket-field"><h4>Description</h4><p>' . esc_html($value) . '<p></div>';
                 }
 
-                // Define the rest of the fields excluding the 'id'.
                 $fields = [
-                    'status' => 'Status',
-                    'type' => 'Type',
+                    'th_ticket_status' => 'Status',
+                    'th_ticket_type' => 'Type',
                 ];
 
                 $zoomSVG = '<svg class="th-zoom-icon" version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -101,7 +92,6 @@ add_shortcode('th_ticket', function ($atts) {
                     </g>
                     </svg>';
 
-                // Iterate through fields and display
                 echo '<div class="th-ticket-info">';
                 $index = 0;
                 foreach ($fields as $field => $label) {
@@ -115,37 +105,33 @@ add_shortcode('th_ticket', function ($atts) {
                 }
                 echo '</div>';
 
-                // Standard fields already included, now include custom fields
                 $custom_fields = get_option('th_custom_fields', []);
                 foreach ($custom_fields as $field) {
-                    $field_value = get_post_meta($post_id, 'custom_' . sanitize_title($field['label']), true);
+                    $field_value = get_post_meta($post_id, 'thcf_' . sanitize_title($field['label']), true);
                     echo '<div class="th-ticket-field">';
                     echo '<h4>' . esc_html($field['label']);
                     echo '</h4>';
                     if ($field['type'] === 'text' || $field['type'] === 'textarea') {
                         echo '<p>' . esc_html($field_value) . '</p>';
                     } elseif ($field['type'] === 'select') {
-                        echo '<p>' . esc_html($field_value) . '</p>'; // Assuming the value is already stored as a simple string
+                        echo '<p>' . esc_html($field_value) . '</p>';
                     }
                     echo '</div>';
                 }
 
-                // Retrieve all attachments for the post
                 $attachments = get_posts(array(
                     'post_type' => 'attachment',
                     'posts_per_page' => -1,
                     'post_parent' => $post_id,
                 ));
 
-                // Initialize arrays for images and other files
                 $image_attachments = [];
                 $other_attachments = [];
 
                 foreach ($attachments as $attachment) {
-                    $file_path = get_attached_file($attachment->ID); // Get the physical file path
-                    $file_type = wp_check_filetype($file_path); // Determine the file type
+                    $file_path = get_attached_file($attachment->ID);
+                    $file_type = wp_check_filetype($file_path);
 
-                    // Categorize attachments by type
                     if (strpos($file_type['type'], 'image') !== false) {
                         $image_attachments[] = $attachment;
                     } else {
@@ -153,7 +139,6 @@ add_shortcode('th_ticket', function ($atts) {
                     }
                 }
 
-                // Output the attachments, starting with images
                 echo '<div class="th-ticket-field"><h4>Attachments</h4>';
                 echo '<div class="th-ticket-attachments">';
                 foreach ($image_attachments as $attachment) {
@@ -172,49 +157,43 @@ add_shortcode('th_ticket', function ($atts) {
             </div>
 <?php
 
-            // Usage within your existing shortcode logic
             if (current_user_can('comment_tickets') || current_user_can('administrator')) {
                 echo '<hr>';
                 echo '<div class="th-ticket-comments">';
                 echo '<h4>Comments</h4>';
 
-                // Retrieve top-level comments for the current th_ticket post
                 $top_level_comments = get_comments(array(
                     'post_id' => $post_id,
                     'status' => 'approve',
-                    'parent' => 0 // Only get top-level comments
+                    'parent' => 0 ,
                 ));
 
                 if ($top_level_comments) {
                     foreach ($top_level_comments as $comment) {
-                        // Display each top-level comment and its nested replies
                         display_comment_with_replies($comment);
                     }
                 } else {
                     echo '<p>No comments yet.</p>';
                 }
 
-                echo '</div>'; // End of th-ticket-comments div
-                // At the end of your shortcode function, after displaying the th-ticket details and comments
+                echo '</div>';
                 echo '<div class="th_ticket-comment-form">';
-                // Check if comments are open for the th_ticket post
                 if (comments_open($post_id)) {
                     $args = array(
                         'post_id' => $post_id,
                         'title_reply' => '',
                         'comment_field' => '<textarea id="comment" name="comment" rows="10" cols="80" class="th-comment-area" placeholder="Type your comment here" required="required"></textarea>',
                         'fields' => array(),
-                        'label_submit' => 'Comment', // Custom text for the submit button
-                        'comment_notes_before' => '', // Custom text before the form
-                        'comment_notes_after' => '', // Custom text after the form
-                        'submit_button' => '<button type="submit" class="th-button">%4$s</button>' // Add your custom class here
+                        'label_submit' => 'Comment',
+                        'comment_notes_before' => '',
+                        'comment_notes_after' => '',
+                        'submit_button' => '<button type="submit" class="th-button">%4$s</button>',
                     );
-                    // Display the comment form for the th_ticket post
                     comment_form($args);
                 } else {
                     echo '<p>Comments are closed for this ticket.</p>';
                 }
-                echo '</div>'; // End of th-ticket-comment-form div
+                echo '</div>';
             }
         } else {
             echo '<p>This ticket is private and cannot be displayed.</p>';
@@ -223,28 +202,22 @@ add_shortcode('th_ticket', function ($atts) {
         echo '<p>Invalid ticket ID.</p>';
     }
 
-    // Return the content
     return ob_get_clean();
 });
 
-// Function to display a comment and its nested replies
 function display_comment_with_replies($comment, $depth = 0)
 {
     echo '<div class="th-comment-wrapper" style="left: relative;">'; // Wrapper div
 
     if ($depth > 0) {
-        // Add the vertical bar for replies (not for top-level comments)
         echo '<div style="margin-left:' . (($depth - 1) * 20) . 'px;" class="th-vertical-bar"></div>';
     }
 
-    // Existing comment display code
     echo '<div class="th-ticket-comment" style="margin-left:' . ($depth * 30) . 'px;">'; // Indent nested comments
     echo '<div class="comment-author"><h5>' . esc_html($comment->comment_author) . '</h5></div>';
     echo '<div class="comment-content"><p>' . esc_html($comment->comment_content) . '</p></div>';
     echo '<div class="th-comment-date"><p>' . esc_html(get_comment_date('', $comment)) . '</p></div>';
-    echo '</div>'; // Close .th-ticket-comment
-
-    // Check for replies
+    echo '</div>';
     $replies = get_comments(array(
         'parent' => $comment->comment_ID,
         'status' => 'approve'
@@ -252,10 +225,9 @@ function display_comment_with_replies($comment, $depth = 0)
 
     if ($replies) {
         foreach ($replies as $reply) {
-            // Recursively display replies
             display_comment_with_replies($reply, $depth + 1);
         }
     }
 
-    echo '</div>'; // Close .th-comment-wrapper
+    echo '</div>';
 }

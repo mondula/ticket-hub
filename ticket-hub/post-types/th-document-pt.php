@@ -3,51 +3,44 @@
 add_action('init', function () {
     register_post_type('th_document', array(
         'labels' => array(
-            'name' => 'Documents',
-            'singular_name' => 'Document',
-            'menu_name' => 'Documents',
-            'all_items' => 'Documents',
-            'edit_item' => 'Edit Document',
-            'view_item' => 'View Document',
-            'view_items' => 'View Documents',
-            'add_new_item' => 'Add New Document',
-            'add_new' => 'Add New Document',
-            'new_item' => 'New Document',
-            'parent_item_colon' => 'Parent Document:',
-            'search_items' => 'Search Documents',
-            'not_found' => 'No documents found',
-            'not_found_in_trash' => 'No documents found in Trash',
-            'archives' => 'Document Archives',
-            'attributes' => 'Document Attributes',
-            'insert_into_item' => 'Insert into document',
-            'uploaded_to_this_item' => 'Uploaded to this document',
-            'filter_items_list' => 'Filter documents list',
-            'filter_by_date' => 'Filter documents by date',
-            'items_list_navigation' => 'Documents list navigation',
-            'items_list' => 'Documents list',
-            'item_published' => 'Document published.',
-            'item_published_privately' => 'Document published privately.',
-            'item_reverted_to_draft' => 'Document reverted to draft.',
-            'item_scheduled' => 'Document scheduled.',
-            'item_updated' => 'Document updated.',
-            'item_link' => 'Document Link',
-            'item_link_description' => 'A link to a document.',
+            'name' => __('Documents', TEXT_DOMAIN),
+            'singular_name' => __('Document', TEXT_DOMAIN),
+            'menu_name' => __('Documents', TEXT_DOMAIN),
+            'all_items' => __('Documents', TEXT_DOMAIN),
+            'edit_item' => __('Edit Document', TEXT_DOMAIN),
+            'view_item' => __('View Document', TEXT_DOMAIN),
+            'view_items' => __('View Documents', TEXT_DOMAIN),
+            'add_new_item' => __('Add New Document', TEXT_DOMAIN),
+            'add_new' => __('Add New Document', TEXT_DOMAIN),
+            'new_item' => __('New Document', TEXT_DOMAIN),
+            'parent_item_colon' => __('Parent Document:', TEXT_DOMAIN),
+            'search_items' => __('Search Documents', TEXT_DOMAIN),
+            'not_found' => __('No documents found', TEXT_DOMAIN),
+            'not_found_in_trash' => __('No documents found in Trash', TEXT_DOMAIN),
+            'archives' => __('Document Archives', TEXT_DOMAIN),
+            'attributes' => __('Document Attributes', TEXT_DOMAIN),
+            'insert_into_item' => __('Insert into document', TEXT_DOMAIN),
+            'uploaded_to_this_item' => __('Uploaded to this document', TEXT_DOMAIN),
+            'filter_items_list' => __('Filter documents list', TEXT_DOMAIN),
+            'filter_by_date' => __('Filter documents by date', TEXT_DOMAIN),
+            'items_list_navigation' => __('Documents list navigation', TEXT_DOMAIN),
+            'items_list' => __('Documents list', TEXT_DOMAIN),
+            'item_published' => __('Document published.', TEXT_DOMAIN),
+            'item_published_privately' => __('Document published privately.', TEXT_DOMAIN),
+            'item_reverted_to_draft' => __('Document reverted to draft.', TEXT_DOMAIN),
+            'item_scheduled' => __('Document scheduled.', TEXT_DOMAIN),
+            'item_updated' => __('Document updated.', TEXT_DOMAIN),
+            'item_link' => __('Document Link', TEXT_DOMAIN),
+            'item_link_description' => __('A link to a document.', TEXT_DOMAIN),
         ),
-        'description' => 'Add links or files as your documentation',
+        'description' => __('Add links or files as your documentation', TEXT_DOMAIN),
         'public' => true,
         'show_in_menu' => 'th_main_menu',
-        'show_in_rest' => true,
         'menu_position' => 4,
+        'show_in_rest' => true,
         'supports' => array(
             0 => 'title',
         ),
-        'has_archive' => false,
-        'rewrite' => array(
-            'feeds' => false,
-            'pages' => false,
-        ),
-        'can_export' => true,
-        'delete_with_user' => false,
     ));
 });
 
@@ -83,8 +76,7 @@ add_action('edit_form_after_title', function ($post) {
         <span id="th-file-name"><?php echo esc_html(get_the_title($file_id)); ?></span>
     </div>
 
-    <div id="th-link-section" style="<?php echo ($type == 'Link' ? '' : 'display: none;'); ?>">
-        <label for="th-document-link">
+__(    <div id="th-link-section" style="<?php echo ($type == 'Link' ? '' : 'display: none;'); ?>">)        <label for="th-document-link">
             <h3>Link</h3>
         </label>
         <input type="url" name="link" id="th-document-link" value="<?php echo esc_url($link); ?>" />
