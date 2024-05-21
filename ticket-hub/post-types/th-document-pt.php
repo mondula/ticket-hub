@@ -3,44 +3,42 @@
 add_action('init', function () {
     register_post_type('th_document', array(
         'labels' => array(
-            'name' => __('Documents', TEXT_DOMAIN),
-            'singular_name' => __('Document', TEXT_DOMAIN),
-            'menu_name' => __('Documents', TEXT_DOMAIN),
-            'all_items' => __('Documents', TEXT_DOMAIN),
-            'edit_item' => __('Edit Document', TEXT_DOMAIN),
-            'view_item' => __('View Document', TEXT_DOMAIN),
-            'view_items' => __('View Documents', TEXT_DOMAIN),
-            'add_new_item' => __('Add New Document', TEXT_DOMAIN),
-            'add_new' => __('Add New Document', TEXT_DOMAIN),
-            'new_item' => __('New Document', TEXT_DOMAIN),
-            'parent_item_colon' => __('Parent Document:', TEXT_DOMAIN),
-            'search_items' => __('Search Documents', TEXT_DOMAIN),
-            'not_found' => __('No documents found', TEXT_DOMAIN),
-            'not_found_in_trash' => __('No documents found in Trash', TEXT_DOMAIN),
-            'archives' => __('Document Archives', TEXT_DOMAIN),
-            'attributes' => __('Document Attributes', TEXT_DOMAIN),
-            'insert_into_item' => __('Insert into document', TEXT_DOMAIN),
-            'uploaded_to_this_item' => __('Uploaded to this document', TEXT_DOMAIN),
-            'filter_items_list' => __('Filter documents list', TEXT_DOMAIN),
-            'filter_by_date' => __('Filter documents by date', TEXT_DOMAIN),
-            'items_list_navigation' => __('Documents list navigation', TEXT_DOMAIN),
-            'items_list' => __('Documents list', TEXT_DOMAIN),
-            'item_published' => __('Document published.', TEXT_DOMAIN),
-            'item_published_privately' => __('Document published privately.', TEXT_DOMAIN),
-            'item_reverted_to_draft' => __('Document reverted to draft.', TEXT_DOMAIN),
-            'item_scheduled' => __('Document scheduled.', TEXT_DOMAIN),
-            'item_updated' => __('Document updated.', TEXT_DOMAIN),
-            'item_link' => __('Document Link', TEXT_DOMAIN),
-            'item_link_description' => __('A link to a document.', TEXT_DOMAIN),
+            'name' => __('Documents', 'tickethub'),
+            'singular_name' => __('Document', 'tickethub'),
+            'menu_name' => __('Documents', 'tickethub'),
+            'all_items' => __('Documents', 'tickethub'),
+            'edit_item' => __('Edit Document', 'tickethub'),
+            'view_item' => __('View Document', 'tickethub'),
+            'view_items' => __('View Documents', 'tickethub'),
+            'add_new_item' => __('Add New Document', 'tickethub'),
+            'add_new' => __('Add New Document', 'tickethub'),
+            'new_item' => __('New Document', 'tickethub'),
+            'parent_item_colon' => __('Parent Document:', 'tickethub'),
+            'search_items' => __('Search Documents', 'tickethub'),
+            'not_found' => __('No documents found', 'tickethub'),
+            'not_found_in_trash' => __('No documents found in Trash', 'tickethub'),
+            'archives' => __('Document Archives', 'tickethub'),
+            'attributes' => __('Document Attributes', 'tickethub'),
+            'insert_into_item' => __('Insert into document', 'tickethub'),
+            'uploaded_to_this_item' => __('Uploaded to this document', 'tickethub'),
+            'filter_items_list' => __('Filter documents list', 'tickethub'),
+            'filter_by_date' => __('Filter documents by date', 'tickethub'),
+            'items_list_navigation' => __('Documents list navigation', 'tickethub'),
+            'items_list' => __('Documents list', 'tickethub'),
+            'item_published' => __('Document published.', 'tickethub'),
+            'item_published_privately' => __('Document published privately.', 'tickethub'),
+            'item_reverted_to_draft' => __('Document reverted to draft.', 'tickethub'),
+            'item_scheduled' => __('Document scheduled.', 'tickethub'),
+            'item_updated' => __('Document updated.', 'tickethub'),
+            'item_link' => __('Document Link', 'tickethub'),
+            'item_link_description' => __('A link to a document.', 'tickethub'),
         ),
-        'description' => __('Add links or files as your documentation', TEXT_DOMAIN),
+        'description' => __('Add links or files as your documentation', 'tickethub'),
         'public' => true,
         'show_in_menu' => 'th_main_menu',
         'menu_position' => 4,
         'show_in_rest' => true,
-        'supports' => array(
-            0 => 'title',
-        ),
+        'supports' => array('title'),
     ));
 });
 
@@ -76,7 +74,7 @@ add_action('edit_form_after_title', function ($post) {
         <span id="th-file-name"><?php echo esc_html(get_the_title($file_id)); ?></span>
     </div>
 
-__(    <div id="th-link-section" style="<?php echo ($type == 'Link' ? '' : 'display: none;'); ?>">)        <label for="th-document-link">
+    __( <div id="th-link-section" style="<?php echo ($type == 'Link' ? '' : 'display: none;'); ?>">) <label for="th-document-link">
             <h3>Link</h3>
         </label>
         <input type="url" name="link" id="th-document-link" value="<?php echo esc_url($link); ?>" />
@@ -133,7 +131,7 @@ add_action('save_post', function ($post_id) {
     }
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return $post_id;
     if (!current_user_can('edit_post', $post_id)) return $post_id;
-    
+
     // Save/update custom fields data.
     if (isset($_POST['file_id'])) {
         update_post_meta($post_id, 'file', sanitize_text_field($_POST['file_id']));

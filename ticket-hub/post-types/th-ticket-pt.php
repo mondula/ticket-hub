@@ -13,50 +13,43 @@ function register_th_ticket_post_type()
 
     register_post_type('th_ticket', array(
         'labels' => array(
-            'name' => __('Tickets'),
-            'singular_name' => __('Ticket', TEXT_DOMAIN),
-            'menu_name' => __('Tickets', TEXT_DOMAIN),
-            'all_items' => __('Tickets', TEXT_DOMAIN),
-            'edit_item' => __('Edit Ticket', TEXT_DOMAIN),
-            'view_item' => __('View Ticket', TEXT_DOMAIN),
-            'view_items' => __('View Tickets', TEXT_DOMAIN),
-            'add_new_item' => __('Add New Ticket', TEXT_DOMAIN),
-            'add_new' => __('Add New Ticket', TEXT_DOMAIN),
-            'new_item' => __('New Ticket', TEXT_DOMAIN),
-            'parent_item_colon' => __('Parent Ticket:', TEXT_DOMAIN),
-            'search_items' => __('Search Tickets', TEXT_DOMAIN),
-            'not_found' => __('No tickets found', TEXT_DOMAIN),
-            'not_found_in_trash' => __('No tickets found in Trash', TEXT_DOMAIN),
-            'archives' => __('Ticket Archives', TEXT_DOMAIN),
-            'attributes' => __('Ticket Attributes', TEXT_DOMAIN),
-            'insert_into_item' => __('Insert into ticket', TEXT_DOMAIN),
-            'uploaded_to_this_item' => __('Uploaded to this ticket', TEXT_DOMAIN),
-            'filter_items_list' => __('Filter tickets list', TEXT_DOMAIN),
-            'filter_by_date' => __('Filter tickets by date', TEXT_DOMAIN),
-            'items_list_navigation' => __('Tickets list navigation', TEXT_DOMAIN),
-            'items_list' => __('Tickets list', TEXT_DOMAIN),
-            'item_published' => __('Ticket published.', TEXT_DOMAIN),
-            'item_published_privately' => __('Ticket published privately.', TEXT_DOMAIN),
-            'item_reverted_to_draft' => __('Ticket reverted to draft.', TEXT_DOMAIN),
-            'item_scheduled' => __('Ticket scheduled.', TEXT_DOMAIN),
-            'item_updated' => __('Ticket updated.', TEXT_DOMAIN),
-            'item_link' => __('Ticket Link', TEXT_DOMAIN),
-            'item_link_description' => __('A link to a ticket.', TEXT_DOMAIN),
+            'name' => __('Tickets', 'tickethub'),
+            'singular_name' => __('Ticket', 'tickethub'),
+            'menu_name' => __('Tickets', 'tickethub'),
+            'all_items' => __('Tickets', 'tickethub'),
+            'edit_item' => __('Edit Ticket', 'tickethub'),
+            'view_item' => __('View Ticket', 'tickethub'),
+            'view_items' => __('View Tickets', 'tickethub'),
+            'add_new_item' => __('Add New Ticket', 'tickethub'),
+            'add_new' => __('Add New Ticket', 'tickethub'),
+            'new_item' => __('New Ticket', 'tickethub'),
+            'parent_item_colon' => __('Parent Ticket:', 'tickethub'),
+            'search_items' => __('Search Tickets', 'tickethub'),
+            'not_found' => __('No tickets found', 'tickethub'),
+            'not_found_in_trash' => __('No tickets found in Trash', 'tickethub'),
+            'archives' => __('Ticket Archives', 'tickethub'),
+            'attributes' => __('Ticket Attributes', 'tickethub'),
+            'insert_into_item' => __('Insert into ticket', 'tickethub'),
+            'uploaded_to_this_item' => __('Uploaded to this ticket', 'tickethub'),
+            'filter_items_list' => __('Filter tickets list', 'tickethub'),
+            'filter_by_date' => __('Filter tickets by date', 'tickethub'),
+            'items_list_navigation' => __('Tickets list navigation', 'tickethub'),
+            'items_list' => __('Tickets list', 'tickethub'),
+            'item_published' => __('Ticket published.', 'tickethub'),
+            'item_published_privately' => __('Ticket published privately.', 'tickethub'),
+            'item_reverted_to_draft' => __('Ticket reverted to draft.', 'tickethub'),
+            'item_scheduled' => __('Ticket scheduled.', 'tickethub'),
+            'item_updated' => __('Ticket updated.', 'tickethub'),
+            'item_link' => __('Ticket Link', 'tickethub'),
+            'item_link_description' => __('A link to a ticket.', 'tickethub'),
         ),
-        'description' => __('These are the tickets created by people.', TEXT_DOMAIN),
+        'description' => __('These are the tickets created by people.', 'tickethub'),
         'public' => true,
         'show_in_menu' => 'th_main_menu',
         'menu_position' => 1,
         'show_in_rest' => true,
-        'menu_position' => 1,
         'supports' => array('title', 'author', 'comments'),
-        'has_archive' => false,
-        'rewrite' => array(
-            'feeds' => false,
-            'pages' => false,
-        ),
-        'can_export' => true,
-        'delete_with_user' => false,
+        'delete_with_user' => true,
         'taxonomies' => array('th_ticket_tag'), // Enable tag support
         'capability_type' => 'post',
         'map_meta_cap' => true,
@@ -64,7 +57,36 @@ function register_th_ticket_post_type()
             'publish_posts' => $auto_publish ? 'publish_th_tickets' : 'draft_th_tickets',
         ),
     ));
-});
+}
+
+function register_th_ticket_tag_taxonomy()
+{
+    register_taxonomy(
+        'th_ticket_tag',
+        'th_ticket',
+        array(
+            'labels' => array(
+                'name' => __('Ticket Tags', 'tickethub'),
+                'singular_name' => __('Ticket Tag', 'tickethub'),
+                'menu_name' => __('Ticket Tags', 'tickethub'),
+                'all_items' => __('All Ticket Tags', 'tickethub'),
+                'edit_item' => __('Edit Ticket Tag', 'tickethub'),
+                'view_item' => __('View Ticket Tag', 'tickethub'),
+                'update_item' => __('Update Ticket Tag', 'tickethub'),
+                'add_new_item' => __('Add New Ticket Tag', 'tickethub'),
+                'new_item_name' => __('New Ticket Tag Name', 'tickethub'),
+                'search_items' => __('Search Ticket Tags', 'tickethub'),
+                'popular_items' => __('Popular Ticket Tags', 'tickethub'),
+                'separate_items_with_commas' => __('Separate ticket tags with commas', 'tickethub'),
+                'add_or_remove_items' => __('Add or remove ticket tags', 'tickethub'),
+                'choose_from_most_used' => __('Choose from the most used ticket tags', 'tickethub'),
+                'not_found' => __('No ticket tags found', 'tickethub'),
+            ),
+            'public' => true,
+            'show_in_rest' => true
+        )
+    );
+}
 
 
 add_action('edit_form_after_title', function ($post) {
@@ -73,30 +95,30 @@ add_action('edit_form_after_title', function ($post) {
     $fields = [
         'th_ticket_id' => [
             'type' => 'text',
-            'label' => __('ID', TEXT_DOMAIN),
+            'label' => __('ID', 'tickethub'),
         ],
         'th_ticket_status' => [
             'type' => 'select',
-            'label' => __('Status', TEXT_DOMAIN),
+            'label' => __('Status', 'tickethub'),
             'options' => [
-                'New' => __('New', TEXT_DOMAIN),
-                'Processing' => __('Processing', TEXT_DOMAIN),
-                'Done' => __('Done', TEXT_DOMAIN),
+                'New' => __('New', 'tickethub'),
+                'Processing' => __('Processing', 'tickethub'),
+                'Done' => __('Done', 'tickethub'),
             ]
         ],
         'th_ticket_type' => [
             'type' => 'select',
-            'label' => __('Type', TEXT_DOMAIN),
+            'label' => __('Type', 'tickethub'),
             'options' => [
                 '' => '- Select Type -',
-                'Support' => __('Support', TEXT_DOMAIN),
-                'Bug report' => __('Bug report', TEXT_DOMAIN),
-                'Change request' => __('Change request', TEXT_DOMAIN),
+                'Support' => __('Support', 'tickethub'),
+                'Bug report' => __('Bug report', 'tickethub'),
+                'Change request' => __('Change request', 'tickethub'),
             ]
         ],
         'th_ticket_description' => [
             'type' => 'textarea',
-            'label' => __('Description', TEXT_DOMAIN),
+            'label' => __('Description', 'tickethub'),
         ],
     ];
 

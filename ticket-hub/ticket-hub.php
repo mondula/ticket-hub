@@ -12,7 +12,6 @@ Text Domain: tickethub
 */
 
 define('PLUGIN_ROOT', plugin_dir_url(__FILE__));
-define('TEXT_DOMAIN', 'tickethub');
 
 function mondula_require_files($directory, $files)
 {
