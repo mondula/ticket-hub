@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TicketHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-21 16:22+0000\n"
+"POT-Creation-Date: 2024-05-22 16:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -15,6 +15,18 @@ msgstr ""
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.6.9; wp-6.5.2\n"
 "X-Domain: tickethub"
+
+#: post-types/th-ticket-pt.php:131
+msgid "- Select Type -"
+msgstr ""
+
+#: shortcodes/th-tickets-sc.php:43
+msgid "- Status -"
+msgstr ""
+
+#: shortcodes/th-tickets-sc.php:48 shortcodes/th-documentation-sc.php:42
+msgid "- Type -"
+msgstr ""
 
 #: post-types/th-change-pt.php:34
 msgid "A link to a change."
@@ -52,19 +64,51 @@ msgstr ""
 msgid "Add New Ticket"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:76
+#: post-types/th-ticket-pt.php:94
 msgid "Add New Ticket Tag"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:81
+#: post-types/th-ticket-pt.php:99
 msgid "Add or remove ticket tags"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:72
+#: includes/th-form-subpage.php:49
+msgid "Add Ticket Form Fields"
+msgstr ""
+
+#: includes/th-user-subpage.php:71
+msgid "Add User"
+msgstr ""
+
+#: post-types/th-ticket-pt.php:90
 msgid "All Ticket Tags"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:115
+#: post-types/th-faq-pt.php:66
+msgid "Answer"
+msgstr ""
+
+#: shortcodes/th-tickets-sc.php:37
+msgid "Archive"
+msgstr ""
+
+#: shortcodes/th-ticket-sc.php:140
+msgid "Attachments"
+msgstr ""
+
+#: shortcodes/th-form-sc.php:31
+msgid "Attachments (optional)"
+msgstr ""
+
+#: post-types/th-ticket-pt.php:170
+msgid "Attachments:"
+msgstr ""
+
+#: shortcodes/th-ticket-sc.php:54
+msgid "Back"
+msgstr ""
+
+#: post-types/th-ticket-pt.php:133 shortcodes/th-tickets-sc.php:30
 msgid "Bug report"
 msgstr ""
 
@@ -92,7 +136,7 @@ msgstr ""
 msgid "Change published."
 msgstr ""
 
-#: post-types/th-ticket-pt.php:116
+#: post-types/th-ticket-pt.php:134 shortcodes/th-tickets-sc.php:31
 msgid "Change request"
 msgstr ""
 
@@ -121,11 +165,28 @@ msgstr ""
 msgid "Changes list navigation"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:82
+#: post-types/th-ticket-pt.php:100
 msgid "Choose from the most used ticket tags"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:121
+#: shortcodes/th-ticket-sc.php:161
+msgid "Comments"
+msgstr ""
+
+#: shortcodes/th-form-sc.php:162
+msgid "Confirmation of Your Ticket Submission"
+msgstr ""
+
+#: shortcodes/th-tickets-sc.php:137
+msgid "Created by"
+msgstr ""
+
+#: shortcodes/th-tickets-sc.php:56 shortcodes/th-tickets-sc.php:135
+msgid "Date"
+msgstr ""
+
+#: post-types/th-ticket-pt.php:139 shortcodes/th-ticket-sc.php:70
+#: shortcodes/th-form-sc.php:28
 msgid "Description"
 msgstr ""
 
@@ -178,8 +239,16 @@ msgstr ""
 msgid "Documents list navigation"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:106
+#: post-types/th-ticket-pt.php:124 shortcodes/th-tickets-sc.php:26
 msgid "Done"
+msgstr ""
+
+#: shortcodes/th-documentation-sc.php:71
+msgid "Download"
+msgstr ""
+
+#: shortcodes/th-ticket-sc.php:100
+msgid "E-Mail"
 msgstr ""
 
 #: post-types/th-change-pt.php:10
@@ -198,8 +267,16 @@ msgstr ""
 msgid "Edit Ticket"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:73
+#: post-types/th-ticket-pt.php:91
 msgid "Edit Ticket Tag"
+msgstr ""
+
+#: includes/th-user-subpage.php:84 includes/th-user-subpage.php:97
+msgid "Email"
+msgstr ""
+
+#: includes/th-user-subpage.php:48
+msgid "Email already exists."
 msgstr ""
 
 #: post-types/th-faq-pt.php:7
@@ -251,6 +328,10 @@ msgstr ""
 msgid "FAQs list navigation"
 msgstr ""
 
+#: post-types/th-document-pt.php:63 post-types/th-document-pt.php:70
+msgid "File"
+msgstr ""
+
 #: post-types/th-change-pt.php:25
 msgid "Filter changes by date"
 msgstr ""
@@ -283,12 +364,29 @@ msgstr ""
 msgid "Filter tickets list"
 msgstr ""
 
+#: includes/th-user-subpage.php:76 includes/th-user-subpage.php:95
+msgid "First Name"
+msgstr ""
+
+#: shortcodes/th-profile-sc.php:48
+#, php-format
+msgid "Hello %s"
+msgstr ""
+
+#: shortcodes/th-form-sc.php:161
+#, php-format
+msgid ""
+"Hello %s,\\n\\nThank you for submitting your ticket. It will now be reviewed."
+"\\n\\nBest regards,\\nYour Support Team"
+msgstr ""
+
 #. URI of the plugin
 #. Author URI of the plugin
 msgid "https://mondula.com"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:98
+#: post-types/th-ticket-pt.php:116 shortcodes/th-tickets-sc.php:56
+#: shortcodes/th-tickets-sc.php:132
 msgid "ID"
 msgstr ""
 
@@ -308,15 +406,44 @@ msgstr ""
 msgid "Insert into ticket"
 msgstr ""
 
-#: shortcodes/th-profile-sc.php:23
+#: shortcodes/th-ticket-sc.php:200
+msgid "Invalid ticket ID."
+msgstr ""
+
+#: shortcodes/th-tickets-sc.php:58 shortcodes/th-ticket-sc.php:99
+msgid "Issuer"
+msgstr ""
+
+#: includes/th-user-subpage.php:80 includes/th-user-subpage.php:96
+msgid "Last Name"
+msgstr ""
+
+#: post-types/th-document-pt.php:64 post-types/th-document-pt.php:79
+#: shortcodes/th-documentation-sc.php:42
+msgid "Link"
+msgstr ""
+
+#: includes/th-user-subpage.php:90
+msgid "List of Users"
+msgstr ""
+
+#: shortcodes/th-profile-sc.php:22
 msgid "Log In"
+msgstr ""
+
+#: shortcodes/th-profile-sc.php:47
+msgid "Logout"
 msgstr ""
 
 #. Author of the plugin
 msgid "Mondula GmbH"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:104
+#: shortcodes/th-documentation-sc.php:51
+msgid "Name"
+msgstr ""
+
+#: post-types/th-ticket-pt.php:122 shortcodes/th-tickets-sc.php:24
 msgid "New"
 msgstr ""
 
@@ -336,8 +463,20 @@ msgstr ""
 msgid "New Ticket"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:77
+#: shortcodes/th-form-sc.php:156
+msgid "New Ticket Submitted"
+msgstr ""
+
+#: post-types/th-ticket-pt.php:95
 msgid "New Ticket Tag Name"
+msgstr ""
+
+#: includes/th-user-subpage.php:61
+msgid "New User created."
+msgstr ""
+
+#: shortcodes/th-tickets-sc.php:152
+msgid "Next"
 msgstr ""
 
 #: post-types/th-change-pt.php:18
@@ -346,6 +485,14 @@ msgstr ""
 
 #: post-types/th-change-pt.php:19
 msgid "No changes found in Trash"
+msgstr ""
+
+#: shortcodes/th-changelog-sc.php:40
+msgid "No changes found."
+msgstr ""
+
+#: shortcodes/th-ticket-sc.php:174
+msgid "No comments yet."
 msgstr ""
 
 #: post-types/th-document-pt.php:18
@@ -364,7 +511,11 @@ msgstr ""
 msgid "No faqs found in Trash"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:83
+#: shortcodes/th-faqs-sc.php:38
+msgid "No FAQs found."
+msgstr ""
+
+#: post-types/th-ticket-pt.php:101
 msgid "No ticket tags found"
 msgstr ""
 
@@ -374,6 +525,14 @@ msgstr ""
 
 #: post-types/th-ticket-pt.php:29
 msgid "No tickets found in Trash"
+msgstr ""
+
+#: includes/th-user-subpage.php:115
+msgid "No Users found."
+msgstr ""
+
+#: shortcodes/th-documentation-sc.php:84
+msgid "Open"
 msgstr ""
 
 #: post-types/th-change-pt.php:16
@@ -392,20 +551,36 @@ msgstr ""
 msgid "Parent Ticket:"
 msgstr ""
 
-#: shortcodes/th-profile-sc.php:21
+#: shortcodes/th-profile-sc.php:20
 msgid "Password"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:79
+#: post-types/th-ticket-pt.php:97
 msgid "Popular Ticket Tags"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:105
+#: shortcodes/th-tickets-sc.php:151
+msgid "Previous"
+msgstr ""
+
+#: post-types/th-ticket-pt.php:123 shortcodes/th-tickets-sc.php:25
 msgid "Processing"
 msgstr ""
 
-#: shortcodes/th-profile-sc.php:22
+#: shortcodes/th-profile-sc.php:47
+msgid "Profile"
+msgstr ""
+
+#: shortcodes/th-ticket-sc.php:62
+msgid "Related Tickets"
+msgstr ""
+
+#: shortcodes/th-profile-sc.php:21
 msgid "Remember Me"
+msgstr ""
+
+#: shortcodes/th-tickets-sc.php:35 shortcodes/th-documentation-sc.php:41
+msgid "Search"
 msgstr ""
 
 #: post-types/th-change-pt.php:17
@@ -420,7 +595,7 @@ msgstr ""
 msgid "Search FAQs"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:78
+#: post-types/th-ticket-pt.php:96
 msgid "Search Ticket Tags"
 msgstr ""
 
@@ -428,20 +603,53 @@ msgstr ""
 msgid "Search Tickets"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:80
+#: shortcodes/th-form-sc.php:67
+msgid "Security check failed"
+msgstr ""
+
+#: post-types/th-document-pt.php:73
+msgid "Select File"
+msgstr ""
+
+#: post-types/th-ticket-pt.php:98
 msgid "Separate ticket tags with commas"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:102
+#: shortcodes/th-form-sc.php:25
+msgid "Short Description"
+msgstr ""
+
+#: post-types/th-ticket-pt.php:120 shortcodes/th-tickets-sc.php:56
+#: shortcodes/th-tickets-sc.php:133 shortcodes/th-ticket-sc.php:73
 msgid "Status"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:114
+#: post-types/th-ticket-pt.php:237
+msgid "Status Update Notification"
+msgstr ""
+
+#: shortcodes/th-form-sc.php:55
+msgid "Submit"
+msgstr ""
+
+#: post-types/th-ticket-pt.php:132 shortcodes/th-tickets-sc.php:29
 msgid "Support"
+msgstr ""
+
+#: includes/th-form-subpage.php:59
+msgid "Text"
+msgstr ""
+
+#: includes/th-form-subpage.php:60
+msgid "Textarea"
 msgstr ""
 
 #: post-types/th-ticket-pt.php:46
 msgid "These are the tickets created by people."
+msgstr ""
+
+#: shortcodes/th-ticket-sc.php:197
+msgid "This ticket is private and cannot be displayed."
 msgstr ""
 
 #: post-types/th-ticket-pt.php:17
@@ -476,11 +684,15 @@ msgstr ""
 msgid "Ticket scheduled."
 msgstr ""
 
-#: post-types/th-ticket-pt.php:70
+#: shortcodes/th-form-sc.php:164
+msgid "Ticket submitted successfully"
+msgstr ""
+
+#: post-types/th-ticket-pt.php:88
 msgid "Ticket Tag"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:69 post-types/th-ticket-pt.php:71
+#: post-types/th-ticket-pt.php:87 post-types/th-ticket-pt.php:89
 msgid "Ticket Tags"
 msgstr ""
 
@@ -509,11 +721,13 @@ msgstr ""
 msgid "Tickets list navigation"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:111
+#: post-types/th-ticket-pt.php:129 post-types/th-document-pt.php:60
+#: shortcodes/th-tickets-sc.php:56 shortcodes/th-tickets-sc.php:134
+#: shortcodes/th-ticket-sc.php:74 shortcodes/th-documentation-sc.php:51
 msgid "Type"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:75
+#: post-types/th-ticket-pt.php:93
 msgid "Update Ticket Tag"
 msgstr ""
 
@@ -533,7 +747,7 @@ msgstr ""
 msgid "Uploaded to this ticket"
 msgstr ""
 
-#: shortcodes/th-profile-sc.php:20
+#: shortcodes/th-profile-sc.php:19 includes/th-user-subpage.php:94
 msgid "Username"
 msgstr ""
 
@@ -565,10 +779,18 @@ msgstr ""
 msgid "View Ticket"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:74
+#: post-types/th-ticket-pt.php:92
 msgid "View Ticket Tag"
 msgstr ""
 
 #: post-types/th-ticket-pt.php:22
 msgid "View Tickets"
+msgstr ""
+
+#: shortcodes/th-form-sc.php:63
+msgid "You do not have permission to submit tickets."
+msgstr ""
+
+#: shortcodes/th-profile-sc.php:51
+msgid "Your Tickets"
 msgstr ""
