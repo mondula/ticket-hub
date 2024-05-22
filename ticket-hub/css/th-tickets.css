@@ -62,7 +62,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap-reverse;
   padding: 10px 0;
+  row-gap: 20px;
 }
 
 #th-ticket-status,
@@ -88,6 +90,8 @@
 .th-tickets-filter-container {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
 }
 
 .th-switch-container {
@@ -97,6 +101,7 @@
   padding: 3px 5px 3px 25px;
   background-color: #eee;
   border-radius: 25px;
+  font-size: 15px;
 }
 
 /* The switch - the box around the th-slider */

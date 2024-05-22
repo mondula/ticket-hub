@@ -39,7 +39,7 @@ add_shortcode('th_documentation', function () {
     // Output the search field and dropdown for filtering by document type (File types or Link)
     echo '<div class="th-document-controls">';
     echo '<input type="text" id="search" placeholder="' . __('Search', 'tickethub') . '">';
-    echo '<select id="th-document-type" class="th-select"><option value="">' . __('All Types', 'tickethub') . '</option><option value="LINK">' . __('Link', 'tickethub') . '</option>';
+    echo '<select id="th-document-type" class="th-select"><option value="">' . __('- Type -', 'tickethub') . '</option><option value="LINK">' . __('Link', 'tickethub') . '</option>';
     foreach ($file_types as $file_type) {
         echo '<option value="' . esc_attr($file_type) . '">' . esc_html($file_type) . '</option>';
     }

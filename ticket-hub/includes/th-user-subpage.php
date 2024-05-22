@@ -45,7 +45,7 @@ function th_user_form_page()
         }
 
         if (email_exists($email)) {
-            echo '<div class="error"><p>Email already exists.</p></div>';
+            echo '<div class="error"><p>' . __('Email already exists.', 'tickethub') . '</p></div>';
         } else {
             $user_id = wp_create_user($username, wp_generate_password(), $email);
             if (!is_wp_error($user_id)) {
@@ -58,7 +58,7 @@ function th_user_form_page()
 
                 wp_send_new_user_notifications($user_id, 'user');
 
-                echo '<div class="updated"><p>New User created.</p></div>';
+                echo '<div class="updated"><p>' . __('New User created.', 'tickethub') . '</p></div>';
             } else {
                 echo '<div class="error"><p>Error creating user: ' . $user_id->get_error_message() . '</p></div>';
             }
@@ -68,33 +68,33 @@ function th_user_form_page()
     // Display the form
 ?>
     <div class="wrap">
-        <h2>Add User</h2>
+        <h2><?php _e('Add User', 'tickethub') ?></h2>
         <form method="post">
             <?php wp_nonce_field('create_th_user', 'create_user_nonce'); ?>
             <table class="form-table">
                 <tr>
-                    <th><label for="first_name">First Name</label></th>
+                    <th><label for="first_name"><?php _e('First Name', 'tickethub') ?></label></th>
                     <td><input type="text" name="first_name" id="first_name" required></td>
                 </tr>
                 <tr>
-                    <th><label for="last_name">Last Name</label></th>
+                    <th><label for="last_name"><?php _e('Last Name', 'tickethub') ?></label></th>
                     <td><input type="text" name="last_name" id="last_name" required></td>
                 </tr>
                 <tr>
-                    <th><label for="email">Email</label></th>
+                    <th><label for="email"><?php _e('Email', 'tickethub') ?></label></th>
                     <td><input type="email" name="email" id="email" required></td>
                 </tr>
             </table>
             <input type="submit" class="button button-primary" value="Create User">
         </form>
-        <h2 style="margin-top: 50px;">List of Users</h2>
+        <h2 style="margin-top: 50px;"><?php _e('List of Users', 'tickethub') ?></h2>
         <table class="wp-list-table widefat fixed striped">
             <thead>
                 <tr>
-                    <th>Username</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
+                    <th><?php _e('Username', 'tickethub') ?></th>
+                    <th><?php _e('First Name', 'tickethub') ?></th>
+                    <th><?php _e('Last Name', 'tickethub') ?></th>
+                    <th><?php _e('Email', 'tickethub') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -112,7 +112,7 @@ function th_user_form_page()
                         echo '</tr>';
                     }
                 } else {
-                    echo '<tr><td colspan="4">No Users found.</td></tr>';
+                    echo '<tr><td colspan="4">' . __('No Users found.', 'tickethub') . '</td></tr>';
                 }
                 ?>
             </tbody>
