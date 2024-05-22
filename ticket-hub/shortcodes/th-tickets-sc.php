@@ -40,12 +40,12 @@ add_shortcode('th_tickets', function ($atts) {
     echo '<span class="th-slider th-round"></span>';
     echo '</div>';
     echo '</label>';
-    echo '<select id="th-ticket-status" class="th-select"><option value="">' . __('Status', 'tickethub') . '</option>';
+    echo '<select id="th-ticket-status" class="th-select"><option value="">' . __('- Status -', 'tickethub') . '</option>';
     foreach ($status_choices as $value => $label) {
         echo '<option value="' . esc_attr($value) . '">' . esc_html($label) . '</option>';
     }
     echo '</select>';
-    echo '<select id="th-ticket-type" class="th-select"><option value="">' . __('Type', 'tickethub') . '</option>';
+    echo '<select id="th-ticket-type" class="th-select"><option value="">' . __('- Type -', 'tickethub') . '</option>';
     foreach ($type_choices as $value => $label) {
         echo '<option value="' . esc_attr($value) . '">' . esc_html($label) . '</option>';
     }
