@@ -46,7 +46,7 @@ function th_ticket_editor_page()
     // The HTML form
 ?>
     <div class="wrap">
-        <h2>Add Ticket Form Fields</h2>
+        <h2><?php _e('Add Ticket Form Fields', 'tickethub') ?></h2>
         <form method="post" action="">
             <?php wp_nonce_field('th_save_ticket_fields', 'th_ticket_fields_nonce'); ?>
             <table class="form-table" id="custom_fields_table">
@@ -56,8 +56,8 @@ function th_ticket_editor_page()
                         <tr class="field-row">
                             <td>
                                 <select name="input_type[]" class="input-type">
-                                    <option value="text" <?php selected($field['type'], 'text'); ?>>Text</option>
-                                    <option value="textarea" <?php selected($field['type'], 'textarea'); ?>>Textarea</option>
+                                    <option value="text" <?php selected($field['type'], 'text'); ?>><?php _e('Text', 'tickethub') ?></option>
+                                    <option value="textarea" <?php selected($field['type'], 'textarea'); ?>><?php _e('Textarea', 'tickethub') ?></option>
                                     <option value="select" <?php selected($field['type'], 'select'); ?>>Select</option>
                                 </select>
                             </td>

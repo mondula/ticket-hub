@@ -34,6 +34,7 @@ mondula_require_files(
 
 
 add_action('init', function () {
+    load_plugin_textdomain('tickethub', false, dirname(plugin_basename(__FILE__)) . '/languages/');
     mondula_require_files('includes', ['th-page-settings.php', 'th-user-subpage.php', 'th-form-subpage.php', 'th-ticket-tag-subpage.php']);
     mondula_require_files('shortcodes', ['th-changelog-sc.php', 'th-documentation-sc.php', 'th-faqs-sc.php', 'th-form-sc.php', 'th-ticket-sc.php', 'th-tickets-sc.php', 'th-profile-sc.php']);
 
