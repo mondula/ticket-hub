@@ -54,10 +54,28 @@ function register_th_ticket_post_type()
         'capability_type' => 'post',
         'map_meta_cap' => true,
         'capabilities' => array(
-            'publish_posts' => $auto_publish ? 'publish_th_tickets' : 'draft_th_tickets',
+            'edit_post' => 'edit_th_ticket',
+            'read_post' => 'read_th_ticket',
+            'delete_post' => 'delete_th_ticket',
+            'edit_posts' => 'edit_th_tickets',
+            'edit_others_posts' => 'edit_others_th_tickets',
+            'publish_posts' => 'publish_th_tickets',
+            'read_private_posts' => 'read_private_th_tickets',
         ),
+        'has_archive' => true,
     ));
 }
+
+add_action('admin_init', function() {
+    $role = get_role('administrator');
+    $role->add_cap('edit_th_ticket');
+    $role->add_cap('read_th_ticket');
+    $role->add_cap('delete_th_ticket');
+    $role->add_cap('edit_th_tickets');
+    $role->add_cap('edit_others_th_tickets');
+    $role->add_cap('publish_th_tickets');
+    $role->add_cap('read_private_th_tickets');
+});
 
 function register_th_ticket_tag_taxonomy()
 {
