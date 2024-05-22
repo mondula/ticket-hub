@@ -2,8 +2,6 @@
 
 add_shortcode('th_tickets', function ($atts) {
 
-    // NOTE: This shortcode should only be unsed once per site!!!
-
     static $tickets_enqueue = false;
 
     $attributes = shortcode_atts(array(
@@ -22,35 +20,32 @@ add_shortcode('th_tickets', function ($atts) {
 
     ob_start();
 
-    // Status and Type choices remain unchanged
     $status_choices = array(
-        'New' => 'New',
-        'Processing' => 'Processing',
-        'Done' => 'Done'
+        'New' => __('New', 'tickethub'),
+        'Processing' => __('Processing', 'tickethub'),
+        'Done' => __('Done', 'tickethub')
     );
     $type_choices = array(
-        'Support' => 'Support',
-        'Bug report' => 'Bug report',
-        'Change request' => 'Change request'
+        'Support' => __('Support', 'tickethub'),
+        'Bug report' => __('Bug report', 'tickethub'),
+        'Change request' => __('Change request', 'tickethub')
     );
 
-    // Ticket controls remain unchanged
     echo '<div class="th-ticket-controls">';
-    echo '<input type="text" id="th-ticket-search" placeholder="Search">';
+    echo '<input type="text" id="th-ticket-search" placeholder="' . __('Search', 'tickethub') . '">';
     echo '<div class="th-tickets-filter-container">';
-    echo '<label for="th-toggle-archive" class="th-switch-container">';  // Start label here
-    echo 'Archive';  // Label text
+    echo '<label for="th-toggle-archive" class="th-switch-container">' . __('Archive', 'tickethub');
     echo '<div class="th-switch">';
     echo '<input type="checkbox" id="th-toggle-archive">';
     echo '<span class="th-slider th-round"></span>';
     echo '</div>';
-    echo '</label>';  // Close label here
-    echo '<select id="th-ticket-status" class="th-select"><option value="">Status</option>';
+    echo '</label>';
+    echo '<select id="th-ticket-status" class="th-select"><option value="">' . __('Status', 'tickethub') . '</option>';
     foreach ($status_choices as $value => $label) {
         echo '<option value="' . esc_attr($value) . '">' . esc_html($label) . '</option>';
     }
     echo '</select>';
-    echo '<select id="th-ticket-type" class="th-select"><option value="">Type</option>';
+    echo '<select id="th-ticket-type" class="th-select"><option value="">' . __('Type', 'tickethub') . '</option>';
     foreach ($type_choices as $value => $label) {
         echo '<option value="' . esc_attr($value) . '">' . esc_html($label) . '</option>';
     }
@@ -58,14 +53,13 @@ add_shortcode('th_tickets', function ($atts) {
     echo '</div>';
     echo '</div>';
 
-    // Modified table headers to include "Date" and "Issuer"
-    echo '<table class="th-ticket-table"><thead><tr><th>ID</th><th>Status</th><th>Type</th><th>Date</th>';
+    echo '<table class="th-ticket-table"><thead><tr><th>' . __('ID', 'tickethub') . '</th><th>' . __('Status', 'tickethub') . '</th><th>' . __('Type', 'tickethub') . '</th><th>' . __('Date', 'tickethub') . '</th>';
     if (empty($attributes['user_id'])) {
-        echo '<th>Issuer</th>';
+        echo '<th>' . __('Issuer', 'tickethub') . '</th>';
     }
     echo '</tr></thead><tbody id="th-tickets-container">';
     echo '</tbody></table>';
-    echo '<div id="th-ticket-pagination"></div>';  // Pagination container
+    echo '<div id="th-ticket-pagination"></div>';
 
     return ob_get_clean();
 });
@@ -135,12 +129,12 @@ function fetch_tickets_ajax()
         }
 
         $output .= "<tr>";
-        $output .= "<td><span class='th-mobile-table-header'>ID</span><a href='$ticket_link'>$ticket_id</a></td>";
-        $output .= "<td><span class='th-mobile-table-header'>Status</span><span class='th-status-chip' data-status='$ticket_status'>$ticket_status</span></td>";
-        $output .= "<td><span class='th-mobile-table-header'>Type</span>$ticket_type</td>";
-        $output .= "<td class='th-comment-date'><span class='th-mobile-table-header'>Date</span>$ticket_date</td>";
+        $output .= "<td><span class='th-mobile-table-header'>" . __('ID', 'tickethub') . "</span><a href='$ticket_link'>$ticket_id</a></td>";
+        $output .= "<td><span class='th-mobile-table-header'>" . __('Status', 'tickethub') . "</span><span class='th-status-chip' data-status='$ticket_status'>$ticket_status</span></td>";
+        $output .= "<td><span class='th-mobile-table-header'>" . __('Type', 'tickethub') . "</span>$ticket_type</td>";
+        $output .= "<td class='th-comment-date'><span class='th-mobile-table-header'>" . __('Date', 'tickethub') . "</span>$ticket_date</td>";
         if (empty($user_id)) {
-            $output .= "<td><span class='th-mobile-table-header'>Created by</span>$ticket_author</td>";
+            $output .= "<td><span class='th-mobile-table-header'>" . __('Created by', 'tickethub') . "</span>$ticket_author</td>";
         }
         $output .= "</tr>";
     }
@@ -154,15 +148,14 @@ function fetch_tickets_ajax()
         'current'   => $page,
         'mid_size'  => 2,
         'prev_next' => true,
-        'prev_text' => '',
-        'next_text' => '',
+        'prev_text' => __('Previous', 'tickethub'),
+        'next_text' => __('Next', 'tickethub'),
         'end_size'  => 1,
         'type'      => 'array'
     ));
 
     $pagination_html = '';
     if (is_array($pagination)) {
-        $pagination_html = implode(' ', $pagination);
         $pagination_html = "<div class='th-pagination-wrap'>";
         foreach ($pagination as $page) {
             if (strpos($page, 'current') !== false) {

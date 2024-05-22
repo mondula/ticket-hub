@@ -63,7 +63,7 @@ add_action('edit_form_after_title', function ($post) {
 	);
 
 	// Display the label
-	echo '<h3>Answer</h3>';
+	echo '<h3>' . __('Answer', 'tickethub') . '</h3>';
 
 	// Display the editor
 	wp_editor($answer_content, 'th_answer_editor', $settings);

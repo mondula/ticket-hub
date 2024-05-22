@@ -110,7 +110,7 @@ add_action('edit_form_after_title', function ($post) {
             'type' => 'select',
             'label' => __('Type', 'tickethub'),
             'options' => [
-                '' => '- Select Type -',
+                '' => __('- Select Type -', 'tickethub'),
                 'Support' => __('Support', 'tickethub'),
                 'Bug report' => __('Bug report', 'tickethub'),
                 'Change request' => __('Change request', 'tickethub'),
@@ -149,7 +149,7 @@ add_action('edit_form_after_title', function ($post) {
     $attachments = get_posts($args);
 
     if ($attachments) {
-        echo '<label><h3>Attachments:</h3></label>';
+        echo '<label><h3>' . __('Attachments:', 'tickethub') . '</h3></label>';
         echo '<ul>';
         foreach ($attachments as $attachment) {
             $attachment_url = wp_get_attachment_url($attachment->ID);
@@ -216,7 +216,7 @@ add_action('updated_post_meta', function ($meta_id, $post_id, $meta_key, $meta_v
         }
 
         if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $subject = 'Status Update Notification';
+            $subject = __('Status Update Notification', 'tickethub');
             $message = 'The status of your ticket (ID: <a href="' . $ticket_link . '">' . $id . '</a>) has been updated to: ' . $meta_value . '.';
             $headers = array('Content-Type: text/html; charset=UTF-8');
 

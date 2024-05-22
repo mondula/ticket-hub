@@ -38,8 +38,8 @@ add_shortcode('th_documentation', function () {
 
     // Output the search field and dropdown for filtering by document type (File types or Link)
     echo '<div class="th-document-controls">';
-    echo '<input type="text" id="search" placeholder="Search">';
-    echo '<select id="th-document-type" class="th-select"><option value="">All Types</option><option value="LINK">Link</option>';
+    echo '<input type="text" id="search" placeholder="' . __('Search', 'tickethub') . '">';
+    echo '<select id="th-document-type" class="th-select"><option value="">' . __('All Types', 'tickethub') . '</option><option value="LINK">' . __('Link', 'tickethub') . '</option>';
     foreach ($file_types as $file_type) {
         echo '<option value="' . esc_attr($file_type) . '">' . esc_html($file_type) . '</option>';
     }
@@ -48,7 +48,7 @@ add_shortcode('th_documentation', function () {
 
     // Query for the actual display
     $the_query = new WP_Query($args);
-    echo '<table class="th-document-table"><thead><tr><th>Type</th><th>Name</th></tr></thead><tbody>';
+    echo '<table class="th-document-table"><thead><tr><th>' . __('Type', 'tickethub') . '</th><th>' . __('Name', 'tickethub') . '</th></tr></thead><tbody>';
     while ($the_query->have_posts()) {
         $the_query->the_post();
 
@@ -68,9 +68,10 @@ add_shortcode('th_documentation', function () {
             $mime_type = get_post_mime_type($file_id);
             $file_extension = strtoupper(array_reverse(explode('/', $mime_type))[0]);
             $type_display = $file_extension;
-            $button_text = '<span class="th-hide-text-mobile">' . 'Download' . '</span>';
+            $button_text = '<span class="th-hide-text-mobile">' . __('Download', 'tickethub') . '</span>';
             $download_attribute = " download";
             // Set the download SVG icon for files
+            // TODO: Turn SVG Sting into pseudo element with CSS
             $icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15.07" height="15.907" viewBox="0 0 15.07 15.907">
                 <g id="Gruppe_39" data-name="Gruppe 39">
                 <path id="Pfad_8" data-name="Pfad 8" d="M7.361,8.863V.837a.837.837,0,0,0-1.674,0V8.863L2.93,6.107A.838.838,0,0,0,1.745,7.29l4.779,4.777L11.3,7.29a.838.838,0,1,0-1.185-1.184Z" transform="translate(1.011)" fill="#fff"/>
@@ -80,8 +81,9 @@ add_shortcode('th_documentation', function () {
         } elseif ($document_type === 'Link') {
             $document_url = get_post_meta($document_id, 'link', true);
             $type_display = 'LINK';
-            $button_text = '<span class="th-hide-text-mobile">' . 'Open' . '</span>';
+            $button_text = '<span class="th-hide-text-mobile">' . __('Open', 'tickethub') . '</span>';
             // Set the open SVG icon for links
+            // TODO: Turn SVG Sting into pseudo element with CSS
             $icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
                 <g id="Gruppe_99" data-name="Gruppe 99" transform="translate(-3 -0.01)">
                 <g id="Gruppe_98" data-name="Gruppe 98" transform="translate(3 0.188)">

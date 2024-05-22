@@ -43,6 +43,7 @@ add_shortcode('th_ticket', function ($atts) {
             $related_tickets = new WP_Query($related_args);
 ?>
             <div class="th-ticket-details">
+                <!-- TODO: Turn SVG into pseudo element with CSS -->
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="22" height="13" viewBox="0 0 22 13">
                     <g id="Gruppe_54" data-name="Gruppe 54" transform="translate(21.648 13) rotate(180)">
                         <g id="Gruppe_53" data-name="Gruppe 53" transform="translate(-0.355)">
@@ -50,7 +51,7 @@ add_shortcode('th_ticket', function ($atts) {
                         </g>
                     </g>
                 </svg>
-                <a onclick="history.back()" class="th-back-to-archive">Back</a>
+                <a onclick="history.back()" class="th-back-to-archive"><?php _e('Back', 'tickethub') ?></a>
                 <?php
                 $ticket_id = get_post_meta($post_id, 'th_ticket_id', true);
                 if (!empty($ticket_id)) {
@@ -58,8 +59,7 @@ add_shortcode('th_ticket', function ($atts) {
                 }
 
                 if ($related_tickets->have_posts()) {
-                    echo '<div class="th-related-tickets">';
-                    echo '<div><span>Related Tickets</span></div>';
+                    echo '<div class="th-related-tickets"><span>' . __('Related Tickets', 'tickethub') . '</span>';
                     while ($related_tickets->have_posts()) {
                         $related_tickets->the_post();
                         echo '<div><a href="' . get_permalink() . '">' . get_the_title() . '</a></div>';
@@ -67,16 +67,14 @@ add_shortcode('th_ticket', function ($atts) {
                     echo '</div>';
                 }
 
-                $value = get_post_meta($post_id, 'th_ticket_description', true);
-                if (!empty($value)) {
-                    echo '<div class="th-ticket-field"><h4>Description</h4><p>' . esc_html($value) . '<p></div>';
-                }
+                echo '<div class="th-ticket-field"><h4>' . __('Description', 'tickethub') . '</h4><p>' . esc_html(get_post_meta($post_id, 'th_ticket_description', true)) . '</p></div>';
 
                 $fields = [
-                    'th_ticket_status' => 'Status',
-                    'th_ticket_type' => 'Type',
+                    'th_ticket_status' => __('Status', 'tickethub'),
+                    'th_ticket_type' => __('Type', 'tickethub'),
                 ];
 
+                // TODO: Turn SVG into pseudo element with CSS
                 $zoomSVG = '<svg class="th-zoom-icon" version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                     viewBox="0 0 67.3 67.24" style="enable-background:new 0 0 67.3 67.24;" xml:space="preserve">
                     <style type="text/css">
@@ -98,8 +96,8 @@ add_shortcode('th_ticket', function ($atts) {
                     $value = get_post_meta($post_id, $field, true);
                     echo '<div class="th-ticket-field"><h4>' . esc_html($label) . '</h4><p>' . esc_html($value) . '<p></div>';
                     if ($index == 1) {
-                        echo '<div class="th-ticket-field"><h4>Issuer</h4><p>' . $ticket_author . '<p></div>';
-                        echo '<div class="th-ticket-field"><h4>E-Mail</h4><p>' . $email . '<p></div>';
+                        echo '<div class="th-ticket-field"><h4>' . __('Issuer', 'tickethub') . '</h4><p>' . esc_html($ticket_author) . '</p></div>';
+                        echo '<div class="th-ticket-field"><h4>' . __('E-Mail', 'tickethub') . '</h4><p>' . esc_html($email) . '</p></div>';
                     }
                     $index++;
                 }
@@ -139,7 +137,7 @@ add_shortcode('th_ticket', function ($atts) {
                     }
                 }
 
-                echo '<div class="th-ticket-field"><h4>Attachments</h4>';
+                echo '<div class="th-ticket-field"><h4>' . __('Attachments', 'tickethub') . '</h4>';
                 echo '<div class="th-ticket-attachments">';
                 foreach ($image_attachments as $attachment) {
                     $image_url = wp_get_attachment_url($attachment->ID);
@@ -160,12 +158,12 @@ add_shortcode('th_ticket', function ($atts) {
             if (current_user_can('comment_tickets') || current_user_can('administrator')) {
                 echo '<hr>';
                 echo '<div class="th-ticket-comments">';
-                echo '<h4>Comments</h4>';
+                echo '<h4>' . __('Comments', 'tickethub') . '</h4>';
 
                 $top_level_comments = get_comments(array(
                     'post_id' => $post_id,
                     'status' => 'approve',
-                    'parent' => 0 ,
+                    'parent' => 0,
                 ));
 
                 if ($top_level_comments) {
@@ -173,7 +171,7 @@ add_shortcode('th_ticket', function ($atts) {
                         display_comment_with_replies($comment);
                     }
                 } else {
-                    echo '<p>No comments yet.</p>';
+                    echo '<p>' . __('No comments yet.', 'tickethub') . '</p>';
                 }
 
                 echo '</div>';
@@ -191,15 +189,15 @@ add_shortcode('th_ticket', function ($atts) {
                     );
                     comment_form($args);
                 } else {
-                    echo '<p>Comments are closed for this ticket.</p>';
+                    echo '<p>' . __('Comments are closed for this ticket') . '</p>';
                 }
                 echo '</div>';
             }
         } else {
-            echo '<p>This ticket is private and cannot be displayed.</p>';
+            echo '<p>' . __('This ticket is private and cannot be displayed.', 'tickethub') . '</p>';
         }
     } else {
-        echo '<p>Invalid ticket ID.</p>';
+        echo '<p>' . __('Invalid ticket ID.', 'tickethub') . '</p>';
     }
 
     return ob_get_clean();

@@ -22,19 +22,19 @@ add_shortcode('th_form', function () {
         <?php wp_nonce_field('submit_ticket_nonce', 'ticket_nonce_field'); ?>
 
         <!-- Standard fields -->
-        <label>Short Description<span>*</span>
+        <label><?php _e('Short Description', 'tickethub'); ?><span>*</span>
             <input type="text" name="your-short-desc" required>
         </label>
-        <label>Description<span>*</span>
+        <label><?php _e('Description', 'tickethub'); ?><span>*</span>
             <textarea name="your-description" required></textarea>
         </label>
-        <label>Attachments (optional)
+        <label><?php _e('Attachments (optional)', 'tickethub'); ?>
             <input type="file" name="your-attachments[]" class="th-file-upload" multiple accept=".jpg, .jpeg, .png, .gif, .pdf, .doc, .docx, .txt">
         </label>
 
         <!-- Custom fields generated dynamically -->
         <?php foreach ($custom_fields as $field) : ?>
-            <label> <?php echo esc_html($field['label']) . $required_attr = $field['required'] ? '<span>*</span>' : ''; ?>
+            <label> <?php echo esc_html($field['label']) . ($field['required'] ? '<span>*</span>' : ''); ?>
                 <?php
                 $required_attr = $field['required'] ? 'required' : ''; // Check if the field is marked as required
                 if ($field['type'] == 'text') : ?>
@@ -52,7 +52,7 @@ add_shortcode('th_form', function () {
         <?php endforeach; ?>
 
         <input type="hidden" name="action" value="submit_ticket_form">
-        <input type="submit" class="th-button" value="Submit">
+        <input type="submit" class="th-button" value="<?php _e('Submit', 'tickethub'); ?>">
     </form>
 <?php
     return ob_get_clean();
@@ -60,11 +60,11 @@ add_shortcode('th_form', function () {
 
 add_action('admin_post_submit_ticket_form', function () {
     if (!current_user_can('submit_tickets') && !current_user_can('administrator')) {
-        wp_die('You do not have permission to submit tickets.');
+        wp_die(__('You do not have permission to submit tickets.', 'tickethub'));
     }
 
     if (!isset($_POST['ticket_nonce_field']) || !wp_verify_nonce($_POST['ticket_nonce_field'], 'submit_ticket_nonce')) {
-        wp_die('Security check failed');
+        wp_die(__('Security check failed', 'tickethub'));
     }
 
     $current_user = wp_get_current_user();
@@ -153,15 +153,15 @@ add_action('admin_post_submit_ticket_form', function () {
         $message .= "Attachments:\n" . implode("\n", $attachment_urls) . "\n";
     }
 
-    $subject = 'New Ticket Submitted';
+    $subject = __('New Ticket Submitted', 'tickethub');
     $headers = ['Content-Type: text/plain; charset=UTF-8'];
 
     wp_mail(get_option('admin_email'), $subject, $message, $headers);
 
-    $user_message = "Hello $name,\n\nThank you for submitting your ticket. It will be now be reviewed.\n\nBest regards,\nYour Support Team";
-    wp_mail($email, 'Confirmation of Your Ticket Submission', $user_message, $headers);
+    $user_message = sprintf(__('Hello %s,\n\nThank you for submitting your ticket. It will now be reviewed.\n\nBest regards,\nYour Support Team', 'tickethub'), $name);
+    wp_mail($email, __('Confirmation of Your Ticket Submission', 'tickethub'), $user_message, $headers);
 
-    wp_send_json_success('Ticket submitted successfully');
+    wp_send_json_success(__('Ticket submitted successfully', 'tickethub'));
 
     exit;
 });

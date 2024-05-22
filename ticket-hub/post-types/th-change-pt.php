@@ -63,7 +63,7 @@ add_action('edit_form_after_title', function ($post) {
 	);
 
 	// Display the label
-	echo '<h3>Log</h3>';
+	echo '<h3>' . __('Log') . '</h3>';
 
 	// Display the editor
 	wp_editor($log_content, 'th_log_editor', $settings);

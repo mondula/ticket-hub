@@ -37,7 +37,7 @@ add_shortcode('th_changelog', function () {
 
         echo '</div>';
     } else {
-        echo '<p>No changes found.</p>';
+        echo '<p>' . __('No changes found.', 'tickethub') . '</p>';
     }
 
     wp_reset_postdata();

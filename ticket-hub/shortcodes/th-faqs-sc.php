@@ -35,7 +35,7 @@ add_shortcode('th_faqs', function () {
 
         echo '</div>';
     } else {
-        echo '<p>No faqs found.</p>';
+        echo '<p>' . __('No FAQs found.', 'tickethub') . '</p>';
     }
 
     wp_reset_postdata();

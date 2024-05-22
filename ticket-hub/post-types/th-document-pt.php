@@ -57,25 +57,26 @@ add_action('edit_form_after_title', function ($post) {
 ?>
     <div>
         <label for="th-document-type">
-            <h3>Type</h3>
+            <h3><?php _e('Type', 'tickethub') ?></h3>
         </label>
         <select name="type" id="th-document-type">
-            <option value="File" <?php selected($type, 'File'); ?>>File</option>
-            <option value="Link" <?php selected($type, 'Link'); ?>>Link</option>
+            <option value="File" <?php selected($type, 'File'); ?>><?php _e('File', 'tickethub') ?></option>
+            <option value="Link" <?php selected($type, 'Link'); ?>><?php _e('Link', 'tickethub') ?></option>
         </select>
     </div><br />
 
     <div id="th-file-upload-section" style="<?php echo ($type == 'File' ? '' : 'display: none;'); ?>">
         <label for="th-document-file">
-            <h3>File</h3>
+            <h3><?php _e('File', 'tickethub') ?></h3>
         </label>
         <input type="hidden" id="th-document-file-id" name="file_id" value="<?php echo esc_attr($file_id); ?>" />
-        <button type="button" id="th-upload-file-button" class="button">Select File</button>
+        <button type="button" id="th-upload-file-button" class="button"><?php _e('Select File', 'tickethub') ?></button>
         <span id="th-file-name"><?php echo esc_html(get_the_title($file_id)); ?></span>
     </div>
 
-    __( <div id="th-link-section" style="<?php echo ($type == 'Link' ? '' : 'display: none;'); ?>">) <label for="th-document-link">
-            <h3>Link</h3>
+    <div id="th-link-section" style="<?php echo ($type == 'Link' ? '' : 'display: none;'); ?>">
+        <label for="th-document-link">
+            <h3><?php _e('Link', 'tickethub') ?></h3>
         </label>
         <input type="url" name="link" id="th-document-link" value="<?php echo esc_url($link); ?>" />
     </div>

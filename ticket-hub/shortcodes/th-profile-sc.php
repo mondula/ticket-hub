@@ -4,7 +4,6 @@ add_shortcode('th_profile', function () {
 
     static $th_user_enqueue = false;
 
-
     if (!$th_user_enqueue) {
         wp_enqueue_style('th-profile-style', PLUGIN_ROOT . 'css/th-profile.css', array(), '', 'all');
         $th_user_enqueue = true;
@@ -45,11 +44,11 @@ add_shortcode('th_profile', function () {
         }
         $logout_url = wp_logout_url(get_permalink()); // This will redirect users to the same page after logging out
 
-        echo '<div class="th-profile-head"><h3>Profile</h3><div><a href="' . esc_url($logout_url) . '" class="th-button">Logout</a></div></div>';
-        echo '<p>Hello ' . $first_name . '</p>';
+        echo '<div class="th-profile-head"><h3>' . __('Profile', 'tickethub') . '</h3><div><a href="' . esc_url($logout_url) . '" class="th-button">' . __('Logout', 'tickethub') . '</a></div></div>';
+        echo '<p>' . sprintf(__('Hello %s', 'tickethub'), esc_html($first_name)) . '</p>';
 
         // Call the 'th_tickets' shortcode with the current user's ID
-        echo '<h4>Your Tickets</h4>';
+        echo '<h4>' . __('Your Tickets', 'tickethub') . '</h4>';
         $user_id = $current_user->ID;
         echo do_shortcode('[th_tickets user_id="' . $user_id . '"]');
 
