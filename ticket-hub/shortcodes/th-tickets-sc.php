@@ -1,6 +1,8 @@
 <?php
 
 add_shortcode('th_tickets', function ($atts) {
+    $options = get_option('th_plus_options');
+    $allow_export = isset($options['allow_export']) && $options['allow_export'] == 1;
 
     static $tickets_enqueue = false;
 
@@ -51,6 +53,9 @@ add_shortcode('th_tickets', function ($atts) {
     }
     echo '</select>';
     echo '</div>';
+    if ($allow_export) {
+        echo '<button id="th-export-tickets">' . __('Export Tickets', 'tickethub') . '</button>';
+    }
     echo '</div>';
 
     echo '<table class="th-ticket-table"><thead><tr><th>' . __('ID', 'tickethub') . '</th><th>' . __('Status', 'tickethub') . '</th><th>' . __('Type', 'tickethub') . '</th><th>' . __('Date', 'tickethub') . '</th>';
