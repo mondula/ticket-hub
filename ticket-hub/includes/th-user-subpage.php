@@ -29,7 +29,7 @@ function th_user_form_page()
         wp_die('You do not have permission to access this page.');
     }
 
-    // Handle form submission
+    // Handle form submission for single user creation
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_user_nonce']) && wp_verify_nonce($_POST['create_user_nonce'], 'create_th_user')) {
         $first_name = sanitize_text_field($_POST['first_name']);
         $last_name = sanitize_text_field($_POST['last_name']);
@@ -65,8 +65,13 @@ function th_user_form_page()
         }
     }
 
+    // Handle CSV upload if the Plus plugin is active
+    if (is_plugin_active('ticket-hub-plus/ticket-hub-plus.php')) {
+        th_plus_handle_csv_upload();
+    }
+
     // Display the form
-?>
+    ?>
     <div class="wrap">
         <h2><?php _e('Add User', 'tickethub') ?></h2>
         <form method="post">
@@ -87,6 +92,14 @@ function th_user_form_page()
             </table>
             <input type="submit" class="button button-primary" value="Create User">
         </form>
+
+        <?php
+        // Display bulk upload form if the Plus plugin is active
+        if (is_plugin_active('ticketHubPlus/ticketHubPlus.php')) {
+            th_plus_bulk_upload_form();
+        }
+        ?>
+
         <h2 style="margin-top: 50px;"><?php _e('List of Users', 'tickethub') ?></h2>
         <table class="wp-list-table widefat fixed striped">
             <thead>
@@ -118,5 +131,5 @@ function th_user_form_page()
             </tbody>
         </table>
     </div>
-<?php
+    <?php
 }
