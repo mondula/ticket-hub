@@ -1,8 +1,8 @@
 <?php
 
-add_action('admin_menu', function () {
+add_action('admin_menu', function() {
     add_submenu_page(
-        'th_main_menu', // plugin main menu slug if you have one
+        'th_main_menu', // Plugin main menu slug if you have one
         'Add User', // Page title
         'Users', // Menu title
         'create_users', // Capability
@@ -10,6 +10,7 @@ add_action('admin_menu', function () {
         'th_user_form_page' // Callback function for the page content
     );
 });
+
 
 function get_th_users()
 {
@@ -96,6 +97,7 @@ function th_user_form_page()
         <?php
         // Display bulk upload form if the Plus plugin is active
         if (is_plugin_active('ticketHubPlus/ticketHubPlus.php')) {
+            th_plus_handle_csv_upload();
             th_plus_bulk_upload_form();
         }
         ?>
