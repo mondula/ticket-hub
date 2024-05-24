@@ -69,7 +69,7 @@ add_action('edit_form_after_title', function ($post) {
 	wp_editor($answer_content, 'th_answer_editor', $settings);
 });
 
-add_action('save_post', function ($post_id) {
+add_action('save_post_th_faq', function ($post_id) {
 	// Check for nonce security
 	if (!isset($_POST['th_answer_meta_nonce']) || !wp_verify_nonce($_POST['th_answer_meta_nonce'], 'th_save_answer_meta')) {
 		return;

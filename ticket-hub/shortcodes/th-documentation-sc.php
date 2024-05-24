@@ -18,7 +18,7 @@ add_shortcode('th_documentation', function () {
         'post_status'    => 'publish', // Only select published posts
     );
 
-    // Retrieve all documents to build the list of file types from MIME types
+    // Retrieve all documents to build the list of file types
     $file_types = [];
     $all_documents_query = new WP_Query($args);
     while ($all_documents_query->have_posts()) {
@@ -27,9 +27,10 @@ add_shortcode('th_documentation', function () {
         $document_type = get_post_meta($document_id, 'type', true);
         if ($document_type === 'File') {
             $file_id = get_post_meta($document_id, 'file', true);
-            $mime_type = get_post_mime_type($file_id);
-            $file_extension = strtoupper(array_reverse(explode('/', $mime_type))[0]); // Extract and convert file type to uppercase
-            if (!in_array($file_extension, $file_types)) {
+            $file_path = get_attached_file($file_id);
+            $file_type = wp_check_filetype($file_path);     
+            $file_extension = strtoupper($file_type['ext']); // Get stored file extension
+            if ($file_extension && !in_array($file_extension, $file_types)) {
                 $file_types[] = $file_extension; // Add unique file type to the list
             }
         }
@@ -65,8 +66,9 @@ add_shortcode('th_documentation', function () {
         if ($document_type === 'File') {
             $file_id = get_post_meta($document_id, 'file', true);
             $document_url = wp_get_attachment_url($file_id);
-            $mime_type = get_post_mime_type($file_id);
-            $file_extension = strtoupper(array_reverse(explode('/', $mime_type))[0]);
+            $file_path = get_attached_file($file_id);
+            $file_type = wp_check_filetype($file_path);     
+            $file_extension = strtoupper($file_type['ext']);
             $type_display = $file_extension;
             $button_text = '<span class="th-hide-text-mobile">' . __('Download', 'tickethub') . '</span>';
             $download_attribute = " download";
@@ -94,9 +96,9 @@ add_shortcode('th_documentation', function () {
             </svg>';
         }
 
-        echo "<tr data-document-type='" . esc_attr($document_type === 'File' ? $mime_type : 'LINK') . "'>";
+        echo "<tr data-document-type='" . esc_attr($document_type === 'File' ? $file_extension : 'LINK') . "'>";
         echo "<td>$type_display</td>";
-        echo "<td>$document_name<a class='th-button' href='$document_url' target='_blank'$download_attribute>$icon_svg $button_text</a></td>";
+        echo "<td><div>$document_name</div><a class='th-button' href='$document_url' target='_blank'$download_attribute>$icon_svg $button_text</a></td>";
         echo "</tr>";
     }
     echo '</tbody></table>';

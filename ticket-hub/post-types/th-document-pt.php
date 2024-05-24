@@ -53,8 +53,14 @@ add_action('edit_form_after_title', function ($post) {
     $type = get_post_meta($post->ID, 'type', true) ?: 'File';
     $file_id = get_post_meta($post->ID, 'file', true);
     $link = get_post_meta($post->ID, 'link', true);
+    // Get the full file path on the server for the attachment
+    $full_path = get_attached_file($file_id);
+
+    // Use PHP's basename() function to extract just the file name
+    $file_name = basename($full_path);
 
 ?>
+    <h1>Type: <?php esc_html(get_post_meta($post->ID, 'document_category', true)) ?></h1>
     <div>
         <label for="th-document-type">
             <h3><?php _e('Type', 'tickethub') ?></h3>
@@ -71,7 +77,7 @@ add_action('edit_form_after_title', function ($post) {
         </label>
         <input type="hidden" id="th-document-file-id" name="file_id" value="<?php echo esc_attr($file_id); ?>" />
         <button type="button" id="th-upload-file-button" class="button"><?php _e('Select File', 'tickethub') ?></button>
-        <span id="th-file-name"><?php echo esc_html(get_the_title($file_id)); ?></span>
+        <span id="th-file-name"><?php echo esc_html($file_name); ?></span>
     </div>
 
     <div id="th-link-section" style="<?php echo ($type == 'Link' ? '' : 'display: none;'); ?>">
@@ -124,8 +130,7 @@ add_action('edit_form_after_title', function ($post) {
     wp_enqueue_media();
 });
 
-// Hook into the 'save_post' action to save the custom field data.
-add_action('save_post', function ($post_id) {
+add_action('save_post_th_document', function ($post_id) {
     // Security checks (nonce, autosave, permission).
     if (!isset($_POST['th_document_fields_nonce']) || !wp_verify_nonce($_POST['th_document_fields_nonce'], basename(__FILE__))) {
         return $post_id;
@@ -133,14 +138,37 @@ add_action('save_post', function ($post_id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return $post_id;
     if (!current_user_can('edit_post', $post_id)) return $post_id;
 
-    // Save/update custom fields data.
-    if (isset($_POST['file_id'])) {
-        update_post_meta($post_id, 'file', sanitize_text_field($_POST['file_id']));
+    // Check if the title is empty and set it based on the document type
+    $post_title = get_the_title($post_id);
+    if (empty($post_title)) {
+        if (isset($_POST['type']) && $_POST['type'] === 'File' && isset($_POST['file_id'])) {
+            $file_id = sanitize_text_field($_POST['file_id']);
+            $full_path = get_attached_file($file_id);
+            $file_name = basename($full_path);
+            $post_title = $file_name;
+        } elseif (isset($_POST['type']) && $_POST['type'] === 'Link' && isset($_POST['link'])) {
+            $url = esc_url_raw($_POST['link']);
+            $parsed_url = parse_url($url);
+            $domain = $parsed_url['host'];
+            $post_title = $domain;
+        }
+        // Update the post title
+        wp_update_post(array(
+            'ID'         => $post_id,
+            'post_title' => $post_title
+        ));
     }
+
+    // Save/update custom fields data.
     if (isset($_POST['type'])) {
         update_post_meta($post_id, 'type', sanitize_text_field($_POST['type']));
     }
     if (isset($_POST['link'])) {
         update_post_meta($post_id, 'link', esc_url_raw($_POST['link']));
+    }
+    // Save/update the 'file_id' and 'file_extension' meta fields
+    if (isset($_POST['file_id'])) {
+        $file_id = sanitize_text_field($_POST['file_id']);
+        update_post_meta($post_id, 'file', $file_id);
     }
 });

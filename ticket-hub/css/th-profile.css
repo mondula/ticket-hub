@@ -10,23 +10,11 @@
     max-width: 600px;
 }
 
-h3 {
-    font-style: normal;
-    font-weight: 700;
-    margin-bottom: 20px;
-}
-
-h4 {
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1.4rem;
-}
-
 .th-profile-head+p {
     margin-bottom: 60px;
 }
 
-input[type="checkbox"] {
+#th-loginform input[type="checkbox"] {
     padding: 10px;
     position: relative;
     border: 1px solid #ccc;
@@ -40,7 +28,20 @@ input[type="checkbox"] {
     -o-appearance: none;
 }
 
-input[type="checkbox"]::before {
+#th-loginform input[type="text"],
+#th-loginform input[type="password"] {
+    margin: 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+#th-loginform input[type="checkbox"]::before {
     content: '';
     position: absolute;
     left: 10px;
@@ -53,11 +54,11 @@ input[type="checkbox"]::before {
     opacity: 0;
 }
 
-input[type="checkbox"]:checked::before {
+#th-loginform input[type="checkbox"]:checked::before {
     opacity: 1;
 }
 
-.button {
+#th-loginform .button {
     width: auto;
     padding: 10px 25px;
     -webkit-appearance: none;
@@ -70,7 +71,7 @@ input[type="checkbox"]:checked::before {
     font-size: 15px;
 }
 
-.button:hover {
+#th-loginform .button:hover {
     background-color: #262626;
 }
 

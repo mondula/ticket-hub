@@ -12,6 +12,7 @@ add_shortcode('th_ticket', function ($atts) {
 
     $atts = shortcode_atts(array('id' => ''), $atts);
     $post_id = $atts['id'];
+    $referrer = isset($_GET['ref']) ? esc_url($_GET['ref']) : '';
 
     ob_start();
 
@@ -51,7 +52,7 @@ add_shortcode('th_ticket', function ($atts) {
                         </g>
                     </g>
                 </svg>
-                <a onclick="history.back()" class="th-back-to-archive"><?php _e('Back', 'tickethub') ?></a>
+                <a href="<?php echo $referrer ?>" class="th-back-to-archive"><?php _e('Back', 'tickethub') ?></a>
                 <?php
                 $ticket_id = get_post_meta($post_id, 'th_ticket_id', true);
                 if (!empty($ticket_id)) {
