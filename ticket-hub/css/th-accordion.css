@@ -25,6 +25,8 @@
 .th-accordion-title {
     cursor: pointer;
     position: relative;
+    display: flex;
+    justify-content: space-between;
 }
 
 .th-accordion-title h2,
@@ -44,9 +46,7 @@
 }
 
 .th-accordion-toggle {
-    position: absolute;
-    right: 10px;
-    top: 5px;
+    margin: 5px 5px 5px 10px;
 }
 
 .th-accordion-toggle::after {
@@ -94,8 +94,7 @@
     }
 
     .th-accordion-toggle {
-        right: 0px;
-        top: 5px;
+        margin: 5px 0px;
     }
 
     .th-accordion-title h2,

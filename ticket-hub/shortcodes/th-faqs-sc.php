@@ -25,7 +25,9 @@ add_shortcode('th_faqs', function () {
             $the_query->the_post();
 
             echo '<div class="th-accordion-item">';
-            echo '<div class="th-accordion-title" onclick="toggleAccordion(this)"><h2>' . esc_html(get_the_title()) . '</h2><h3>' . esc_html(get_the_date('F j, Y')) . '</h3><span class="th-accordion-toggle"></span></div>';
+            echo '<div class="th-accordion-title" onclick="toggleAccordion(this)">';
+            echo '<div><h2>' . esc_html(get_the_title()) . '</h2><h3>' . esc_html(get_the_date('F j, Y')) . '</h3></div>';
+            echo '<span class="th-accordion-toggle"></span></div>';
             echo '<div class="th-accordion-content">';
             // If the log content contains HTML, consider using the_content filter. Otherwise, for plain text, use esc_html().
             echo apply_filters('the_content', get_post_meta(get_the_ID(), '_th_answer', true));
