@@ -1,0 +1,10 @@
+#custom_fields_table > tbody > tr > td > button {
+    display: flex;
+    align-items: center;
+}
+
+#custom_fields_table #add_field_button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

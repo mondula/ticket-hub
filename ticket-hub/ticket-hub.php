@@ -128,3 +128,14 @@ function enqueue_admin_post_status_script()
 }
 add_action('admin_footer-post.php', 'enqueue_admin_post_status_script');
 add_action('admin_footer-edit.php', 'enqueue_admin_post_status_script');
+
+add_action('admin_enqueue_scripts', function () {
+    // Use get_plugin_data() if you need versioning based on your plugin version
+    $version = '1.0.0';
+
+    // Properly form the URL to the stylesheet
+    $admin_style_url = plugins_url('css/th-admin-style.css', __FILE__);
+
+    // Enqueue the stylesheet
+    wp_enqueue_style('th-admin-style', $admin_style_url, array(), $version);
+});

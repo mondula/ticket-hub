@@ -13,8 +13,9 @@ add_shortcode('th_form', function () {
         $ticket_form_enqueue = true;
     }
 
-    // Fetch custom fields
+    // Fetch custom fields and attachment setting
     $custom_fields = get_option('th_custom_fields', []);
+    $disable_attachments = get_option('th_disable_attachments', 0); // 0 is unchecked by default
 
     ob_start();
 ?>
@@ -28,9 +29,12 @@ add_shortcode('th_form', function () {
         <label><?php _e('Description', 'tickethub'); ?><span>*</span>
             <textarea name="your-description" required></textarea>
         </label>
-        <label><?php _e('Attachments (optional)', 'tickethub'); ?>
-            <input type="file" name="your-attachments[]" class="th-file-upload" multiple accept=".jpg, .jpeg, .png, .gif, .pdf, .doc, .docx, .txt">
-        </label>
+        <?php if (!$disable_attachments) : // Check if attachments are enabled 
+        ?>
+            <label><?php _e('Attachments (optional)', 'tickethub'); ?>
+                <input type="file" name="your-attachments[]" class="th-file-upload" multiple accept=".jpg, .jpeg, .png, .gif, .pdf, .doc, .docx, .txt">
+            </label>
+        <?php endif; ?>
 
         <!-- Custom fields generated dynamically -->
         <?php foreach ($custom_fields as $field) : ?>
@@ -57,6 +61,7 @@ add_shortcode('th_form', function () {
 <?php
     return ob_get_clean();
 });
+
 
 add_action('admin_post_submit_ticket_form', function () {
     if (!current_user_can('submit_tickets') && !current_user_can('administrator')) {
