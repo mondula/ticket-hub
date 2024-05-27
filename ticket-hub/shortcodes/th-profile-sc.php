@@ -2,11 +2,11 @@
 
 add_shortcode('th_profile', function () {
 
-    static $th_user_enqueue = false;
+    static $th_ticket_creator_enqueue = false;
 
-    if (!$th_user_enqueue) {
+    if (!$th_ticket_creator_enqueue) {
         wp_enqueue_style('th-profile-style', PLUGIN_ROOT . 'css/th-profile.css', array(), '', 'all');
-        $th_user_enqueue = true;
+        $th_ticket_creator_enqueue = true;
     }
 
     // Check if user is logged in

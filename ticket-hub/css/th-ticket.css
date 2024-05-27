@@ -30,6 +30,9 @@
 
 .th-ticket-attachments {
   padding: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
 }
 
 .th-back-to-archive {

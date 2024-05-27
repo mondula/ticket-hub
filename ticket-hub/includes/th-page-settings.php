@@ -21,7 +21,7 @@ function th_settings_init()
 {
     // General tab settings
     add_settings_section('th_page_section', 'Page Settings', 'th_settings_section_callback', 'th_general');
-    $fields = array('th_form' => 'Ticket Form Page', 'th_tickets' => 'Tickets Page', 'th_changelog' => 'Changelog Page', 'th_faqs' => 'FAQs Page', 'th_documentation' => 'Documentation Page', 'th_profile' => 'TicketHub User Page');
+    $fields = array('th_form' => 'Ticket Form Page', 'th_tickets' => 'Tickets Page', 'th_changelog' => 'Changelog Page', 'th_faqs' => 'FAQs Page', 'th_documentation' => 'Documentation Page', 'th_profile' => 'TicketHub Profile Page');
     foreach ($fields as $field => $label) {
         add_settings_field($field, $label, 'th_settings_field_callback', 'th_general', 'th_page_section', array('label_for' => $field));
     }
@@ -107,7 +107,7 @@ function th_page_options()
         <h2 class="nav-tab-wrapper">
             <a href="?page=th-page-settings&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>">General</a>
             <a href="?page=th-page-settings&tab=form_editor" class="nav-tab <?php echo $active_tab == 'form_editor' ? 'nav-tab-active' : ''; ?>">Form Editor</a>
-            <a href="?page=th-page-settings&tab=user_editor" class="nav-tab <?php echo $active_tab == 'user_editor' ? 'nav-tab-active' : ''; ?>">User Manager</a>
+            <a href="?page=th-page-settings&tab=user_editor" class="nav-tab <?php echo $active_tab == 'user_editor' ? 'nav-tab-active' : ''; ?>">Ticket Creators</a>
             <?php if ($is_plus_active) : ?>
                 <a href="?page=th-page-settings&tab=plus" class="nav-tab <?php echo $active_tab == 'plus' ? 'nav-tab-active' : ''; ?>">Plus</a>
             <?php endif; ?>
@@ -126,7 +126,7 @@ function th_page_options()
         } elseif ($active_tab == 'form_editor') {
             th_ticket_editor_page();
         } elseif ($active_tab == 'user_editor') {
-            th_user_form_page();
+            th_ticket_creator_form_page();
         } elseif ($is_plus_active && $active_tab == 'plus') {
         ?>
             <form action="options.php" method="post">
@@ -144,6 +144,6 @@ function th_page_options()
 }
 
 include_once 'th-form-editor-tab.php';
-include_once 'th-user-manager-tab.php';
+include_once 'th-ticket-creators-tab.php';
 
 ?>

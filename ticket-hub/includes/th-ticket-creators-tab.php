@@ -1,9 +1,9 @@
 <?php
 
-function get_th_users()
+function get_th_ticket_creators()
 {
     $args = array(
-        'role'    => 'th_user',
+        'role'    => 'th_ticket_creator',
         'orderby' => 'user_nicename',
         'order'   => 'ASC'
     );
@@ -11,7 +11,7 @@ function get_th_users()
     return $user_query->get_results();
 }
 
-function th_user_form_page()
+function th_ticket_creator_form_page()
 {
     // Check if the current user has the capability to create users
     if (!current_user_can('create_users')) {
@@ -19,7 +19,7 @@ function th_user_form_page()
     }
 
     // Handle form submission for single user creation
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_user_nonce']) && wp_verify_nonce($_POST['create_user_nonce'], 'create_th_user')) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_user_nonce']) && wp_verify_nonce($_POST['create_user_nonce'], 'create_th_ticket_creator')) {
         $first_name = sanitize_text_field($_POST['first_name']);
         $last_name = sanitize_text_field($_POST['last_name']);
         $email = sanitize_email($_POST['email']);
@@ -38,18 +38,18 @@ function th_user_form_page()
         } else {
             $user_id = wp_create_user($username, wp_generate_password(), $email);
             if (!is_wp_error($user_id)) {
-                // Set the role to 'th_user'
+                // Set the role to 'th_ticket_creator'
                 $user = new WP_User($user_id);
-                $user->set_role('th_user');
+                $user->set_role('th_ticket_creator');
                 // Add first and last name to user meta
                 update_user_meta($user_id, 'first_name', $first_name);
                 update_user_meta($user_id, 'last_name', $last_name);
 
                 wp_send_new_user_notifications($user_id, 'user');
 
-                echo '<div class="updated"><p>' . __('New User created.', 'tickethub') . '</p></div>';
+                echo '<div class="updated"><p>' . __('New ticket creator assigned.', 'tickethub') . '</p></div>';
             } else {
-                echo '<div class="error"><p>Error creating user: ' . $user_id->get_error_message() . '</p></div>';
+                echo '<div class="error"><p>Error assigning ticket creator: ' . $user_id->get_error_message() . '</p></div>';
             }
         }
     }
@@ -62,9 +62,9 @@ function th_user_form_page()
     // Display the form
 ?>
     <div class="wrap">
-        <h2><?php _e('Add User', 'tickethub') ?></h2>
+        <h2><?php _e('Add Ticket Creator', 'tickethub') ?></h2>
         <form method="post">
-            <?php wp_nonce_field('create_th_user', 'create_user_nonce'); ?>
+            <?php wp_nonce_field('create_th_ticket_creator', 'create_user_nonce'); ?>
             <table class="form-table">
                 <tr>
                     <th><label for="first_name"><?php _e('First Name', 'tickethub') ?></label></th>
@@ -90,7 +90,7 @@ function th_user_form_page()
         }
         ?>
 
-        <h2 style="margin-top: 50px;"><?php _e('List of Users', 'tickethub') ?></h2>
+        <h2 style="margin-top: 50px;"><?php _e('List of Ticket Creators', 'tickethub') ?></h2>
         <table class="wp-list-table widefat fixed striped">
             <thead>
                 <tr>
@@ -102,9 +102,9 @@ function th_user_form_page()
             </thead>
             <tbody>
                 <?php
-                $th_users = get_th_users();
-                if (!empty($th_users)) {
-                    foreach ($th_users as $user) {
+                $th_ticket_creators = get_th_ticket_creators();
+                if (!empty($th_ticket_creators)) {
+                    foreach ($th_ticket_creators as $user) {
                         $first_name = get_user_meta($user->ID, 'first_name', true);
                         $last_name = get_user_meta($user->ID, 'last_name', true);
                         echo '<tr>';

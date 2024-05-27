@@ -79,20 +79,20 @@ add_filter('single_template', function ($template) {
 });
 
 register_activation_hook(__FILE__, function () {
-    add_role('th_user', __('TicketHub User'), ['submit_tickets' => true, 'comment_tickets' => true]);
+    add_role('th_ticket_creator', __('Ticket Creator'), ['submit_tickets' => true, 'comment_tickets' => true]);
 });
 
 register_deactivation_hook(__FILE__, function () {
-    $users = get_users(array('role' => 'th_user'));
+    $users = get_users(array('role' => 'th_ticket_creator'));
     foreach ($users as $user) {
         $user->set_role('subscriber');  // Change 'subscriber' to whatever default you consider appropriate
     }
 
-    remove_role('th_user');
+    remove_role('th_ticket_creator');
 });
 
 add_action('after_setup_theme', function () {
-    if (in_array('th_user', (array) wp_get_current_user()->roles)) {
+    if (in_array('th_ticket_creator', (array) wp_get_current_user()->roles)) {
         show_admin_bar(false);
     }
 });
@@ -105,7 +105,7 @@ function enqueue_admin_post_status_script()
         <script>
             jQuery(document).ready(function($) {
                 // Append the new status to the status selector in the edit post and quick edit screens
-                $("select[name='post_status']").append("<option value='archive'>Archived</option>");
+                $("select[name='post_status']").append("<option value='th_archive'>Archived</option>");
 
                 // Check if the current post status is 'th_archive' and update the selector
                 <?php if ('th_archive' == $post->post_status) : ?>
@@ -117,8 +117,8 @@ function enqueue_admin_post_status_script()
                 $(".editinline").click(function() {
                     var $row = $(this).closest('tr');
                     var $status = $row.find('.status').text();
-                    if ('archive' === $status) {
-                        $('select[name="_status"]', '.inline-edit-row').val('archive');
+                    if ('th_archive' === $status) {
+                        $('select[name="_status"]', '.inline-edit-row').val('th_archive');
                     }
                 });
             });
