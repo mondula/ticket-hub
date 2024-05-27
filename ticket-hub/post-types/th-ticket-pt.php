@@ -66,7 +66,7 @@ function register_th_ticket_post_type()
     ));
 }
 
-add_action('admin_init', function() {
+add_action('admin_init', function () {
     $role = get_role('administrator');
     $role->add_cap('edit_th_ticket');
     $role->add_cap('read_th_ticket');
@@ -298,6 +298,9 @@ add_action('wp', function () {
 });
 
 add_action('archive_done_tickets', function () {
+    $options = get_option('th_options');
+    $archive_days = isset($options['archive_days']) ? intval($options['archive_days']) : 0; // Default to 0 days if not set
+
     $args = array(
         'post_type'      => 'th_ticket',
         'post_status'    => 'publish',
@@ -316,7 +319,7 @@ add_action('archive_done_tickets', function () {
     foreach ($tickets as $ticket) {
         $completed_date = strtotime(get_post_meta($ticket->ID, 'completed_date', true));
         $diff = ($current_time - $completed_date) / DAY_IN_SECONDS;
-        if ($diff > 0) { // 0 days after being marked as done
+        if ($diff > $archive_days) {
             wp_update_post(array(
                 'ID'          => $ticket->ID,
                 'post_status' => 'th_archive'
@@ -375,3 +378,32 @@ add_action('save_post_th_ticket', function ($post_id, $post, $update) {
         ));
     }
 }, 10, 3);
+
+add_filter('bulk_actions-edit-th_ticket', function ($bulk_actions) {
+    $bulk_actions['mark_as_archived'] = 'Mark as Archived';
+    return $bulk_actions;
+});
+
+add_filter('handle_bulk_actions-edit-th_ticket', function ($redirect_to, $doaction, $post_ids) {
+    if ($doaction === 'mark_as_archived') {
+        foreach ($post_ids as $post_id) {
+            // Update the post status to 'th_archive'
+            $post = array(
+                'ID' => $post_id,
+                'post_status' => 'th_archive',
+            );
+            wp_update_post($post);
+        }
+        $redirect_to = add_query_arg('bulk_archived_posts', count($post_ids), $redirect_to);
+    }
+    return $redirect_to;
+}, 10, 3);
+
+add_action('admin_notices', function () {
+    if (!empty($_REQUEST['bulk_archived_posts'])) {
+        $archived_count = intval($_REQUEST['bulk_archived_posts']);
+        printf('<div id="message" class="updated fade"><p>' .
+            _n('Archived %s post.', 'Archived %s posts.', $archived_count, 'tickethub') .
+            '</p></div>', $archived_count);
+    }
+});

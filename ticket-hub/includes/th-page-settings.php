@@ -30,6 +30,9 @@ function th_settings_init()
     add_settings_field('ticket_prefix', 'Ticket Prefix', 'th_text_field_callback', 'th_general', 'th_ticket_id_section', array('label_for' => 'ticket_prefix'));
     add_settings_field('ticket_suffix', 'Ticket Suffix', 'th_text_field_callback', 'th_general', 'th_ticket_id_section', array('label_for' => 'ticket_suffix'));
 
+    add_settings_section('th_archive_settings_section', 'Ticket Archive Settings', 'th_archive_settings_section_callback', 'th_general');
+    add_settings_field('archive_days', 'Days to Archive', 'th_number_field_callback', 'th_general', 'th_archive_settings_section', array('label_for' => 'archive_days'));
+
     // Check if the Plus plugin is active
     if (function_exists('is_tickethub_plus_active') && is_tickethub_plus_active()) {
         // Plus tab settings
@@ -37,6 +40,19 @@ function th_settings_init()
     }
 }
 add_action('admin_init', 'th_settings_init');
+
+function th_archive_settings_section_callback()
+{
+    echo 'Configure the number of days after which completed tickets should be archived.';
+}
+
+function th_number_field_callback($args)
+{
+    $options = get_option('th_options');
+    $field = $args['label_for'];
+    echo '<input type="number" id="' . esc_attr($field) . '" name="th_options[' . esc_attr($field) . ']" value="' . esc_attr($options[$field] ?? '') . '" min="0" />';
+}
+
 
 function th_ticket_id_section_callback()
 {
@@ -107,7 +123,7 @@ function th_page_options()
         <h2 class="nav-tab-wrapper">
             <a href="?page=th-page-settings&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>">General</a>
             <a href="?page=th-page-settings&tab=form_editor" class="nav-tab <?php echo $active_tab == 'form_editor' ? 'nav-tab-active' : ''; ?>">Form Editor</a>
-            <a href="?page=th-page-settings&tab=user_editor" class="nav-tab <?php echo $active_tab == 'user_editor' ? 'nav-tab-active' : ''; ?>">Ticket Creators</a>
+            <a href="?page=th-page-settings&tab=ticket_creators" class="nav-tab <?php echo $active_tab == 'ticket_creators' ? 'nav-tab-active' : ''; ?>">Ticket Creators</a>
             <?php if ($is_plus_active) : ?>
                 <a href="?page=th-page-settings&tab=plus" class="nav-tab <?php echo $active_tab == 'plus' ? 'nav-tab-active' : ''; ?>">Plus</a>
             <?php endif; ?>
@@ -125,7 +141,7 @@ function th_page_options()
         <?php
         } elseif ($active_tab == 'form_editor') {
             th_ticket_editor_page();
-        } elseif ($active_tab == 'user_editor') {
+        } elseif ($active_tab == 'ticket_creators') {
             th_ticket_creator_form_page();
         } elseif ($is_plus_active && $active_tab == 'plus') {
         ?>
@@ -142,6 +158,7 @@ function th_page_options()
     </div>
 <?php
 }
+
 
 include_once 'th-form-editor-tab.php';
 include_once 'th-ticket-creators-tab.php';

@@ -62,9 +62,9 @@ function th_ticket_creator_form_page()
     // Display the form
 ?>
     <div class="wrap">
-        <h2><?php _e('Add Ticket Creator', 'tickethub') ?></h2>
         <form method="post">
             <?php wp_nonce_field('create_th_ticket_creator', 'create_user_nonce'); ?>
+            <h2><?php _e('Add Ticket Creator', 'tickethub') ?></h2>
             <table class="form-table">
                 <tr>
                     <th><label for="first_name"><?php _e('First Name', 'tickethub') ?></label></th>

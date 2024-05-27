@@ -60,7 +60,7 @@ add_shortcode('th_tickets', function ($atts) {
 
     echo '<table class="th-ticket-table"><thead><tr><th>' . __('ID', 'tickethub') . '</th><th>' . __('Status', 'tickethub') . '</th><th>' . __('Type', 'tickethub') . '</th><th>' . __('Date', 'tickethub') . '</th>';
     if (empty($attributes['user_id'])) {
-        echo '<th>' . __('Issuer', 'tickethub') . '</th>';
+        echo '<th>' . __('Creator', 'tickethub') . '</th>';
     }
     echo '</tr></thead><tbody id="th-tickets-container">';
     echo '</tbody></table>';
@@ -153,8 +153,8 @@ function fetch_tickets_ajax()
         'current'   => $page,
         'mid_size'  => 2,
         'prev_next' => true,
-        'prev_text' => __('Previous', 'tickethub'),
-        'next_text' => __('Next', 'tickethub'),
+        'prev_text' => '',
+        'next_text' => '',
         'end_size'  => 1,
         'type'      => 'array'
     ));

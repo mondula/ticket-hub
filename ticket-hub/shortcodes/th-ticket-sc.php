@@ -97,7 +97,7 @@ add_shortcode('th_ticket', function ($atts) {
                     $value = get_post_meta($post_id, $field, true);
                     echo '<div class="th-ticket-field"><h4>' . esc_html($label) . '</h4><p>' . esc_html($value) . '<p></div>';
                     if ($index == 1) {
-                        echo '<div class="th-ticket-field"><h4>' . __('Issuer', 'tickethub') . '</h4><p>' . esc_html($ticket_author) . '</p></div>';
+                        echo '<div class="th-ticket-field"><h4>' . __('Creator', 'tickethub') . '</h4><p>' . esc_html($ticket_author) . '</p></div>';
                         echo '<div class="th-ticket-field"><h4>' . __('E-Mail', 'tickethub') . '</h4><p>' . esc_html($email) . '</p></div>';
                     }
                     $index++;

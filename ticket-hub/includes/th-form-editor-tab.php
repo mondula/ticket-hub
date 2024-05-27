@@ -36,10 +36,8 @@ function th_ticket_editor_page()
     // The HTML form
 ?>
     <div class="wrap">
-        <h1><?php _e('Form Editor', 'tickethub'); ?></h1>
         <form method="post" action="">
             <?php wp_nonce_field('th_save_ticket_fields', 'th_ticket_fields_nonce'); ?>
-
             <h2><?php _e('General Settings', 'tickethub'); ?></h2>
             <table class="form-table">
                 <tr>
