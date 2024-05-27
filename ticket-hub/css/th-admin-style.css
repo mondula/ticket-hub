@@ -8,3 +8,7 @@
     align-items: center;
     gap: 5px;
 }
+
+#custom_fields_table #add_field_button > span {
+    height: 16px;
+}
