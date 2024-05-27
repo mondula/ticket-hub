@@ -1,16 +1,5 @@
 <?php
 
-add_action('admin_menu', function () {
-    add_submenu_page(
-        'th_main_menu', // plugin main menu slug if you have one
-        'Add Ticket Form Fields', // Page title
-        'Form Editor', // Menu title
-        'manage_options', // Capability
-        'form-editor', // Menu slug
-        'th_ticket_editor_page' // Callback function for the page content
-    );
-});
-
 function th_ticket_editor_page()
 {
     // Check if the form has been submitted
@@ -168,4 +157,5 @@ function th_ticket_editor_page()
     </script>
 <?php
 }
+
 ?>

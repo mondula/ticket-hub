@@ -22,9 +22,9 @@ add_shortcode('th_ticket', function ($atts) {
             $email = get_the_author_meta('email', $author_id);
             $first_name = get_the_author_meta('first_name', $author_id);
             $last_name = get_the_author_meta('last_name', $author_id);
-            $ticket_author = $first_name . ' ' . $last_name; // Concatenate first name and last name
+            $ticket_author = $first_name . ' ' . $last_name;
             if (empty($first_name) && empty($last_name)) {
-                $ticket_author = get_the_author_meta('display_name', $author_id); // Get the author's display name
+                $ticket_author = get_the_author_meta('display_name', $author_id);
             }
             $current_tags = wp_get_post_terms($post_id, 'th_ticket_tag', array("fields" => "slugs"));
 
@@ -32,7 +32,7 @@ add_shortcode('th_ticket', function ($atts) {
                 'post_type' => 'th_ticket',
                 'post_status' => 'publish',
                 'posts_per_page' => -1,
-                'post__not_in' => array($post_id), // Exclude current th_ticket
+                'post__not_in' => array($post_id),
                 'tax_query' => array(
                     array(
                         'taxonomy' => 'th_ticket_tag',
@@ -105,17 +105,23 @@ add_shortcode('th_ticket', function ($atts) {
                 echo '</div>';
 
                 $custom_fields = get_option('th_custom_fields', []);
-                foreach ($custom_fields as $field) {
-                    $field_value = get_post_meta($post_id, 'thcf_' . sanitize_title($field['label']), true);
-                    echo '<div class="th-ticket-field">';
-                    echo '<h4>' . esc_html($field['label']);
-                    echo '</h4>';
-                    if ($field['type'] === 'text' || $field['type'] === 'textarea') {
-                        echo '<p>' . esc_html($field_value) . '</p>';
-                    } elseif ($field['type'] === 'select') {
-                        echo '<p>' . esc_html($field_value) . '</p>';
+                $custom_field_values = array_filter($custom_fields, function ($field) use ($post_id) {
+                    return get_post_meta($post_id, 'thcf_' . sanitize_title($field['label']), true);
+                });
+
+                if (!empty($custom_field_values)) {
+                    foreach ($custom_field_values as $field) {
+                        $field_value = get_post_meta($post_id, 'thcf_' . sanitize_title($field['label']), true);
+                        echo '<div class="th-ticket-field">';
+                        echo '<h4>' . esc_html($field['label']);
+                        echo '</h4>';
+                        if ($field['type'] === 'text' || $field['type'] === 'textarea') {
+                            echo '<p>' . esc_html($field_value) . '</p>';
+                        } elseif ($field['type'] === 'select') {
+                            echo '<p>' . esc_html($field_value) . '</p>';
+                        }
+                        echo '</div>';
                     }
-                    echo '</div>';
                 }
 
                 $attachments = get_posts(array(
@@ -138,20 +144,21 @@ add_shortcode('th_ticket', function ($atts) {
                     }
                 }
 
-                echo '<div class="th-ticket-field"><h4>' . __('Attachments', 'tickethub') . '</h4>';
-                echo '<div class="th-ticket-attachments">';
-                foreach ($image_attachments as $attachment) {
-                    $image_url = wp_get_attachment_url($attachment->ID);
-                    if ($image_url) {
-                        echo '<a href="' . esc_url($image_url) . '" class="th-lightbox-trigger"><div class="th-image-container"><img src="' . esc_url($image_url) . '" alt="' . esc_attr($attachment->post_title) . '" class="th-ticket-image">' . $zoomSVG . '</div></a>';
+                if (!empty($image_attachments) || !empty($other_attachments)) {
+                    echo '<div class="th-ticket-field"><h4>' . __('Attachments', 'tickethub') . '</h4>';
+                    echo '<div class="th-ticket-attachments">';
+                    foreach ($image_attachments as $attachment) {
+                        $image_url = wp_get_attachment_url($attachment->ID);
+                        if ($image_url) {
+                            echo '<a href="' . esc_url($image_url) . '" class="th-lightbox-trigger"><div class="th-image-container"><img src="' . esc_url($image_url) . '" alt="' . esc_attr($attachment->post_title) . '" class="th-ticket-image">' . $zoomSVG . '</div></a>';
+                        }
                     }
+                    echo '</div>';
+                    foreach ($other_attachments as $attachment) {
+                        echo '<div><a href="' . esc_url(wp_get_attachment_url($attachment->ID)) . '" target="_blank">' . esc_html($attachment->post_title) . '</a></div>';
+                    }
+                    echo '</div>';
                 }
-                echo '</div>';
-                foreach ($other_attachments as $attachment) {
-                    echo '<div><a href="' . esc_url(wp_get_attachment_url($attachment->ID)) . '" target="_blank">' . esc_html($attachment->post_title) . '</a></div>';
-                }
-                echo '</div>';
-
                 ?>
             </div>
 <?php
@@ -230,3 +237,4 @@ function display_comment_with_replies($comment, $depth = 0)
 
     echo '</div>';
 }
+?>

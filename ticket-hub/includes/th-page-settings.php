@@ -17,7 +17,8 @@ function th_add_admin_menu()
 }
 add_action('admin_menu', 'th_add_admin_menu');
 
-function th_settings_init() {
+function th_settings_init()
+{
     // General tab settings
     add_settings_section('th_page_section', 'Page Settings', 'th_settings_section_callback', 'th_general');
     $fields = array('th_form' => 'Ticket Form Page', 'th_tickets' => 'Tickets Page', 'th_changelog' => 'Changelog Page', 'th_faqs' => 'FAQs Page', 'th_documentation' => 'Documentation Page', 'th_profile' => 'TicketHub User Page');
@@ -36,9 +37,6 @@ function th_settings_init() {
     }
 }
 add_action('admin_init', 'th_settings_init');
-
-
-
 
 function th_ticket_id_section_callback()
 {
@@ -71,48 +69,6 @@ function th_settings_field_callback($args)
     ));
 }
 
-
-
-
-function th_checkbox_field_callback($args) {
-    $options = get_option('th_options');
-    $field = $args['label_for'];
-    $checked = isset($options[$field]) ? checked($options[$field], 1, false) : '';
-    echo '<input type="checkbox" id="' . esc_attr($field) . '" name="th_options[' . esc_attr($field) . ']" value="1"' . $checked . ' />';
-}
-
-function th_page_options() {
-    // Check if the Plus plugin is active
-    $is_plus_active = function_exists('is_tickethub_plus_active') ? is_tickethub_plus_active() : false;
-
-    $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'general';
-
-    ?>
-    <div class="wrap">
-        <h2>TicketHub Settings</h2>
-        <h2 class="nav-tab-wrapper">
-            <a href="?page=th-page-settings&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>">General</a>
-            <?php if ($is_plus_active): ?>
-                <a href="?page=th-page-settings&tab=plus" class="nav-tab <?php echo $active_tab == 'plus' ? 'nav-tab-active' : ''; ?>">Plus</a>
-            <?php endif; ?>
-        </h2>
-        <form action="options.php" method="post">
-            <?php
-            settings_fields('th_options_group');
-            if ($active_tab == 'general') {
-                do_settings_sections('th_general');
-            } elseif ($is_plus_active && $active_tab == 'plus') {
-                settings_fields('th_plus_options_group'); // Ensure correct option group for Plus settings
-                do_settings_sections('th_plus');
-            }
-            submit_button('Save Settings');
-            ?>
-        </form>
-    </div>
-    <?php
-}
-
-
 function th_append_shortcode_to_content($content)
 {
     global $post;
@@ -132,8 +88,58 @@ function th_append_shortcode_to_content($content)
 }
 add_filter('the_content', 'th_append_shortcode_to_content');
 
-
-function is_tickethub_plus_active() {
+function is_tickethub_plus_active()
+{
     include_once(ABSPATH . 'wp-admin/includes/plugin.php');
     return is_plugin_active('ticketHubPlus/ticketHubPlus.php');
 }
+
+function th_page_options()
+{
+    // Check if the Plus plugin is active
+    $is_plus_active = function_exists('is_tickethub_plus_active') ? is_tickethub_plus_active() : false;
+
+    $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'general';
+
+?>
+    <div class="wrap">
+        <h2>TicketHub Settings</h2>
+        <h2 class="nav-tab-wrapper">
+            <a href="?page=th-page-settings&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>">General</a>
+            <a href="?page=th-page-settings&tab=form_editor" class="nav-tab <?php echo $active_tab == 'form_editor' ? 'nav-tab-active' : ''; ?>">Form Editor</a>
+            <?php if ($is_plus_active) : ?>
+                <a href="?page=th-page-settings&tab=plus" class="nav-tab <?php echo $active_tab == 'plus' ? 'nav-tab-active' : ''; ?>">Plus</a>
+            <?php endif; ?>
+        </h2>
+        <?php
+        if ($active_tab == 'general') {
+        ?>
+            <form action="options.php" method="post">
+                <?php
+                settings_fields('th_options_group');
+                do_settings_sections('th_general');
+                submit_button('Save Settings');
+                ?>
+            </form>
+        <?php
+        } elseif ($active_tab == 'form_editor') {
+            th_ticket_editor_page();
+        } elseif ($is_plus_active && $active_tab == 'plus') {
+        ?>
+            <form action="options.php" method="post">
+                <?php
+                settings_fields('th_plus_options_group'); // Ensure correct option group for Plus settings
+                do_settings_sections('th_plus');
+                submit_button('Save Settings');
+                ?>
+            </form>
+        <?php
+        }
+        ?>
+    </div>
+<?php
+}
+
+include_once 'th-form-subpage.php';
+
+?>
