@@ -407,3 +407,47 @@ add_action('admin_notices', function () {
             '</p></div>', $archived_count);
     }
 });
+
+// Delete attachments when a ticket is deleted
+add_action('before_delete_post', function ($post_id) {
+    $post_type = get_post_type($post_id);
+    if ($post_type !== 'th_ticket') {
+        return;
+    }
+
+    $attachments = get_posts([
+        'post_type' => 'attachment',
+        'posts_per_page' => -1,
+        'post_status' => 'any',
+        'post_parent' => $post_id,
+    ]);
+
+    foreach ($attachments as $attachment) {
+        wp_delete_attachment($attachment->ID, true);
+    }
+});
+
+add_action('pre_get_posts', 'th_search_by_ticket_id');
+function th_search_by_ticket_id($query)
+{
+    // Check if this is a search query in the admin area and for our custom post type
+    if ($query->is_search() && $query->is_main_query() && is_admin() && $query->get('post_type') == 'th_ticket') {
+        $search_term = $query->get('s');
+        if (!empty($search_term)) {
+            // Remove default search parameter
+            $query->set('s', '');
+
+            // Add meta query to search by ticket ID
+            $meta_query = [
+                'relation' => 'OR',
+                [
+                    'key'     => 'th_ticket_id',
+                    'value'   => $search_term,
+                    'compare' => 'LIKE',
+                ]
+            ];
+
+            $query->set('meta_query', $meta_query);
+        }
+    }
+}
