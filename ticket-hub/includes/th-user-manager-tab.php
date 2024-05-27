@@ -1,17 +1,5 @@
 <?php
 
-add_action('admin_menu', function() {
-    add_submenu_page(
-        'th_main_menu', // Plugin main menu slug if you have one
-        'Add User', // Page title
-        'Users', // Menu title
-        'create_users', // Capability
-        'add-th-user', // Menu slug
-        'th_user_form_page' // Callback function for the page content
-    );
-});
-
-
 function get_th_users()
 {
     $args = array(
@@ -72,7 +60,7 @@ function th_user_form_page()
     }
 
     // Display the form
-    ?>
+?>
     <div class="wrap">
         <h2><?php _e('Add User', 'tickethub') ?></h2>
         <form method="post">
@@ -133,5 +121,7 @@ function th_user_form_page()
             </tbody>
         </table>
     </div>
-    <?php
+<?php
 }
+
+?>

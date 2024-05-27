@@ -107,6 +107,7 @@ function th_page_options()
         <h2 class="nav-tab-wrapper">
             <a href="?page=th-page-settings&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>">General</a>
             <a href="?page=th-page-settings&tab=form_editor" class="nav-tab <?php echo $active_tab == 'form_editor' ? 'nav-tab-active' : ''; ?>">Form Editor</a>
+            <a href="?page=th-page-settings&tab=user_editor" class="nav-tab <?php echo $active_tab == 'user_editor' ? 'nav-tab-active' : ''; ?>">User Manager</a>
             <?php if ($is_plus_active) : ?>
                 <a href="?page=th-page-settings&tab=plus" class="nav-tab <?php echo $active_tab == 'plus' ? 'nav-tab-active' : ''; ?>">Plus</a>
             <?php endif; ?>
@@ -124,6 +125,8 @@ function th_page_options()
         <?php
         } elseif ($active_tab == 'form_editor') {
             th_ticket_editor_page();
+        } elseif ($active_tab == 'user_editor') {
+            th_user_form_page();
         } elseif ($is_plus_active && $active_tab == 'plus') {
         ?>
             <form action="options.php" method="post">
@@ -140,6 +143,7 @@ function th_page_options()
 <?php
 }
 
-include_once 'th-form-subpage.php';
+include_once 'th-form-editor-tab.php';
+include_once 'th-user-manager-tab.php';
 
 ?>
