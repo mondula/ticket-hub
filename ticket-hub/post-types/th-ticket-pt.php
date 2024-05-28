@@ -142,17 +142,17 @@ add_action('edit_form_after_title', function ($post) {
 
     foreach ($fields as $key => $field) {
         $value = get_post_meta($post->ID, $key, true);
-        echo "<label for='{$key}'><h3>{$field['label']}</h3></label>";
+        echo "<label for='{$key}'><h3>" . esc_html($field['label']) . "</h3></label>";
 
         if ($field['type'] === 'select') {
             echo "<select id='{$key}' name='{$key}'>";
             foreach ($field['options'] as $optionKey => $optionValue) {
                 $selected = ($value == $optionKey) ? 'selected' : '';
-                echo "<option value='{$optionKey}' {$selected}>{$optionValue}</option>";
+                echo "<option value='" . esc_attr($optionKey) . "' {$selected}>" . esc_html($optionValue) . "</option>";
             }
             echo "</select><br/><br/>";
         } elseif ($field['type'] === 'textarea') {
-            echo "<textarea id='{$key}' name='{$key}' rows='4' cols='50'>" . esc_attr($value) . "</textarea><br/><br/>";
+            echo "<textarea id='{$key}' name='{$key}' rows='4' cols='50'>" . esc_textarea($value) . "</textarea><br/><br/>";
         } else {
             echo "<input type='text' id='{$key}' name='{$key}' value='" . esc_attr($value) . "'/><br/><br/>";
         }
@@ -167,11 +167,11 @@ add_action('edit_form_after_title', function ($post) {
     $attachments = get_posts($args);
 
     if ($attachments) {
-        echo '<label><h3>' . __('Attachments:', 'tickethub') . '</h3></label>';
+        echo '<label><h3>' . esc_html__('Attachments:', 'tickethub') . '</h3></label>';
         echo '<ul>';
         foreach ($attachments as $attachment) {
             $attachment_url = wp_get_attachment_url($attachment->ID);
-            echo '<li><a href="' . esc_url($attachment_url) . '" target="_blank">' . basename($attachment_url) . '</a></li>';
+            echo '<li><a href="' . esc_url($attachment_url) . '" target="_blank">' . esc_html(basename($attachment_url)) . '</a></li>';
         }
         echo '</ul><br>';
     }
@@ -180,19 +180,19 @@ add_action('edit_form_after_title', function ($post) {
 
     foreach ($saved_custom_fields as $field) {
         $value = get_post_meta($post->ID, 'thcf_' . sanitize_title($field['label']), true);
-        echo "<label for='thcf_" . sanitize_title($field['label']) . "'><h3>" . esc_html($field['label']) . "</h3></label>";
+        echo "<label for='thcf_" . esc_attr(sanitize_title($field['label'])) . "'><h3>" . esc_html($field['label']) . "</h3></label>";
 
         if ($field['type'] === 'select') {
-            echo "<select id='thcf_" . sanitize_title($field['label']) . "' name='thcf_" . sanitize_title($field['label']) . "'>";
+            echo "<select id='thcf_" . esc_attr(sanitize_title($field['label'])) . "' name='thcf_" . esc_attr(sanitize_title($field['label'])) . "'>";
             foreach ($field['options'] as $option) {
                 $selected = ($value == $option) ? 'selected' : '';
                 echo "<option value='" . esc_attr($option) . "' {$selected}>" . esc_html($option) . "</option>";
             }
             echo "</select><br/><br/>";
         } elseif ($field['type'] === 'textarea') {
-            echo "<textarea id='thcf_" . sanitize_title($field['label']) . "' name='thcf_" . sanitize_title($field['label']) . "' rows='4' cols='50'>" . esc_textarea($value) . "</textarea><br/><br/>";
+            echo "<textarea id='thcf_" . esc_attr(sanitize_title($field['label'])) . "' name='thcf_" . esc_attr(sanitize_title($field['label'])) . "' rows='4' cols='50'>" . esc_textarea($value) . "</textarea><br/><br/>";
         } else {
-            echo "<input type='text' id='thcf_" . sanitize_title($field['label']) . "' name='thcf_" . sanitize_title($field['label']) . "' value='" . esc_attr($value) . "'/><br/><br/>";
+            echo "<input type='text' id='thcf_" . esc_attr(sanitize_title($field['label'])) . "' name='thcf_" . esc_attr(sanitize_title($field['label'])) . "' value='" . esc_attr($value) . "'/><br/><br/>";
         }
     }
 
@@ -235,7 +235,7 @@ add_action('updated_post_meta', function ($meta_id, $post_id, $meta_key, $meta_v
 
         if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $subject = __('Status Update Notification', 'tickethub');
-            $message = 'The status of your ticket (ID: <a href="' . $ticket_link . '">' . $id . '</a>) has been updated to: ' . $meta_value . '.';
+            $message = 'The status of your ticket (ID: <a href="' . esc_url($ticket_link) . '">' . esc_html($id) . '</a>) has been updated to: ' . esc_html($meta_value) . '.';
             $headers = array('Content-Type: text/html; charset=UTF-8');
 
             wp_mail($email, $subject, $message, $headers);
@@ -256,8 +256,8 @@ add_action('transition_post_status', function ($new_status, $old_status, $post) 
         $ticket_link = get_permalink($post->ID);
 
         if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $subject = "Ticket Status Update: $status";
-            $message = "The status of your ticket (ID: <a href='$ticket_link'>$ticket_id</a>) has changed to: $status.";
+            $subject = esc_html__('Ticket Status Update: ', 'tickethub') . esc_html($status);
+            $message = esc_html__('The status of your ticket (ID: ', 'tickethub') . '<a href="' . esc_url($ticket_link) . '">' . esc_html($ticket_id) . '</a>) ' . esc_html__('has changed to: ', 'tickethub') . esc_html($status) . '.';
             $headers = array('Content-Type: text/html; charset=UTF-8');
 
             wp_mail($email, $subject, $message, $headers);
@@ -278,12 +278,12 @@ add_action('wp_insert_comment', function ($comment_id, $comment) {
         $email = get_the_author_meta('email', $author_id);
         $ticket_id = get_post_meta($post_id, 'th_ticket_id', true);
         $ticket_link = get_permalink($post_id);
-        $comment_author = $comment->comment_author;
-        $comment_content = $comment->comment_content;
+        $comment_author = esc_html($comment->comment_author);
+        $comment_content = esc_html($comment->comment_content);
 
         if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $subject = "New Comment on Ticket ID: $ticket_id";
-            $message = "A new comment has been posted by $comment_author on your ticket (ID: <a href='$ticket_link'>$ticket_id</a>):<br/><br/> \"$comment_content\"";
+            $subject = esc_html__('New Comment on Ticket ID: ', 'tickethub') . esc_html($ticket_id);
+            $message = esc_html__('A new comment has been posted by ', 'tickethub') . esc_html($comment_author) . esc_html__(' on your ticket (ID: ', 'tickethub') . '<a href="' . esc_url($ticket_link) . '">' . esc_html($ticket_id) . '</a>):<br/><br/> "' . esc_html($comment_content) . '"';
             $headers = array('Content-Type: text/html; charset=UTF-8');
 
             wp_mail($email, $subject, $message, $headers);
@@ -349,17 +349,17 @@ add_filter('manage_edit-th_ticket_sortable_columns', function ($columns) {
 add_action('manage_th_ticket_posts_custom_column', function ($column, $post_id) {
     switch ($column) {
         case 'id':
-            $id = get_post_meta($post_id, 'th_ticket_id', true);
+            $id = esc_html(get_post_meta($post_id, 'th_ticket_id', true));
             $edit_link = get_edit_post_link($post_id);
-            echo '<a href="' . $edit_link . '">' . $id . '</a>';
+            echo '<a href="' . esc_url($edit_link) . '">' . esc_html($id) . '</a>';
             break;
         case 'status':
-            $status = get_post_meta($post_id, 'th_ticket_status', true);
-            echo $status;
+            $status = esc_html(get_post_meta($post_id, 'th_ticket_status', true));
+            echo esc_html($status);
             break;
         case 'type':
-            $type = get_post_meta($post_id, 'th_ticket_type', true);
-            echo $type;
+            $type = esc_html(get_post_meta($post_id, 'th_ticket_type', true));
+            echo esc_html($type);
             break;
     }
 }, 10, 2);
@@ -403,8 +403,8 @@ add_action('admin_notices', function () {
     if (!empty($_REQUEST['bulk_archived_posts'])) {
         $archived_count = intval($_REQUEST['bulk_archived_posts']);
         printf('<div id="message" class="updated fade"><p>' .
-            _n('Archived %s post.', 'Archived %s posts.', $archived_count, 'tickethub') .
-            '</p></div>', $archived_count);
+            esc_html(_n('Archived %s post.', 'Archived %s posts.', $archived_count, 'tickethub')) .
+            '</p></div>', esc_html($archived_count));
     }
 });
 
@@ -442,7 +442,7 @@ function th_search_by_ticket_id($query)
                 'relation' => 'OR',
                 [
                     'key'     => 'th_ticket_id',
-                    'value'   => $search_term,
+                    'value'   => sanitize_text_field($search_term),
                     'compare' => 'LIKE',
                 ]
             ];

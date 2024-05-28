@@ -15,7 +15,7 @@ function th_ticket_creator_form_page()
 {
     // Check if the current user has the capability to create users
     if (!current_user_can('create_users')) {
-        wp_die('You do not have permission to access this page.');
+        wp_die(esc_html__('You do not have permission to access this page.', 'tickethub'));
     }
 
     // Handle form submission for single user creation
@@ -23,18 +23,18 @@ function th_ticket_creator_form_page()
         $first_name = sanitize_text_field($_POST['first_name']);
         $last_name = sanitize_text_field($_POST['last_name']);
         $email = sanitize_email($_POST['email']);
-        $username = strtolower($first_name . '-' . $last_name);
+        $username = sanitize_user(strtolower($first_name . '-' . $last_name));
 
         // Ensure username is unique by appending numbers if needed
         $original_username = $username;
         $i = 1;
         while (username_exists($username)) {
-            $username = $original_username . $i;
+            $username = sanitize_user($original_username . $i);
             $i++;
         }
 
         if (email_exists($email)) {
-            echo '<div class="error"><p>' . __('Email already exists.', 'tickethub') . '</p></div>';
+            echo '<div class="error"><p>' . esc_html__('Email already exists.', 'tickethub') . '</p></div>';
         } else {
             $user_id = wp_create_user($username, wp_generate_password(), $email);
             if (!is_wp_error($user_id)) {
@@ -47,9 +47,9 @@ function th_ticket_creator_form_page()
 
                 wp_send_new_user_notifications($user_id, 'user');
 
-                echo '<div class="updated"><p>' . __('New ticket creator assigned.', 'tickethub') . '</p></div>';
+                echo '<div class="updated"><p>' . esc_html__('New ticket creator assigned.', 'tickethub') . '</p></div>';
             } else {
-                echo '<div class="error"><p>Error assigning ticket creator: ' . $user_id->get_error_message() . '</p></div>';
+                echo '<div class="error"><p>' . esc_html__('Error assigning ticket creator: ', 'tickethub') . esc_html($user_id->get_error_message()) . '</p></div>';
             }
         }
     }
@@ -64,22 +64,22 @@ function th_ticket_creator_form_page()
     <div class="wrap">
         <form method="post">
             <?php wp_nonce_field('create_th_ticket_creator', 'create_user_nonce'); ?>
-            <h2><?php _e('Add Ticket Creator', 'tickethub') ?></h2>
+            <h2><?php esc_html_e('Add Ticket Creator', 'tickethub'); ?></h2>
             <table class="form-table">
                 <tr>
-                    <th><label for="first_name"><?php _e('First Name', 'tickethub') ?></label></th>
+                    <th><label for="first_name"><?php esc_html_e('First Name', 'tickethub'); ?></label></th>
                     <td><input type="text" name="first_name" id="first_name" required></td>
                 </tr>
                 <tr>
-                    <th><label for="last_name"><?php _e('Last Name', 'tickethub') ?></label></th>
+                    <th><label for="last_name"><?php esc_html_e('Last Name', 'tickethub'); ?></label></th>
                     <td><input type="text" name="last_name" id="last_name" required></td>
                 </tr>
                 <tr>
-                    <th><label for="email"><?php _e('Email', 'tickethub') ?></label></th>
+                    <th><label for="email"><?php esc_html_e('Email', 'tickethub'); ?></label></th>
                     <td><input type="email" name="email" id="email" required></td>
                 </tr>
             </table>
-            <input type="submit" class="button button-primary" value="Create User">
+            <input type="submit" class="button button-primary" value="<?php esc_attr_e('Create User', 'tickethub'); ?>">
         </form>
 
         <?php
@@ -90,14 +90,14 @@ function th_ticket_creator_form_page()
         }
         ?>
 
-        <h2 style="margin-top: 50px;"><?php _e('List of Ticket Creators', 'tickethub') ?></h2>
+        <h2 style="margin-top: 50px;"><?php esc_html_e('List of Ticket Creators', 'tickethub'); ?></h2>
         <table class="wp-list-table widefat fixed striped">
             <thead>
                 <tr>
-                    <th><?php _e('Username', 'tickethub') ?></th>
-                    <th><?php _e('First Name', 'tickethub') ?></th>
-                    <th><?php _e('Last Name', 'tickethub') ?></th>
-                    <th><?php _e('Email', 'tickethub') ?></th>
+                    <th><?php esc_html_e('Username', 'tickethub'); ?></th>
+                    <th><?php esc_html_e('First Name', 'tickethub'); ?></th>
+                    <th><?php esc_html_e('Last Name', 'tickethub'); ?></th>
+                    <th><?php esc_html_e('Email', 'tickethub'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -115,7 +115,7 @@ function th_ticket_creator_form_page()
                         echo '</tr>';
                     }
                 } else {
-                    echo '<tr><td colspan="4">' . __('No Users found.', 'tickethub') . '</td></tr>';
+                    echo '<tr><td colspan="4">' . esc_html__('No Users found.', 'tickethub') . '</td></tr>';
                 }
                 ?>
             </tbody>
@@ -123,5 +123,4 @@ function th_ticket_creator_form_page()
     </div>
 <?php
 }
-
 ?>

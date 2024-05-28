@@ -63,10 +63,10 @@ add_action('edit_form_after_title', function ($post) {
 	);
 
 	// Display the label
-	echo '<h3>' . __('Answer', 'tickethub') . '</h3>';
+	echo '<h3>' . esc_html__('Answer', 'tickethub') . '</h3>';
 
 	// Display the editor
-	wp_editor($answer_content, 'th_answer_editor', $settings);
+	wp_editor(esc_textarea($answer_content), 'th_answer_editor', $settings);
 });
 
 add_action('save_post_th_faq', function ($post_id) {
@@ -82,6 +82,6 @@ add_action('save_post_th_faq', function ($post_id) {
 
 	// Save/update the meta field in the database
 	if (isset($_POST['th_answer'])) {
-		update_post_meta($post_id, '_th_answer', $_POST['th_answer']);
+		update_post_meta($post_id, '_th_answer', wp_kses_post($_POST['th_answer']));
 	}
 });

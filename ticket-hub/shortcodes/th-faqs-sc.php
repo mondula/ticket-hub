@@ -29,15 +29,15 @@ add_shortcode('th_faqs', function () {
             echo '<div><h2>' . esc_html(get_the_title()) . '</h2><h3>' . esc_html(get_the_date('F j, Y')) . '</h3></div>';
             echo '<span class="th-accordion-toggle"></span></div>';
             echo '<div class="th-accordion-content">';
-            // If the log content contains HTML, consider using the_content filter. Otherwise, for plain text, use esc_html().
-            echo apply_filters('the_content', get_post_meta(get_the_ID(), '_th_answer', true));
+            // If the content contains HTML, consider using the_content filter. Otherwise, for plain text, use esc_html().
+            echo apply_filters('the_content', wp_kses_post(get_post_meta(get_the_ID(), '_th_answer', true)));
             echo '</div>';
             echo '</div>';
         }
 
         echo '</div>';
     } else {
-        echo '<p>' . __('No FAQs found.', 'tickethub') . '</p>';
+        echo '<p>' . esc_html__('No FAQs found.', 'tickethub') . '</p>';
     }
 
     wp_reset_postdata();

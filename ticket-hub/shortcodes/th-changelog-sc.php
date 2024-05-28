@@ -31,15 +31,15 @@ add_shortcode('th_changelog', function () {
             echo '<div><h2>' . esc_html(get_the_title()) . '</h2><h3>' . esc_html(get_the_date('F j, Y')) . '</h3></div>';
             echo '<span class="th-accordion-toggle"></span></div>';
             echo '<div class="th-accordion-content">';
-            // If the log content contains HTML, consider using the_content filter. Otherwise, for plain text, use esc_html().
-            echo apply_filters('the_content', get_post_meta(get_the_ID(), '_th_log', true));
+            // If the log content contains HTML, consider using the_content filter. Otherwise, for plain text, use wp_kses_post().
+            echo apply_filters('the_content', wp_kses_post(get_post_meta(get_the_ID(), '_th_log', true)));
             echo '</div>';
             echo '</div>';
         }
 
         echo '</div>';
     } else {
-        echo '<p>' . __('No changes found.', 'tickethub') . '</p>';
+        echo '<p>' . esc_html__('No changes found.', 'tickethub') . '</p>';
     }
 
     wp_reset_postdata();

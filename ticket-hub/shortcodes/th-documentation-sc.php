@@ -28,7 +28,7 @@ add_shortcode('th_documentation', function () {
         if ($document_type === 'File') {
             $file_id = get_post_meta($document_id, 'file', true);
             $file_path = get_attached_file($file_id);
-            $file_type = wp_check_filetype($file_path);     
+            $file_type = wp_check_filetype($file_path);
             $file_extension = strtoupper($file_type['ext']); // Get stored file extension
             if ($file_extension && !in_array($file_extension, $file_types)) {
                 $file_types[] = $file_extension; // Add unique file type to the list
@@ -39,8 +39,8 @@ add_shortcode('th_documentation', function () {
 
     // Output the search field and dropdown for filtering by document type (File types or Link)
     echo '<div class="th-document-controls">';
-    echo '<input type="text" id="search" placeholder="' . __('Search', 'tickethub') . '">';
-    echo '<select id="th-document-type" class="th-select"><option value="">' . __('- Type -', 'tickethub') . '</option><option value="LINK">' . __('Link', 'tickethub') . '</option>';
+    echo '<input type="text" id="search" placeholder="' . esc_attr__('Search', 'tickethub') . '">';
+    echo '<select id="th-document-type" class="th-select"><option value="">' . esc_html__('- Type -', 'tickethub') . '</option><option value="LINK">' . esc_html__('Link', 'tickethub') . '</option>';
     foreach ($file_types as $file_type) {
         echo '<option value="' . esc_attr($file_type) . '">' . esc_html($file_type) . '</option>';
     }
@@ -49,7 +49,7 @@ add_shortcode('th_documentation', function () {
 
     // Query for the actual display
     $the_query = new WP_Query($args);
-    echo '<table class="th-document-table"><thead><tr><th>' . __('Type', 'tickethub') . '</th><th>' . __('Name', 'tickethub') . '</th></tr></thead><tbody>';
+    echo '<table class="th-document-table"><thead><tr><th>' . esc_html__('Type', 'tickethub') . '</th><th>' . esc_html__('Name', 'tickethub') . '</th></tr></thead><tbody>';
     while ($the_query->have_posts()) {
         $the_query->the_post();
 
@@ -67,11 +67,11 @@ add_shortcode('th_documentation', function () {
             $file_id = get_post_meta($document_id, 'file', true);
             $document_url = wp_get_attachment_url($file_id);
             $file_path = get_attached_file($file_id);
-            $file_type = wp_check_filetype($file_path);     
+            $file_type = wp_check_filetype($file_path);
             $file_extension = strtoupper($file_type['ext']);
-            $type_display = $file_extension;
-            $button_text = '<span class="th-hide-text-mobile">' . __('Download', 'tickethub') . '</span>';
-            $download_attribute = " download";
+            $type_display = esc_html($file_extension);
+            $button_text = '<span class="th-hide-text-mobile">' . esc_html__('Download', 'tickethub') . '</span>';
+            $download_attribute = ' download';
             // Set the download SVG icon for files
             // TODO: Turn SVG Sting into pseudo element with CSS
             $icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15.07" height="15.907" viewBox="0 0 15.07 15.907">
@@ -81,9 +81,9 @@ add_shortcode('th_documentation', function () {
                 </g>
             </svg>';
         } elseif ($document_type === 'Link') {
-            $document_url = get_post_meta($document_id, 'link', true);
-            $type_display = 'LINK';
-            $button_text = '<span class="th-hide-text-mobile">' . __('Open', 'tickethub') . '</span>';
+            $document_url = esc_url(get_post_meta($document_id, 'link', true));
+            $type_display = esc_html__('LINK', 'tickethub');
+            $button_text = '<span class="th-hide-text-mobile">' . esc_html__('Open', 'tickethub') . '</span>';
             // Set the open SVG icon for links
             // TODO: Turn SVG Sting into pseudo element with CSS
             $icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
@@ -97,9 +97,9 @@ add_shortcode('th_documentation', function () {
         }
 
         echo "<tr data-document-type='" . esc_attr($document_type === 'File' ? $file_extension : 'LINK') . "'>";
-        echo "<td>$type_display</td>";
-        echo "<td><div>$document_name</div><a class='th-button' href='$document_url' target='_blank'$download_attribute>$icon_svg $button_text</a></td>";
-        echo "</tr>";
+        echo '<td>' . esc_html($type_display) . '</td>';
+        echo '<td><div>' . esc_html($document_name) . '</div><a class="th-button" href="' . esc_url($document_url) . '" target="_blank"' . $download_attribute . '>' . $icon_svg . ' ' . $button_text . '</a></td>';
+        echo '</tr>';
     }
     echo '</tbody></table>';
 

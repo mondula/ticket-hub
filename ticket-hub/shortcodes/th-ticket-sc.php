@@ -1,7 +1,6 @@
 <?php
 
 add_shortcode('th_ticket', function ($atts) {
-
     static $ticket_enqueue = false;
 
     if (!$ticket_enqueue) {
@@ -11,8 +10,12 @@ add_shortcode('th_ticket', function ($atts) {
     }
 
     $atts = shortcode_atts(array('id' => ''), $atts);
-    $post_id = $atts['id'];
-    $referrer = isset($_GET['ref']) ? esc_url($_GET['ref']) : '';
+    $post_id = intval($atts['id']);
+
+    // Get the options
+    $options = get_option('th_options');
+    $tickets_page_id = isset($options['th_tickets']) ? intval($options['th_tickets']) : 0;
+    $tickets_page_url = $tickets_page_id ? get_permalink($tickets_page_id) : home_url('/');
 
     ob_start();
 
@@ -52,7 +55,7 @@ add_shortcode('th_ticket', function ($atts) {
                         </g>
                     </g>
                 </svg>
-                <a href="<?php echo $referrer ?>" class="th-back-to-archive"><?php _e('Back', 'tickethub') ?></a>
+                <a href="<?php echo esc_url($tickets_page_url); ?>" class="th-back-to-archive"><?php _e('Back', 'tickethub') ?></a>
                 <?php
                 $ticket_id = get_post_meta($post_id, 'th_ticket_id', true);
                 if (!empty($ticket_id)) {
@@ -60,15 +63,15 @@ add_shortcode('th_ticket', function ($atts) {
                 }
 
                 if ($related_tickets->have_posts()) {
-                    echo '<div class="th-related-tickets"><span>' . __('Related Tickets', 'tickethub') . '</span>';
+                    echo '<div class="th-related-tickets"><span>' . esc_html__('Related Tickets', 'tickethub') . '</span>';
                     while ($related_tickets->have_posts()) {
                         $related_tickets->the_post();
-                        echo '<div><a href="' . get_permalink() . '">' . get_the_title() . '</a></div>';
+                        echo '<div><a href="' . esc_url(get_permalink()) . '">' . esc_html(get_the_title()) . '</a></div>';
                     }
                     echo '</div>';
                 }
 
-                echo '<div class="th-ticket-field"><h4>' . __('Description', 'tickethub') . '</h4><p>' . esc_html(get_post_meta($post_id, 'th_ticket_description', true)) . '</p></div>';
+                echo '<div class="th-ticket-field"><h4>' . esc_html__('Description', 'tickethub') . '</h4><p>' . esc_html(get_post_meta($post_id, 'th_ticket_description', true)) . '</p></div>';
 
                 $fields = [
                     'th_ticket_status' => __('Status', 'tickethub'),
@@ -97,8 +100,8 @@ add_shortcode('th_ticket', function ($atts) {
                     $value = get_post_meta($post_id, $field, true);
                     echo '<div class="th-ticket-field"><h4>' . esc_html($label) . '</h4><p>' . esc_html($value) . '<p></div>';
                     if ($index == 1) {
-                        echo '<div class="th-ticket-field"><h4>' . __('Creator', 'tickethub') . '</h4><p>' . esc_html($ticket_author) . '</p></div>';
-                        echo '<div class="th-ticket-field"><h4>' . __('E-Mail', 'tickethub') . '</h4><p>' . esc_html($email) . '</p></div>';
+                        echo '<div class="th-ticket-field"><h4>' . esc_html__('Creator', 'tickethub') . '</h4><p>' . esc_html($ticket_author) . '</p></div>';
+                        echo '<div class="th-ticket-field"><h4>' . esc_html__('E-Mail', 'tickethub') . '</h4><p>' . esc_html($email) . '</p></div>';
                     }
                     $index++;
                 }
@@ -145,7 +148,7 @@ add_shortcode('th_ticket', function ($atts) {
                 }
 
                 if (!empty($image_attachments) || !empty($other_attachments)) {
-                    echo '<div class="th-ticket-field"><h4>' . __('Attachments', 'tickethub') . '</h4>';
+                    echo '<div class="th-ticket-field"><h4>' . esc_html__('Attachments', 'tickethub') . '</h4>';
                     echo '<div class="th-ticket-attachments">';
                     foreach ($image_attachments as $attachment) {
                         $image_url = wp_get_attachment_url($attachment->ID);
@@ -166,7 +169,7 @@ add_shortcode('th_ticket', function ($atts) {
             if (current_user_can('comment_tickets') || current_user_can('administrator')) {
                 echo '<hr>';
                 echo '<div class="th-ticket-comments">';
-                echo '<h4>' . __('Comments', 'tickethub') . '</h4>';
+                echo '<h4>' . esc_html__('Comments', 'tickethub') . '</h4>';
 
                 $top_level_comments = get_comments(array(
                     'post_id' => $post_id,
@@ -179,7 +182,7 @@ add_shortcode('th_ticket', function ($atts) {
                         display_comment_with_replies($comment);
                     }
                 } else {
-                    echo '<p>' . __('No comments yet.', 'tickethub') . '</p>';
+                    echo '<p>' . esc_html__('No comments yet.', 'tickethub') . '</p>';
                 }
 
                 echo '</div>';
@@ -188,24 +191,24 @@ add_shortcode('th_ticket', function ($atts) {
                     $args = array(
                         'post_id' => $post_id,
                         'title_reply' => '',
-                        'comment_field' => '<textarea id="comment" name="comment" rows="10" cols="80" class="th-comment-area" placeholder="Type your comment here" required="required"></textarea>',
+                        'comment_field' => '<textarea id="comment" name="comment" rows="10" cols="80" class="th-comment-area" placeholder="' . esc_attr__('Type your comment here', 'tickethub') . '" required="required"></textarea>',
                         'fields' => array(),
-                        'label_submit' => 'Comment',
+                        'label_submit' => esc_html__('Comment', 'tickethub'),
                         'comment_notes_before' => '',
                         'comment_notes_after' => '',
                         'submit_button' => '<button type="submit" class="th-button">%4$s</button>',
                     );
                     comment_form($args);
                 } else {
-                    echo '<p>' . __('Comments are closed for this ticket') . '</p>';
+                    echo '<p>' . esc_html__('Comments are closed for this ticket', 'tickethub') . '</p>';
                 }
                 echo '</div>';
             }
         } else {
-            echo '<p>' . __('This ticket is private and cannot be displayed.', 'tickethub') . '</p>';
+            echo '<p>' . esc_html__('This ticket is private and cannot be displayed.', 'tickethub') . '</p>';
         }
     } else {
-        echo '<p>' . __('Invalid ticket ID.', 'tickethub') . '</p>';
+        echo '<p>' . esc_html__('Invalid ticket ID.', 'tickethub') . '</p>';
     }
 
     return ob_get_clean();

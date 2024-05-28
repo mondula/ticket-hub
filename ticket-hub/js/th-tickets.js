@@ -23,7 +23,8 @@ jQuery(document).ready(function ($) {
             user_id: ajax_params.user_id,
             searchValue,
             statusValue,
-            typeValue
+            typeValue,
+            nonce: ajax_params.nonce // Add the nonce here
         };
         console.log(data);
 
@@ -63,6 +64,4 @@ jQuery(document).ready(function ($) {
 
     // Initial load
     fetchTickets(false);
-
-
 });

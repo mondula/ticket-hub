@@ -26,16 +26,16 @@ add_shortcode('th_form', function () {
         <?php wp_nonce_field('submit_ticket_nonce', 'ticket_nonce_field'); ?>
 
         <!-- Standard fields -->
-        <label><?php _e('Short Description', 'tickethub'); ?><span>*</span>
+        <label><?php esc_html_e('Short Description', 'tickethub'); ?><span>*</span>
             <input type="text" name="your-short-desc" required>
         </label>
-        <label><?php _e('Description', 'tickethub'); ?><span>*</span>
+        <label><?php esc_html_e('Description', 'tickethub'); ?><span>*</span>
             <textarea name="your-description" required></textarea>
         </label>
         <?php if (!$disable_attachments) : // Check if attachments are enabled 
         ?>
-            <label><?php _e('Attachments (up to 3 files, max file size: ' . size_format($max_upload_size) . ')', 'tickethub'); ?>
-                <input type="file" name="your-attachments[]" class="th-file-upload" multiple accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .txt, .xls, .xlsx, .csv" data-max-files="3" data-max-size="<?php echo $max_upload_size; ?>">
+            <label><?php printf(esc_html__('Attachments (up to 3 files, max file size: %s)', 'tickethub'), size_format($max_upload_size)); ?>
+                <input type="file" name="your-attachments[]" class="th-file-upload" multiple accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .txt, .xls, .xlsx, .csv" data-max-files="3" data-max-size="<?php echo esc_attr($max_upload_size); ?>">
             </label>
         <?php endif; ?>
 
@@ -45,11 +45,11 @@ add_shortcode('th_form', function () {
                 <?php
                 $required_attr = $field['required'] ? 'required' : ''; // Check if the field is marked as required
                 if ($field['type'] == 'text') : ?>
-                    <input type="text" name="thcf_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?>>
+                    <input type="text" name="thcf_<?php echo esc_attr(sanitize_title($field['label'])); ?>" <?php echo esc_attr($required_attr); ?>>
                 <?php elseif ($field['type'] == 'textarea') : ?>
-                    <textarea name="thcf_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?>></textarea>
+                    <textarea name="thcf_<?php echo esc_attr(sanitize_title($field['label'])); ?>" <?php echo esc_attr($required_attr); ?>></textarea>
                 <?php elseif ($field['type'] == 'select' && !empty($field['options'])) : ?>
-                    <select name="thcf_<?php echo sanitize_title($field['label']); ?>" <?php echo $required_attr; ?> class="th-select">
+                    <select name="thcf_<?php echo esc_attr(sanitize_title($field['label'])); ?>" <?php echo esc_attr($required_attr); ?> class="th-select">
                         <?php foreach ($field['options'] as $option) : ?>
                             <option value="<?php echo esc_attr($option); ?>"><?php echo esc_html($option); ?></option>
                         <?php endforeach; ?>
@@ -59,7 +59,7 @@ add_shortcode('th_form', function () {
         <?php endforeach; ?>
 
         <input type="hidden" name="action" value="submit_ticket_form">
-        <input type="submit" class="th-button" value="<?php _e('Submit', 'tickethub'); ?>">
+        <input type="submit" class="th-button" value="<?php esc_html_e('Submit', 'tickethub'); ?>">
     </form>
 <?php
     return ob_get_clean();
@@ -98,22 +98,22 @@ add_action('admin_post_submit_ticket_form', function () {
 
             $file = [
                 'name' => sanitize_file_name($attachments['name'][$key]),
-                'type' => $attachments['type'][$key],
+                'type' => sanitize_mime_type($attachments['type'][$key]),
                 'tmp_name' => $attachments['tmp_name'][$key],
                 'error' => $attachments['error'][$key],
-                'size' => $attachments['size'][$key]
+                'size' => intval($attachments['size'][$key])
             ];
             $uploaded_file = wp_handle_upload($file, ['test_form' => false]);
 
             if (!isset($uploaded_file['error'])) {
-                $attachment_urls[] = $uploaded_file['url'];
+                $attachment_urls[] = esc_url($uploaded_file['url']);
                 $attachment_files[] = [
                     'file' => $uploaded_file['file'],
-                    'type' => $file['type'],
+                    'type' => sanitize_mime_type($file['type']),
                     'name' => sanitize_file_name($file['name'])
                 ];
             } else {
-                wp_send_json_error(__('There was an error uploading your file: ', 'tickethub') . $uploaded_file['error']);
+                wp_send_json_error(__('There was an error uploading your file: ', 'tickethub') . esc_html($uploaded_file['error']));
             }
         }
     }
@@ -122,7 +122,7 @@ add_action('admin_post_submit_ticket_form', function () {
     $current_user = wp_get_current_user();
     $first_name = get_user_meta($current_user->ID, 'first_name', true);
     $last_name = get_user_meta($current_user->ID, 'last_name', true);
-    $email = $current_user->user_email;
+    $email = sanitize_email($current_user->user_email);
 
     $title = sanitize_text_field($_POST['your-short-desc']);
     $description = sanitize_textarea_field($_POST['your-description']);
@@ -137,8 +137,8 @@ add_action('admin_post_submit_ticket_form', function () {
     }
 
     $options = get_option('th_options');
-    $prefix = isset($options['ticket_prefix']) ? $options['ticket_prefix'] : '';
-    $suffix = isset($options['ticket_suffix']) ? $options['ticket_suffix'] : '';
+    $prefix = isset($options['ticket_prefix']) ? sanitize_text_field($options['ticket_prefix']) : '';
+    $suffix = isset($options['ticket_suffix']) ? sanitize_text_field($options['ticket_suffix']) : '';
     $formatted_post_id = sprintf('%06d', $post_id);
     $id = $prefix . $formatted_post_id . $suffix;
     wp_update_post([
@@ -156,7 +156,7 @@ add_action('admin_post_submit_ticket_form', function () {
         if (isset($_POST['thcf_' . sanitize_title($field['label'])])) {
             $field_value = sanitize_text_field($_POST['thcf_' . sanitize_title($field['label'])]);
             update_post_meta($post_id, 'thcf_' . sanitize_title($field['label']), $field_value);
-            $custom_fields_content .= $field['label'] . ": " . $field_value . "\n";
+            $custom_fields_content .= esc_html($field['label']) . ": " . esc_html($field_value) . "\n";
         }
     }
 
@@ -177,9 +177,9 @@ add_action('admin_post_submit_ticket_form', function () {
     $name = '';
 
     if (empty($first_name) && empty($last_name)) {
-        $name = get_the_author_meta('display_name', $author_id); // Get the author's display name
+        $name = esc_html(get_the_author_meta('display_name', $author_id)); // Get the author's display name
     } else {
-        $name = trim($first_name . ' ' . $last_name);
+        $name = trim(esc_html($first_name) . ' ' . esc_html($last_name));
     }
     $message = "Name: $name\nEmail: $email\nDescription: $description\n";
     if (!empty($custom_fields_content)) {
@@ -192,10 +192,10 @@ add_action('admin_post_submit_ticket_form', function () {
     $subject = __('New Ticket Submitted', 'tickethub');
     $headers = ['Content-Type: text/plain; charset=UTF-8'];
 
-    wp_mail(get_option('admin_email'), $subject, $message, $headers);
+    wp_mail(sanitize_email(get_option('admin_email')), $subject, esc_html($message), $headers);
 
     $user_message = sprintf(__('Hello %s,\n\nThank you for submitting your ticket. It will now be reviewed.\n\nBest regards,\nYour Support Team', 'tickethub'), $name);
-    wp_mail($email, __('Confirmation of Your Ticket Submission', 'tickethub'), $user_message, $headers);
+    wp_mail($email, __('Confirmation of Your Ticket Submission', 'tickethub'), esc_html($user_message), $headers);
 
     wp_send_json_success(__('Ticket submitted successfully', 'tickethub'));
 

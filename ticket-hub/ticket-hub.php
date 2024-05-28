@@ -2,13 +2,17 @@
 /*
 Plugin Name: TicketHub
 Plugin URI:  https://mondula.com
-Description: TicketHub - Description
+Description: Streamline your support system with TicketHub, a powerful and user-friendly plugin for managing tickets, FAQs, and documentation efficiently.
 Version:     1.0
 Author:      Mondula GmbH
 Author URI:  https://mondula.com
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: tickethub
+Requires at least: 6.0
+Tested up to: 6.2
+Requires PHP: 7.2
+Tags: tickets, support, helpdesk
 */
 
 define('PLUGIN_ROOT', plugin_dir_url(__FILE__));
@@ -79,7 +83,7 @@ add_filter('single_template', function ($template) {
 });
 
 register_activation_hook(__FILE__, function () {
-    add_role('th_ticket_creator', __('Ticket Creator'), ['submit_tickets' => true, 'comment_tickets' => true]);
+    add_role('th_ticket_creator', __('Ticket Creator', 'tickethub'), ['submit_tickets' => true, 'comment_tickets' => true]);
 });
 
 register_deactivation_hook(__FILE__, function () {
@@ -101,23 +105,24 @@ function enqueue_admin_post_status_script()
 {
     global $post;
     if ($post->post_type == 'th_ticket') {
+        $archived_text = esc_js(__('Archived', 'tickethub'));
 ?>
         <script>
             jQuery(document).ready(function($) {
                 // Append the new status to the status selector in the edit post and quick edit screens
-                $("select[name='post_status']").append("<option value='th_archive'>Archived</option>");
+                $("select[name='post_status']").append("<option value='th_archive'><?php echo $archived_text; ?></option>");
 
                 // Check if the current post status is 'th_archive' and update the selector
                 <?php if ('th_archive' == $post->post_status) : ?>
                     $("select[name='post_status']").val('archive');
-                    $('#post-status-display').text('Archived');
+                    $('#post-status-display').text('<?php echo $archived_text; ?>');
                 <?php endif; ?>
 
                 // Add the status to the quick edit
                 $(".editinline").click(function() {
                     var $row = $(this).closest('tr');
                     var $status = $row.find('.status').text();
-                    if ('th_archive' === $status) {
+                    if ('<?php echo $archived_text; ?>' === $status) {
                         $('select[name="_status"]', '.inline-edit-row').val('th_archive');
                     }
                 });
@@ -139,3 +144,4 @@ add_action('admin_enqueue_scripts', function () {
     // Enqueue the stylesheet
     wp_enqueue_style('th-admin-style', $admin_style_url, array(), $version);
 });
+?>

@@ -10,11 +10,15 @@ add_shortcode('th_tickets', function ($atts) {
         'user_id' => ''
     ), $atts);
 
+    // Sanitize the user_id attribute
+    $attributes['user_id'] = sanitize_text_field($attributes['user_id']);
+
     if (!$tickets_enqueue) {
         wp_enqueue_script('th-tickets-script', PLUGIN_ROOT . 'js/th-tickets.js', array('jquery'), '', true);
         wp_localize_script('th-tickets-script', 'ajax_params', array(
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'user_id' => $attributes['user_id']
+            'ajax_url' => esc_url(admin_url('admin-ajax.php')),
+            'user_id' => $attributes['user_id'],
+            'nonce' => wp_create_nonce('fetch_tickets_nonce')
         ));
         wp_enqueue_style('th-tickets-style', PLUGIN_ROOT . 'css/th-tickets.css', array(), '', 'all');
         $tickets_enqueue = true;
@@ -34,33 +38,33 @@ add_shortcode('th_tickets', function ($atts) {
     );
 
     echo '<div class="th-ticket-controls">';
-    echo '<input type="text" id="th-ticket-search" placeholder="' . __('Search', 'tickethub') . '">';
+    echo '<input type="text" id="th-ticket-search" placeholder="' . esc_attr__('Search', 'tickethub') . '">';
     echo '<div class="th-tickets-filter-container">';
-    echo '<label for="th-toggle-archive" class="th-switch-container">' . __('Archive', 'tickethub');
+    echo '<label for="th-toggle-archive" class="th-switch-container">' . esc_html__('Archive', 'tickethub');
     echo '<div class="th-switch">';
     echo '<input type="checkbox" id="th-toggle-archive">';
     echo '<span class="th-slider th-round"></span>';
     echo '</div>';
     echo '</label>';
-    echo '<select id="th-ticket-status" class="th-select"><option value="">' . __('- Status -', 'tickethub') . '</option>';
+    echo '<select id="th-ticket-status" class="th-select"><option value="">' . esc_html__('- Status -', 'tickethub') . '</option>';
     foreach ($status_choices as $value => $label) {
         echo '<option value="' . esc_attr($value) . '">' . esc_html($label) . '</option>';
     }
     echo '</select>';
-    echo '<select id="th-ticket-type" class="th-select"><option value="">' . __('- Type -', 'tickethub') . '</option>';
+    echo '<select id="th-ticket-type" class="th-select"><option value="">' . esc_html__('- Type -', 'tickethub') . '</option>';
     foreach ($type_choices as $value => $label) {
         echo '<option value="' . esc_attr($value) . '">' . esc_html($label) . '</option>';
     }
     echo '</select>';
     echo '</div>';
     if ($allow_export) {
-        echo '<button id="th-export-tickets">' . __('Export Tickets', 'tickethub') . '</button>';
+        echo '<button id="th-export-tickets">' . esc_html__('Export Tickets', 'tickethub') . '</button>';
     }
     echo '</div>';
 
-    echo '<table class="th-ticket-table"><thead><tr><th>' . __('ID', 'tickethub') . '</th><th>' . __('Status', 'tickethub') . '</th><th>' . __('Type', 'tickethub') . '</th><th>' . __('Date', 'tickethub') . '</th>';
+    echo '<table class="th-ticket-table"><thead><tr><th>' . esc_html__('ID', 'tickethub') . '</th><th>' . esc_html__('Status', 'tickethub') . '</th><th>' . esc_html__('Type', 'tickethub') . '</th><th>' . esc_html__('Date', 'tickethub') . '</th>';
     if (empty($attributes['user_id'])) {
-        echo '<th>' . __('Creator', 'tickethub') . '</th>';
+        echo '<th>' . esc_html__('Creator', 'tickethub') . '</th>';
     }
     echo '</tr></thead><tbody id="th-tickets-container">';
     echo '</tbody></table>';
@@ -71,6 +75,8 @@ add_shortcode('th_tickets', function ($atts) {
 
 function fetch_tickets_ajax()
 {
+    check_ajax_referer('fetch_tickets_nonce', 'nonce');
+
     $is_archive = $_POST['isArchive'] === 'true';
     $search_value = sanitize_text_field($_POST['searchValue']);
     $status_value = sanitize_text_field($_POST['statusValue']);
@@ -122,24 +128,24 @@ function fetch_tickets_ajax()
         $ticket_id = esc_html(get_post_meta($post_id, 'th_ticket_id', true));
         $ticket_status = esc_html(get_post_meta($post_id, 'th_ticket_status', true));
         $ticket_type = esc_html(get_post_meta($post_id, 'th_ticket_type', true));
-        $ticket_link = get_permalink();
-        $ticket_date = get_the_date();
+        $ticket_link = esc_url(get_permalink());
+        $ticket_date = esc_html(get_the_date());
         $author_id = get_the_author_meta('ID');
-        $first_name = get_the_author_meta('first_name', $author_id);
-        $last_name = get_the_author_meta('last_name', $author_id);
+        $first_name = esc_html(get_the_author_meta('first_name', $author_id));
+        $last_name = esc_html(get_the_author_meta('last_name', $author_id));
         $ticket_author = $first_name . ' ' . $last_name;
 
         if (empty($first_name) && empty($last_name)) {
-            $ticket_author = get_the_author_meta('display_name', $author_id);
+            $ticket_author = esc_html(get_the_author_meta('display_name', $author_id));
         }
 
         $output .= "<tr>";
-        $output .= "<td><span class='th-mobile-table-header'>" . __('ID', 'tickethub') . "</span><a href='$ticket_link'>$ticket_id</a></td>";
-        $output .= "<td><span class='th-mobile-table-header'>" . __('Status', 'tickethub') . "</span><span class='th-status-chip' data-status='$ticket_status'>$ticket_status</span></td>";
-        $output .= "<td><span class='th-mobile-table-header'>" . __('Type', 'tickethub') . "</span>$ticket_type</td>";
-        $output .= "<td class='th-comment-date'><span class='th-mobile-table-header'>" . __('Date', 'tickethub') . "</span>$ticket_date</td>";
+        $output .= "<td><span class='th-mobile-table-header'>" . esc_html__('ID', 'tickethub') . "</span><a href='$ticket_link'>$ticket_id</a></td>";
+        $output .= "<td><span class='th-mobile-table-header'>" . esc_html__('Status', 'tickethub') . "</span><span class='th-status-chip' data-status='$ticket_status'>$ticket_status</span></td>";
+        $output .= "<td><span class='th-mobile-table-header'>" . esc_html__('Type', 'tickethub') . "</span>$ticket_type</td>";
+        $output .= "<td class='th-comment-date'><span class='th-mobile-table-header'>" . esc_html__('Date', 'tickethub') . "</span>$ticket_date</td>";
         if (empty($user_id)) {
-            $output .= "<td><span class='th-mobile-table-header'>" . __('Created by', 'tickethub') . "</span>$ticket_author</td>";
+            $output .= "<td><span class='th-mobile-table-header'>" . esc_html__('Created by', 'tickethub') . "</span>$ticket_author</td>";
         }
         $output .= "</tr>";
     }
@@ -147,7 +153,7 @@ function fetch_tickets_ajax()
     wp_reset_postdata();
 
     $pagination = paginate_links(array(
-        'base'      => admin_url('admin-ajax.php') . '?page=%#%',
+        'base'      => esc_url(admin_url('admin-ajax.php')) . '?page=%#%',
         'format'    => '%#%',
         'total'     => $the_query->max_num_pages,
         'current'   => $page,
@@ -180,3 +186,4 @@ function fetch_tickets_ajax()
 }
 add_action('wp_ajax_fetch_tickets', 'fetch_tickets_ajax');
 add_action('wp_ajax_nopriv_fetch_tickets', 'fetch_tickets_ajax');
+?>

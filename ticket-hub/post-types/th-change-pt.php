@@ -63,10 +63,10 @@ add_action('edit_form_after_title', function ($post) {
 	);
 
 	// Display the label
-	echo '<h3>' . __('Log') . '</h3>';
+	echo '<h3>' . esc_html__('Log', 'tickethub') . '</h3>';
 
 	// Display the editor
-	wp_editor($log_content, 'th_log_editor', $settings);
+	wp_editor(esc_textarea($log_content), 'th_log_editor', $settings);
 });
 
 
@@ -83,6 +83,6 @@ add_action('save_post_th_change', function ($post_id) {
 
 	// Save/update the meta field in the database
 	if (isset($_POST['th_log'])) {
-		update_post_meta($post_id, '_th_log', $_POST['th_log']);
+		update_post_meta($post_id, '_th_log', wp_kses_post($_POST['th_log']));
 	}
 });
