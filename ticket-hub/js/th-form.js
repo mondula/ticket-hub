@@ -6,6 +6,9 @@ jQuery(document).ready(function ($) {
         // Disable the submit button to prevent multiple submissions
         $(this).find('input[type="submit"]').prop('disabled', true);
 
+        // Remove any existing notices
+        $('.notice').remove();
+
         $.ajax({
             type: 'POST',
             url: $(this).attr('action'),
@@ -13,16 +16,40 @@ jQuery(document).ready(function ($) {
             contentType: false,
             processData: false,
             success: function (response) {
-                // Display the success message
-                $('#th-form').prepend('<div class="notice notice-success">Thank you for your submission. We will get back to you soon.</div>');
-                // Reset the form to clear all input fields
-                document.getElementById('th-form').reset();
+                var noticeHtml = '';
+                if (response.success) {
+                    // Create the success message
+                    noticeHtml = '<div class="notice notice-success">Thank you for your submission. We will get back to you soon.</div>';
+                    // Reset the form to clear all input fields
+                    document.getElementById('th-form').reset();
+                } else {
+                    // Create the error message
+                    noticeHtml = '<div class="notice notice-error">' + response.data + '</div>';
+                }
+                // Prepend the notice to the form
+                $('#th-form').prepend(noticeHtml);
+
+                // Scroll to the notice
+                $('html, body').animate({
+                    scrollTop: $('.notice').offset().top - 50
+                }, 500);
+
                 // Re-enable the submit button
                 $('#th-form').find('input[type="submit"]').prop('disabled', false);
             },
-            error: function () {
-                // Display the error message
-                $('#th-form').prepend('<div class="notice notice-error">There was a problem with your submission. Please try again.</div>');
+            error: function (xhr, status, error) {
+                // Create the error message
+                var errorMsg = xhr.responseJSON && xhr.responseJSON.data ? xhr.responseJSON.data : 'There was a problem with your submission. Please try again.';
+                var noticeHtml = '<div class="notice notice-error">' + errorMsg + '</div>';
+
+                // Prepend the notice to the form
+                $('#th-form').prepend(noticeHtml);
+
+                // Scroll to the notice
+                $('html, body').animate({
+                    scrollTop: $('.notice').offset().top - 50
+                }, 500);
+
                 // Re-enable the submit button
                 $('#th-form').find('input[type="submit"]').prop('disabled', false);
             }

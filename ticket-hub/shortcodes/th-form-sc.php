@@ -17,6 +17,9 @@ add_shortcode('th_form', function () {
     $custom_fields = get_option('th_custom_fields', []);
     $disable_attachments = get_option('th_disable_attachments', 0); // 0 is unchecked by default
 
+    // Get the maximum upload size from PHP configuration
+    $max_upload_size = wp_max_upload_size();
+
     ob_start();
 ?>
     <form id="th-form" class="th-form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post" enctype="multipart/form-data">
@@ -31,8 +34,8 @@ add_shortcode('th_form', function () {
         </label>
         <?php if (!$disable_attachments) : // Check if attachments are enabled 
         ?>
-            <label><?php _e('Attachments (optional)', 'tickethub'); ?>
-                <input type="file" name="your-attachments[]" class="th-file-upload" multiple accept=".jpg, .jpeg, .png, .gif, .pdf, .doc, .docx, .txt">
+            <label><?php _e('Attachments (up to 3 files, max file size: ' . size_format($max_upload_size) . ')', 'tickethub'); ?>
+                <input type="file" name="your-attachments[]" class="th-file-upload" multiple accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .txt, .xls, .xlsx, .csv" data-max-files="3" data-max-size="<?php echo $max_upload_size; ?>">
             </label>
         <?php endif; ?>
 
@@ -62,16 +65,60 @@ add_shortcode('th_form', function () {
     return ob_get_clean();
 });
 
-
 add_action('admin_post_submit_ticket_form', function () {
     if (!current_user_can('submit_tickets') && !current_user_can('administrator')) {
-        wp_die(__('You do not have permission to submit tickets.', 'tickethub'));
+        wp_send_json_error(__('You do not have permission to submit tickets.', 'tickethub'));
     }
 
     if (!isset($_POST['ticket_nonce_field']) || !wp_verify_nonce($_POST['ticket_nonce_field'], 'submit_ticket_nonce')) {
-        wp_die(__('Security check failed', 'tickethub'));
+        wp_send_json_error(__('Security check failed', 'tickethub'));
     }
 
+    $attachments = $_FILES['your-attachments'];
+    $attachment_urls = [];
+    $attachment_files = [];
+
+    if (!function_exists('wp_handle_upload')) {
+        require_once(ABSPATH . 'wp-admin/includes/file.php');
+    }
+
+    // Check if more than 3 files are uploaded
+    if (count($attachments['name']) > 3) {
+        wp_send_json_error(__('You can upload a maximum of 3 files.', 'tickethub'));
+    }
+
+    foreach ($attachments['name'] as $key => $value) {
+        if ($attachments['name'][$key]) {
+            // File validation
+            $file_type = wp_check_filetype($attachments['name'][$key]);
+            $allowed_types = ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'txt', 'xls', 'xlsx', 'csv', 'ppt', 'pptx', 'zip', 'rar'];
+            if (!in_array($file_type['ext'], $allowed_types)) {
+                wp_send_json_error(__('Invalid file type. Only JPG, JPEG, PNG, GIF, PDF, DOC, DOCX, TXT, XLS, XLSX, CSV, PPT, PPTX, ZIP, and RAR files are allowed.', 'tickethub'));
+            }
+
+            $file = [
+                'name' => sanitize_file_name($attachments['name'][$key]),
+                'type' => $attachments['type'][$key],
+                'tmp_name' => $attachments['tmp_name'][$key],
+                'error' => $attachments['error'][$key],
+                'size' => $attachments['size'][$key]
+            ];
+            $uploaded_file = wp_handle_upload($file, ['test_form' => false]);
+
+            if (!isset($uploaded_file['error'])) {
+                $attachment_urls[] = $uploaded_file['url'];
+                $attachment_files[] = [
+                    'file' => $uploaded_file['file'],
+                    'type' => $file['type'],
+                    'name' => sanitize_file_name($file['name'])
+                ];
+            } else {
+                wp_send_json_error(__('There was an error uploading your file: ', 'tickethub') . $uploaded_file['error']);
+            }
+        }
+    }
+
+    // If all validations pass, create the ticket
     $current_user = wp_get_current_user();
     $first_name = get_user_meta($current_user->ID, 'first_name', true);
     $last_name = get_user_meta($current_user->ID, 'last_name', true);
@@ -84,6 +131,10 @@ add_action('admin_post_submit_ticket_form', function () {
         'post_status'  => 'pending',
         'post_type'    => 'th_ticket',
     ]);
+
+    if (is_wp_error($post_id)) {
+        wp_send_json_error(__('Error creating the ticket. Please try again.', 'tickethub'));
+    }
 
     $options = get_option('th_options');
     $prefix = isset($options['ticket_prefix']) ? $options['ticket_prefix'] : '';
@@ -109,38 +160,18 @@ add_action('admin_post_submit_ticket_form', function () {
         }
     }
 
-    $attachments = $_FILES['your-attachments'];
-    $attachment_urls = [];
+    // Attach files to the ticket
+    foreach ($attachment_files as $file) {
+        $attach_id = wp_insert_attachment([
+            'post_mime_type' => $file['type'],
+            'post_title' => $file['name'],
+            'post_content' => '',
+            'post_status' => 'inherit'
+        ], $file['file'], $post_id);  // Attachments are tied to the ticket here
 
-    if (!function_exists('wp_handle_upload')) {
-        require_once(ABSPATH . 'wp-admin/includes/file.php');
-    }
-
-    foreach ($attachments['name'] as $key => $value) {
-        if ($attachments['name'][$key]) {
-            $file = [
-                'name' => $attachments['name'][$key],
-                'type' => $attachments['type'][$key],
-                'tmp_name' => $attachments['tmp_name'][$key],
-                'error' => $attachments['error'][$key],
-                'size' => $attachments['size'][$key]
-            ];
-            $uploaded_file = wp_handle_upload($file, ['test_form' => false]);
-
-            if (!isset($uploaded_file['error'])) {
-                $attachment_urls[] = $uploaded_file['url'];
-                $attach_id = wp_insert_attachment([
-                    'post_mime_type' => $file['type'],
-                    'post_title' => sanitize_file_name($file['name']),
-                    'post_content' => '',
-                    'post_status' => 'inherit'
-                ], $uploaded_file['file'], $post_id);  // Notice the $post_id, which ties the attachment to the ticket
-
-                require_once(ABSPATH . 'wp-admin/includes/image.php');
-                $attach_data = wp_generate_attachment_metadata($attach_id, $uploaded_file['file']);
-                wp_update_attachment_metadata($attach_id, $attach_data);
-            }
-        }
+        require_once(ABSPATH . 'wp-admin/includes/image.php');
+        $attach_data = wp_generate_attachment_metadata($attach_id, $file['file']);
+        wp_update_attachment_metadata($attach_id, $attach_data);
     }
 
     $name = '';
