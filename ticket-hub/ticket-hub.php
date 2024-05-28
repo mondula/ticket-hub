@@ -10,9 +10,8 @@ License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: tickethub
 Requires at least: 6.0
-Tested up to: 6.2
-Requires PHP: 7.2
-Tags: tickets, support, helpdesk
+Tested up to: 6.5.3
+Tags: tickets, support, faq, documentation, change log
 */
 
 define('PLUGIN_ROOT', plugin_dir_url(__FILE__));

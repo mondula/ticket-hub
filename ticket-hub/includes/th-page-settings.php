@@ -16,8 +16,7 @@ function th_add_admin_menu()
         'manage_options',
         'th_main_menu',
         'th_page_options',
-        'dashicons-tickets',
-        6
+        'dashicons-tickets'
     );
 
     // Add a submenu for Settings
