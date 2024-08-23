@@ -5,7 +5,7 @@
   padding: 0 30px;
 }
 
-.th-select {
+.thub-select {
   width: auto;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -22,7 +22,7 @@
   font-size: 15px;
 }
 
-.th-button {
+.thub-button {
   width: auto;
   padding: 10px 25px;
   -webkit-appearance: none;
@@ -36,7 +36,7 @@
   cursor: default;
 }
 
-.th-select:hover,
-.th-button:hover {
+.thub-select:hover,
+.thub-button:hover {
   background-color: #262626;
 }
