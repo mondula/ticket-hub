@@ -19,7 +19,7 @@ done
 
 # Install WordPress if not installed
 if ! wp core is-installed --path=/var/www/html --allow-root; then
-  wp core install --url="http://localhost:8009" --title="WordPress Site" --admin_user="admin" --admin_password="admin_password" --admin_email="admin@example.com" --path=/var/www/html --allow-root
+  wp core install --url="http://localhost:8000" --title="WordPress Site" --admin_user="admin" --admin_password="admin_password" --admin_email="admin@example.com" --path=/var/www/html --allow-root
 fi
 
 # Install and activate WP Mail SMTP plugin
