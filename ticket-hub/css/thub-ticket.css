@@ -1,0 +1,224 @@
+/* Single Ticket Style Sheet */
+
+.thub-ticket-details>h3,
+.thub-ticket-details>div:not(.thub-ticket-images):not(.thub-related-tickets),
+.thub-ticket-details>a,
+.thub-ticket-comments {
+  padding-bottom: 20px;
+}
+
+.thub-ticket-details>h3 {
+  margin-top: 30px;
+}
+
+.thub-ticket-comment {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.thub-ticket-details h4,
+.thub-ticket-comments h4 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.thub-ticket-comments h4 {
+  font-size: 1.5rem;
+}
+
+.thub-ticket-attachments {
+  padding: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.thub-back-to-archive {
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  padding-bottom: unset !important;
+  margin-left: 5px;
+}
+
+.thub-back-to-archive svg {
+  margin-right: 10px;
+}
+
+.thub-back-to-archive:hover {
+  border-bottom: 2px solid #000000;
+}
+
+.thub-ticket-image {
+  width: 300px;
+  transition: filter 0.3s ease;
+}
+
+.thub-ticket-image:hover {
+  filter: brightness(50%);
+}
+
+.thub-ticket-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.thub-comment-date>p {
+  color: #999;
+}
+
+.thub-image-container {
+  width: min-content;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thub-zoom-icon {
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  max-height: 100%;
+  max-width: 100%;
+  display: none;
+  pointer-events: none;
+  transition: filter 0.3s ease;
+}
+
+.thub-image-container:hover .thub-zoom-icon {
+  display: block;
+}
+
+.thub-comment-wrapper {
+  position: relative;
+}
+
+.thub-vertical-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  background: #eee;
+  border-radius: 5px;
+}
+
+.thub-comment-area {
+  resize: none;
+  font-size: 1rem;
+  padding: 30px;
+  background: #eee;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 30px;
+  color: #24133b;
+  max-width: 80%;
+}
+
+.thub-comment-area::placeholder {
+  color: #24133b;
+}
+
+.thub-ticket-details+hr {
+  background-color: #D1D1D1;
+  margin-bottom: 50px;
+  height: 1px;
+  border: 0;
+}
+
+/* Lightbox */
+
+.thub-lightbox-backdrop {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.thub-lightbox-content {
+  margin: 10% auto;
+  display: flex;
+  max-width: 100vw;
+}
+
+.thub-lightbox-backdrop img {
+  -webkit-animation-name: zoom;
+  animation-name: zoom;
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+}
+
+.thub-related-tickets {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  background-color: #eee;
+  padding: 10px 15px 10px 30px;
+  border-radius: 50px;
+  flex-shrink: 1;
+  margin-bottom: 20px;
+}
+
+.thub-related-tickets>div:not(:first-child) {
+  background-color: #000;
+  padding: 8px 16px;
+  border-radius: 25px;
+}
+
+.thub-related-tickets>div:not(:first-child) a {
+  color: #eee;
+  text-decoration: none;
+
+}
+
+.thub-related-tickets>div:not(:first-child):hover {
+  background-color: #262626;
+}
+
+@-webkit-keyframes zoom {
+  from {
+    -webkit-transform: scale(0)
+  }
+
+  to {
+    -webkit-transform: scale(1)
+  }
+}
+
+@keyframes zoom {
+  from {
+    transform: scale(0)
+  }
+
+  to {
+    transform: scale(1)
+  }
+}
+
+.logged-in-as {
+  display: none;
+}
+
+@media (max-width: 999px) {
+  .thub-ticket-info {
+    display: unset;
+  }
+
+  .ticket-field {
+    padding-bottom: 20px;
+  }
+}

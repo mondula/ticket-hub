@@ -1,0 +1,78 @@
+.thub-profile-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#thub-loginform {
+    max-width: 600px;
+}
+
+.thub-profile-head+p {
+    margin-bottom: 60px;
+}
+
+#thub-loginform input[type="checkbox"] {
+    padding: 10px;
+    position: relative;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    border-radius: 5px;
+    float: left;
+    margin-top: 2px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+}
+
+#thub-loginform input[type="text"],
+#thub-loginform input[type="password"] {
+    margin: 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+#thub-loginform input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: -6px;
+    width: 8px;
+    height: 18px;
+    border: solid #000000;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+}
+
+#thub-loginform input[type="checkbox"]:checked::before {
+    opacity: 1;
+}
+
+#thub-loginform .button {
+    width: auto;
+    padding: 10px 25px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #000;
+    color: #eee;
+    border: none;
+    border-radius: 25px;
+    font-size: 15px;
+}
+
+#thub-loginform .button:hover {
+    background-color: #262626;
+}
+
+.thub-button {
+    text-decoration: none;
+}

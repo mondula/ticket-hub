@@ -1,0 +1,95 @@
+/* Ticket Form Style Sheet */
+
+.thub-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 600px;
+    padding: 0;
+    margin: 0;
+    max-width: 600px
+}
+
+.thub-form label {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.5;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+    margin-bottom: .5rem;
+    color: #333;
+    font-size: 16px
+}
+
+.thub-form label span {
+    color: red;
+    display: contents;
+}
+
+.thub-form input[type="text"],
+.thub-form input[type="email"],
+.thub-form textarea {
+    margin: 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 5px
+}
+
+.thub-form textarea {
+    height: 150px
+}
+
+.thub-form input,
+.thub-form select,
+.thub-form textarea {
+    margin-top: 5px
+}
+
+.thub-form select,
+.thub-form input[type="submit"] {
+    width: min-content
+}
+
+.thub-file-upload {
+    border: none;
+    padding-left: 0
+}
+
+.thub-file-upload::file-selector-button {
+    color: #eee;
+    background-color: #000;
+    border-radius: 20px;
+    padding: 10px 15px;
+    margin-right: 15px;
+    border: none;
+    font-size: 15px
+}
+
+/* Styles for success and error messages */
+
+.thub-form .notice {
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.thub-form .notice-success {
+    background-color: #dff0d8;
+    border: 1px solid #d6e9c6;
+    color: #3c763d;
+}
+
+.thub-form .notice-error {
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+    color: #a94442;
+}
