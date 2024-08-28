@@ -57,7 +57,7 @@ add_action('init', function () {
 });
 
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('ticket-hub-style', PLUGIN_ROOT . 'css/ticket-hub.css', array(), '1.0', 'all');
+    wp_enqueue_style('ticket-hub-style', PLUGIN_ROOT . 'css/ticket-hub.css', array(), '1.0.0', 'all');
 });
 
 add_filter('single_template', function ($template) {
@@ -99,38 +99,35 @@ add_action('after_setup_theme', function () {
     }
 });
 
-function enqueue_admin_post_status_script()
-{
+function enqueue_admin_post_status_script($hook_suffix) {
     global $post;
-    if ($post->post_type == 'thub_ticket') {
-        $archived_text = esc_js(__('Archived', 'tickethub'));
-?>
-        <script>
-            jQuery(document).ready(function($) {
-                // Append the new status to the status selector in the edit post and quick edit screens
-                $("select[name='post_status']").append("<option value='thub_archive'><?php echo $archived_text; ?></option>");
 
-                // Check if the current post status is 'thub_archive' and update the selector
-                <?php if ('thub_archive' == $post->post_status) : ?>
-                    $("select[name='post_status']").val('archive');
-                    $('#post-status-display').text('<?php echo $archived_text; ?>');
-                <?php endif; ?>
+    // Use get_plugin_data() if you need versioning based on your plugin version
+    $version = '1.0.0';
+    
+    // Ensure the script is only loaded on post and edit screens for 'thub_ticket' post type
+    if (($hook_suffix === 'post.php' || $hook_suffix === 'edit.php') && isset($post->post_type) && $post->post_type === 'thub_ticket') {
+        // Register and enqueue the script
+        wp_register_script(
+            'thub-admin-post-status-script', // Handle for the script
+            plugin_dir_url(__FILE__) . 'js/thub-admin-post-status.js', // Correct URL to your JS file
+            array('jquery'), // Dependencies (in this case, jQuery)
+            $version, // Version number
+            true // Load in the footer
+        );
 
-                // Add the status to the quick edit
-                $(".editinline").click(function() {
-                    var $row = $(this).closest('tr');
-                    var $status = $row.find('.status').text();
-                    if ('<?php echo $archived_text; ?>' === $status) {
-                        $('select[name="_status"]', '.inline-edit-row').val('thub_archive');
-                    }
-                });
-            });
-        </script>
-<?php
+        // Localize the script with necessary variables
+        wp_localize_script('thub-admin-post-status-script', 'tickethub_status_vars', array(
+            'archived_text' => esc_js(__('Archived', 'tickethub')),
+            'post_status' => esc_js($post->post_status),
+        ));
+
+        // Enqueue the script
+        wp_enqueue_script('thub-admin-post-status-script');
     }
 }
-add_action('admin_footer-post.php', 'enqueue_admin_post_status_script');
-add_action('admin_footer-edit.php', 'enqueue_admin_post_status_script');
+add_action('admin_enqueue_scripts', 'enqueue_admin_post_status_script');
+
 
 add_action('admin_enqueue_scripts', function () {
     // Use get_plugin_data() if you need versioning based on your plugin version
@@ -141,5 +138,35 @@ add_action('admin_enqueue_scripts', function () {
 
     // Enqueue the stylesheet
     wp_enqueue_style('thub-admin-style', $admin_style_url, array(), $version);
+});
+
+//register and enqueue for form editor script
+add_action('admin_enqueue_scripts', function () {
+
+    // Use get_plugin_data() if you need versioning based on your plugin version
+    $version = '1.0.0';
+
+    // Properly form the URL to the stylesheet
+    $admin_form_editor_tab_script_url = plugins_url('js/thub-form-editor-tab.js', __FILE__);
+
+     // Register the script
+     wp_register_script(
+        'thub-form-editor-tab-script', // Handle for the script
+        $admin_form_editor_tab_script_url, // URL of the script file
+        array('jquery'), // Dependencies (in this case, jQuery)
+        $version, // Version number
+        true // Load in footer
+    );
+
+    // Localize the script with translation strings
+    wp_localize_script('thub-form-editor-tab-script', 'tickethub_vars', array(
+        'text' => esc_html__('Text', 'tickethub'),
+        'textarea' => esc_html__('Textarea', 'tickethub'),
+        'select' => esc_html__('Select', 'tickethub'),
+        'label' => esc_html__('Label', 'tickethub')
+    ));
+
+    // Enqueue the script
+    wp_enqueue_script('thub-form-editor-tab-script');
 });
 ?>

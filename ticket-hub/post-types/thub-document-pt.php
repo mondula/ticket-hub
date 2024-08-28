@@ -87,53 +87,14 @@ add_action('edit_form_after_title', function ($post) {
         </label>
         <input type="url" name="link" id="thub-document-link" value="<?php echo esc_url($link); ?>" />
     </div>
-
-    <script>
-        jQuery(document).ready(function($) {
-            $('#thub-document-type').change(function() {
-                if ($(this).val() === 'File') {
-                    $('#thub-file-upload-section').show();
-                    $('#thub-link-section').hide();
-                } else {
-                    $('#thub-file-upload-section').hide();
-                    $('#thub-link-section').show();
-                }
-            });
-
-            $('#thub-upload-file-button').click(function(e) {
-                e.preventDefault();
-                var fileFrame;
-
-                if (fileFrame) {
-                    fileFrame.open();
-                    return;
-                }
-
-                fileFrame = wp.media({
-                    title: 'Select or Upload a File',
-                    button: {
-                        text: 'Use this file'
-                    },
-                    multiple: false
-                });
-
-                fileFrame.on('select', function() {
-                    var attachment = fileFrame.state().get('selection').first().toJSON();
-                    $('#thub-document-file-id').val(attachment.id);
-                    $('#thub-file-name').text(attachment.title);
-                });
-
-                fileFrame.open();
-            });
-        });
-    </script>
 <?php
+    wp_enqueue_script('thub-document-script', PLUGIN_ROOT . 'js/thub-document.js', array('jquery'), '1.0.0', true);
     wp_enqueue_media();
 });
 
 add_action('save_post_thub_document', function ($post_id) {
     // Security checks (nonce, autosave, permission).
-    if (!isset($_POST['thub_document_fields_nonce']) || !wp_verify_nonce($_POST['thub_document_fields_nonce'], basename(__FILE__))) {
+    if (!isset($_POST['thub_document_fields_nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash ($_POST['thub_document_fields_nonce'])), basename(__FILE__))) {
         return $post_id;
     }
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return $post_id;

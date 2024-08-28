@@ -202,7 +202,7 @@ add_action('edit_form_after_title', function ($post) {
 
 add_action('save_post_thub_ticket', function ($post_id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-    if (!isset($_POST['ticket_meta_nonce']) || !wp_verify_nonce($_POST['ticket_meta_nonce'], 'save_ticket_meta')) return;
+    if (!isset($_POST['ticket_meta_nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash ($_POST['ticket_meta_nonce'])), 'save_ticket_meta')) return;
 
     $fields = ['thub_ticket_id', 'thub_ticket_status', 'thub_ticket_type', 'thub_ticket_description'];
 

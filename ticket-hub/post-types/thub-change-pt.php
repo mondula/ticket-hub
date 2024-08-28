@@ -73,7 +73,7 @@ add_action('edit_form_after_title', function ($post) {
 
 add_action('save_post_thub_change', function ($post_id) {
 	// Check for nonce security
-	if (!isset($_POST['thub_log_meta_nonce']) || !wp_verify_nonce($_POST['thub_log_meta_nonce'], 'thub_save_log_meta')) {
+	if (!isset($_POST['thub_log_meta_nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash ($_POST['thub_log_meta_nonce'])), 'thub_save_log_meta')) {
 		return;
 	}
 

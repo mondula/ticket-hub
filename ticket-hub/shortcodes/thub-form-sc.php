@@ -71,11 +71,11 @@ add_action('admin_post_submit_ticket_form', function () {
         wp_send_json_error(__('You do not have permission to submit tickets.', 'tickethub'));
     }
 
-    if (!isset($_POST['ticket_nonce_field']) || !wp_verify_nonce($_POST['ticket_nonce_field'], 'submit_ticket_nonce')) {
+    if (!isset($_POST['ticket_nonce_field']) || !wp_verify_nonce(sanitize_text_field( wp_unslash ($_POST['ticket_nonce_field'])), 'submit_ticket_nonce')) {
         wp_send_json_error(__('Security check failed', 'tickethub'));
     }
 
-    $attachments = $_FILES['your-attachments'];
+    $attachments = $_FILES[sanitize_file_name('your-attachments')];
     $attachment_urls = [];
     $attachment_files = [];
 

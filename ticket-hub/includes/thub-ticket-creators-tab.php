@@ -20,7 +20,7 @@ function thub_ticket_creator_form_page()
     }
 
     // Handle form submission for single user creation
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_user_nonce']) && wp_verify_nonce($_POST['create_user_nonce'], 'create_thub_ticket_creator')) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_user_nonce']) && wp_verify_nonce(sanitize_text_field( wp_unslash ($_POST['create_user_nonce'])), 'create_thub_ticket_creator')) {
         $first_name = sanitize_text_field($_POST['first_name']);
         $last_name = sanitize_text_field($_POST['last_name']);
         $email = sanitize_email($_POST['email']);
