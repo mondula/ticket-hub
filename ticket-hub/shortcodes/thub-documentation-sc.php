@@ -50,7 +50,7 @@ add_shortcode('thub_documentation', function () {
 
     // Query for the actual display
     $the_query = new WP_Query($args);
-    echo '<table class="thub-document-table"><thead><tr><th>' . esc_html__('Type', 'tickethub') . '</th><th>' . esc_html__('Name', 'tickethub') . '</th></tr></thead><tbody>';
+    echo '<table class="thub-document-table"><thead><tr><th>' . esc_html__('Type', 'tickethub') . '</th><th>' . esc_html__('Name', 'tickethub') . '</th><th></th></tr></thead><tbody>';
     while ($the_query->have_posts()) {
         $the_query->the_post();
 
@@ -124,7 +124,8 @@ add_shortcode('thub_documentation', function () {
             ),
         );
 
-        echo '<td><div>' . esc_html($document_name) . '</div><a class="thub-button" href="' . esc_url($document_url) . '" target="_blank"' . esc_attr($download_attribute) . '>' . wp_kses($icon_svg, $allowed_tags) . ' ' . wp_kses_post($button_text) . '</a></td>';
+        echo '<td><div>' . esc_html($document_name) . '</div></td>';
+        echo '<td>' . '<a class="thub-button" href="' . esc_url($document_url) . '" target="_blank"' . esc_attr($download_attribute) . '>' . wp_kses($icon_svg, $allowed_tags) . ' ' . wp_kses_post($button_text) . '</a></td>';
         echo '</tr>';
     }
     echo '</tbody></table>';

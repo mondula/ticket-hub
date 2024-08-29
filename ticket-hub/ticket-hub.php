@@ -103,23 +103,28 @@ add_action('after_setup_theme', function () {
 function enqueue_admin_post_status_script($hook_suffix) {
     global $post;
 
-                // Check if the current post status is 'th_archive' and update the selector
-                <?php if ('th_archive' == $post->post_status) : ?>
-                    $("select[name='post_status']").val('archive');
-                    $('#post-status-display').text('<?php echo $archived_text; ?>');
-                <?php endif; ?>
+    // Use get_plugin_data() if you need versioning based on your plugin version
+    $version = '1.0.0';
+    
+    // Ensure the script is only loaded on post and edit screens for 'thub_ticket' post type
+    if (($hook_suffix === 'post.php' || $hook_suffix === 'edit.php') && isset($post->post_type) && $post->post_type === 'thub_ticket') {
+        // Register and enqueue the script
+        wp_register_script(
+            'thub-admin-post-status-script', // Handle for the script
+            plugin_dir_url(__FILE__) . 'js/thub-admin-post-status.js', // Correct URL to your JS file
+            array('jquery'), // Dependencies (in this case, jQuery)
+            $version, // Version number
+            true // Load in the footer
+        );
 
-                // Add the status to the quick edit
-                $(".editinline").click(function() {
-                    var $row = $(this).closest('tr');
-                    var $status = $row.find('.status').text();
-                    if ('<?php echo $archived_text; ?>' === $status) {
-                        $('select[name="_status"]', '.inline-edit-row').val('th_archive');
-                    }
-                });
-            });
-        </script>
-<?php
+        // Localize the script with necessary variables
+        wp_localize_script('thub-admin-post-status-script', 'tickethub_status_vars', array(
+            'archived_text' => esc_js(__('Archived', 'tickethub')),
+            'post_status' => esc_js($post->post_status),
+        ));
+
+        // Enqueue the script
+        wp_enqueue_script('thub-admin-post-status-script');
     }
 }
 add_action('admin_enqueue_scripts', 'enqueue_admin_post_status_script');
