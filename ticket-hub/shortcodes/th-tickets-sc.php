@@ -14,13 +14,13 @@ add_shortcode('th_tickets', function ($atts) {
     $attributes['user_id'] = sanitize_text_field($attributes['user_id']);
 
     if (!$tickets_enqueue) {
-        wp_enqueue_script('th-tickets-script', PLUGIN_ROOT . 'js/th-tickets.js', array('jquery'), '', true);
+        wp_enqueue_script('th-tickets-script', PLUGIN_ROOT . 'js/th-tickets.js', array('jquery'), '1.0.0', true);
         wp_localize_script('th-tickets-script', 'ajax_params', array(
             'ajax_url' => esc_url(admin_url('admin-ajax.php')),
             'user_id' => $attributes['user_id'],
             'nonce' => wp_create_nonce('fetch_tickets_nonce')
         ));
-        wp_enqueue_style('th-tickets-style', PLUGIN_ROOT . 'css/th-tickets.css', array(), '', 'all');
+        wp_enqueue_style('th-tickets-style', PLUGIN_ROOT . 'css/th-tickets.css', array(), '1.0.0', 'all');
         $tickets_enqueue = true;
     }
 
@@ -89,6 +89,7 @@ function fetch_tickets_ajax()
         'posts_per_page' => 10,
         'paged'          => $page,
         'post_status'    => $is_archive ? 'th_archive' : 'publish',
+        //TODO: Plugin-Check beschwert sich: "Detected usage of meta_query, possible slow query." -> Entweder fixen oder Kommentar löschen und ignorieren.
         'meta_query'     => array(
             'relation' => 'AND',
         )
@@ -178,9 +179,10 @@ function fetch_tickets_ajax()
         $pagination_html .= "</div>";
     }
 
-    $final_output = json_encode(array('tickets' => $output, 'pagination' => $pagination_html));
+    $final_output = wp_json_encode(array('tickets' => $output, 'pagination' => $pagination_html));
 
     header('Content-Type: application/json');
+    //TODO: Kann das noch weiter escaped werden? Ist ja schon wp_json_encode(), also sollte sicher sein?
     echo $final_output;
     die();
 }

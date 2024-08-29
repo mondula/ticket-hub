@@ -4,8 +4,8 @@ add_shortcode('th_ticket', function ($atts) {
     static $ticket_enqueue = false;
 
     if (!$ticket_enqueue) {
-        wp_enqueue_script('th-lightbox-script', PLUGIN_ROOT . 'js/th-lightbox.js', array('jquery'), '', true);
-        wp_enqueue_style('th-ticket-style', PLUGIN_ROOT . 'css/th-ticket.css', array(), '', 'all');
+        wp_enqueue_script('th-lightbox-script', PLUGIN_ROOT . 'js/th-lightbox.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_style('th-ticket-style', PLUGIN_ROOT . 'css/th-ticket.css', array(), '1.0.0', 'all');
         $ticket_enqueue = true;
     }
 
@@ -35,7 +35,9 @@ add_shortcode('th_ticket', function ($atts) {
                 'post_type' => 'th_ticket',
                 'post_status' => 'publish',
                 'posts_per_page' => -1,
-                'post__not_in' => array($post_id),
+                // herausgenommen, damit cache reused werden kann, auslassen dann in Schleife
+                //'post__not_in' => array($post_id),
+                //TODO: Plugin-Check beschwert sich: "Detected usage of meta_query, possible slow query." -> Entweder fixen oder Kommentar lˆschen und ignorieren.
                 'tax_query' => array(
                     array(
                         'taxonomy' => 'th_ticket_tag',
@@ -55,7 +57,7 @@ add_shortcode('th_ticket', function ($atts) {
                         </g>
                     </g>
                 </svg>
-                <a href="<?php echo esc_url($tickets_page_url); ?>" class="th-back-to-archive"><?php _e('Back', 'tickethub') ?></a>
+                <a href="<?php echo esc_url($tickets_page_url); ?>" class="th-back-to-archive"><?php esc_attr_e('Back', 'tickethub') ?></a>
                 <?php
                 $ticket_id = get_post_meta($post_id, 'th_ticket_id', true);
                 if (!empty($ticket_id)) {
@@ -66,7 +68,10 @@ add_shortcode('th_ticket', function ($atts) {
                     echo '<div class="th-related-tickets"><span>' . esc_html__('Related Tickets', 'tickethub') . '</span>';
                     while ($related_tickets->have_posts()) {
                         $related_tickets->the_post();
-                        echo '<div><a href="' . esc_url(get_permalink()) . '">' . esc_html(get_the_title()) . '</a></div>';
+                        // gleichen Post ausschlieﬂen
+                        if (get_the_ID() != $post_id) {
+                            echo '<div><a href="' . esc_url(get_permalink()) . '">' . esc_html(get_the_title()) . '</a></div>';
+                        }
                     }
                     echo '</div>';
                 }
@@ -153,7 +158,30 @@ add_shortcode('th_ticket', function ($atts) {
                     foreach ($image_attachments as $attachment) {
                         $image_url = wp_get_attachment_url($attachment->ID);
                         if ($image_url) {
-                            echo '<a href="' . esc_url($image_url) . '" class="th-lightbox-trigger"><div class="th-image-container"><img src="' . esc_url($image_url) . '" alt="' . esc_attr($attachment->post_title) . '" class="th-ticket-image">' . $zoomSVG . '</div></a>';
+                            // Definiere die zul‰ssigen HTML-Tags f¸r das SVG-Icon, somit funktioniert wp_kses()
+                            //TODO: Ich habe keine ‹bersicht, welche hier nˆtig sind, ChatGPT hat das hier ausgespuckt, bitte einmal r¸berschauen
+                            $allowed_tags = array(
+                                'svg'   => array(
+                                    'xmlns'    => array(),
+                                    'xmlns:xlink' => array(),
+                                    'width'    => array(),
+                                    'height'   => array(),
+                                    'viewBox'  => array(),
+                                ),
+                                'g'     => array(
+                                    'id'       => array(),
+                                    'transform'=> array(),
+                                    'data-name'=> array(),
+                                ),
+                                'path'  => array(
+                                    'id'       => array(),
+                                    'data-name'=> array(),
+                                    'd'        => array(),
+                                    'transform'=> array(),
+                                    'fill'     => array(),
+                                ),
+                            );
+                            echo '<a href="' . esc_url($image_url) . '" class="th-lightbox-trigger"><div class="th-image-container"><img src="' . esc_url($image_url) . '" alt="' . esc_attr($attachment->post_title) . '" class="th-ticket-image">' . wp_kses($zoomSVG, $allowed_tags) . '</div></a>';
                         }
                     }
                     echo '</div>';
@@ -219,10 +247,10 @@ function display_comment_with_replies($comment, $depth = 0)
     echo '<div class="th-comment-wrapper" style="left: relative;">'; // Wrapper div
 
     if ($depth > 0) {
-        echo '<div style="margin-left:' . (($depth - 1) * 20) . 'px;" class="th-vertical-bar"></div>';
+        echo '<div style="margin-left:' . esc_attr((($depth - 1) * 20)) . 'px;" class="th-vertical-bar"></div>';
     }
 
-    echo '<div class="th-ticket-comment" style="margin-left:' . ($depth * 30) . 'px;">'; // Indent nested comments
+    echo '<div class="th-ticket-comment" style="margin-left:' . esc_attr(($depth * 30)) . 'px;">'; // Indent nested comments
     echo '<div class="comment-author"><h5>' . esc_html($comment->comment_author) . '</h5></div>';
     echo '<div class="comment-content"><p>' . esc_html($comment->comment_content) . '</p></div>';
     echo '<div class="th-comment-date"><p>' . esc_html(get_comment_date('', $comment)) . '</p></div>';

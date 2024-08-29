@@ -52,6 +52,7 @@ add_action('init', function () {
         'exclude_from_search'       => false,
         'show_in_admin_all_list'    => true,
         'show_in_admin_status_list' => true,
+        // translators: %s: Label count.
         'label_count'               => _n_noop('Archived <span class="count">(%s)</span>', 'Archived <span class="count">(%s)</span>')
     ));
 });
@@ -102,17 +103,19 @@ add_action('after_setup_theme', function () {
 function enqueue_admin_post_status_script()
 {
     global $post;
-    if ($post->post_type == 'th_ticket') {
+    if ($post != null && $post->post_type == 'th_ticket') {
         $archived_text = esc_js(__('Archived', 'tickethub'));
 ?>
         <script>
             jQuery(document).ready(function($) {
                 // Append the new status to the status selector in the edit post and quick edit screens
+                //TODO: $archived_text sollt laut Plugin-Check noch erscaped werden? aber ist ja bereits esc_js()
                 $("select[name='post_status']").append("<option value='th_archive'><?php echo $archived_text; ?></option>");
 
                 // Check if the current post status is 'th_archive' and update the selector
                 <?php if ('th_archive' == $post->post_status) : ?>
                     $("select[name='post_status']").val('archive');
+                    //TODO: $archived_text sollt laut Plugin-Check noch erscaped werden? aber ist ja bereits esc_js()
                     $('#post-status-display').text('<?php echo $archived_text; ?>');
                 <?php endif; ?>
 
@@ -120,6 +123,7 @@ function enqueue_admin_post_status_script()
                 $(".editinline").click(function() {
                     var $row = $(this).closest('tr');
                     var $status = $row.find('.status').text();
+                    //TODO: $archived_text sollt laut Plugin-Check noch erscaped werden? aber ist ja bereits esc_js()
                     if ('<?php echo $archived_text; ?>' === $status) {
                         $('select[name="_status"]', '.inline-edit-row').val('th_archive');
                     }

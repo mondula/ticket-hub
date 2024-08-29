@@ -4,8 +4,8 @@ add_shortcode('th_changelog', function () {
     global $th_accordion_enqueue;
 
     if (!$th_accordion_enqueue) {
-        wp_enqueue_script('th-accordion-script', PLUGIN_ROOT . 'js/th-accordion.js', array('jquery'), '', true);
-        wp_enqueue_style('th-accordion-style', PLUGIN_ROOT . 'css/th-accordion.css', array(), '', 'all');
+        wp_enqueue_script('th-accordion-script', PLUGIN_ROOT . 'js/th-accordion.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_style('th-accordion-style', PLUGIN_ROOT . 'css/th-accordion.css', array(), '1.0.0', 'all');
         $th_accordion_enqueue = true;
     }
 
@@ -32,7 +32,7 @@ add_shortcode('th_changelog', function () {
             echo '<span class="th-accordion-toggle"></span></div>';
             echo '<div class="th-accordion-content">';
             // If the log content contains HTML, consider using the_content filter. Otherwise, for plain text, use wp_kses_post().
-            echo apply_filters('the_content', wp_kses_post(get_post_meta(get_the_ID(), '_th_log', true)));
+            echo esc_html(apply_filters('the_content', wp_kses_post(get_post_meta(get_the_ID(), '_th_log', true))));
             echo '</div>';
             echo '</div>';
         }

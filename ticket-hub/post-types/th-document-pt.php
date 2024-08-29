@@ -1,5 +1,5 @@
 <?php
-
+#require 'wp-includes/http.php';
 add_action('init', function () {
     register_post_type('th_document', array(
         'labels' => array(
@@ -148,7 +148,7 @@ add_action('save_post_th_document', function ($post_id) {
             $post_title = $file_name;
         } elseif (isset($_POST['type']) && $_POST['type'] === 'Link' && isset($_POST['link'])) {
             $url = esc_url_raw($_POST['link']);
-            $parsed_url = parse_url($url);
+            $parsed_url = wp_parse_url($url);
             $domain = $parsed_url['host'];
             $post_title = $domain;
         }

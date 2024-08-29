@@ -5,8 +5,8 @@ add_shortcode('th_documentation', function () {
     static $documentation_enqueue = false;
 
     if (!$documentation_enqueue) {
-        wp_enqueue_script('th-documentation-script', PLUGIN_ROOT . 'js/th-documentation.js', array('jquery'), '', true);
-        wp_enqueue_style('th-documentation-style', PLUGIN_ROOT . 'css/th-documentation.css', array(), '', 'all');
+        wp_enqueue_script('th-documentation-script', PLUGIN_ROOT . 'js/th-documentation.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_style('th-documentation-style', PLUGIN_ROOT . 'css/th-documentation.css', array(), '1.0.0', 'all');
         $documentation_enqueue = true;
     }
 
@@ -98,7 +98,32 @@ add_shortcode('th_documentation', function () {
 
         echo "<tr data-document-type='" . esc_attr($document_type === 'File' ? $file_extension : 'LINK') . "'>";
         echo '<td>' . esc_html($type_display) . '</td>';
-        echo '<td><div>' . esc_html($document_name) . '</div><a class="th-button" href="' . esc_url($document_url) . '" target="_blank"' . $download_attribute . '>' . $icon_svg . ' ' . $button_text . '</a></td>';
+
+        // Definiere die zulässigen HTML-Tags für das SVG-Icon, somit funktioniert wp_kses()
+        //TODO: Ich habe keine Übersicht, welche hier nötig sind, ChatGPT hat das hier ausgespuckt, bitte einmal rüberschauen
+        $allowed_tags = array(
+            'svg'   => array(
+                'xmlns'    => array(),
+                'xmlns:xlink' => array(),
+                'width'    => array(),
+                'height'   => array(),
+                'viewBox'  => array(),
+            ),
+            'g'     => array(
+                'id'       => array(),
+                'transform'=> array(),
+                'data-name'=> array(),
+            ),
+            'path'  => array(
+                'id'       => array(),
+                'data-name'=> array(),
+                'd'        => array(),
+                'transform'=> array(),
+                'fill'     => array(),
+            ),
+        );
+
+        echo '<td><div>' . esc_html($document_name) . '</div><a class="th-button" href="' . esc_url($document_url) . '" target="_blank"' . esc_attr($download_attribute) . '>' . wp_kses($icon_svg, $allowed_tags) . ' ' . wp_kses_post($button_text) . '</a></td>';
         echo '</tr>';
     }
     echo '</tbody></table>';

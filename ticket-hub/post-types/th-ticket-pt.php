@@ -142,19 +142,19 @@ add_action('edit_form_after_title', function ($post) {
 
     foreach ($fields as $key => $field) {
         $value = get_post_meta($post->ID, $key, true);
-        echo "<label for='{$key}'><h3>" . esc_html($field['label']) . "</h3></label>";
+        echo "<label for='" . esc_attr($key) . "'><h3>" . esc_html($field['label']) . "</h3></label>";
 
         if ($field['type'] === 'select') {
-            echo "<select id='{$key}' name='{$key}'>";
+            echo "<select id='" . esc_attr($key) . "' name='" . esc_attr($key) . "'>";
             foreach ($field['options'] as $optionKey => $optionValue) {
                 $selected = ($value == $optionKey) ? 'selected' : '';
-                echo "<option value='" . esc_attr($optionKey) . "' {$selected}>" . esc_html($optionValue) . "</option>";
+                echo "<option value='" . esc_attr($optionKey) . "' " . esc_attr($selected) . ">" . esc_html($optionValue) . "</option>";
             }
             echo "</select><br/><br/>";
         } elseif ($field['type'] === 'textarea') {
-            echo "<textarea id='{$key}' name='{$key}' rows='4' cols='50'>" . esc_textarea($value) . "</textarea><br/><br/>";
+            echo "<textarea id='" . esc_attr($key) . "' name='" . esc_attr($key) . "' rows='4' cols='50'>" . esc_textarea($value) . "</textarea><br/><br/>";
         } else {
-            echo "<input type='text' id='{$key}' name='{$key}' value='" . esc_attr($value) . "'/><br/><br/>";
+            echo "<input type='text' id='" . esc_attr($key) . "' name='" . esc_attr($key) . "' value='" . esc_attr($value) . "'/><br/><br/>";
         }
     }
 
@@ -186,7 +186,7 @@ add_action('edit_form_after_title', function ($post) {
             echo "<select id='thcf_" . esc_attr(sanitize_title($field['label'])) . "' name='thcf_" . esc_attr(sanitize_title($field['label'])) . "'>";
             foreach ($field['options'] as $option) {
                 $selected = ($value == $option) ? 'selected' : '';
-                echo "<option value='" . esc_attr($option) . "' {$selected}>" . esc_html($option) . "</option>";
+                echo "<option value='" . esc_attr($option) . "' " . esc_attr($selected) . ">" . esc_html($option) . "</option>";
             }
             echo "</select><br/><br/>";
         } elseif ($field['type'] === 'textarea') {
@@ -305,6 +305,7 @@ add_action('archive_done_tickets', function () {
         'post_type'      => 'th_ticket',
         'post_status'    => 'publish',
         'posts_per_page' => -1,
+        //TODO: Plugin-Check beschwert sich: "Detected usage of meta_query, possible slow query." -> Entweder fixen oder Kommentar löschen und ignorieren.
         'meta_query'     => array(
             array(
                 'key'     => 'status',
@@ -400,9 +401,12 @@ add_filter('handle_bulk_actions-edit-th_ticket', function ($redirect_to, $doacti
 }, 10, 3);
 
 add_action('admin_notices', function () {
+    //TODO: Plugin-Check beschwert sich bei "$_REQUEST['bulk_...": "Processing form data without nonce verification."
     if (!empty($_REQUEST['bulk_archived_posts'])) {
+        //TODO: Plugin-Check beschwert sich bei "$_REQUEST['bulk_...": "Processing form data without nonce verification."
         $archived_count = intval($_REQUEST['bulk_archived_posts']);
         printf('<div id="message" class="updated fade"><p>' .
+        // translators: %s: Count of archived posts
             esc_html(_n('Archived %s post.', 'Archived %s posts.', $archived_count, 'tickethub')) .
             '</p></div>', esc_html($archived_count));
     }

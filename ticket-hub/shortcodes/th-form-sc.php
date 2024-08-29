@@ -8,8 +8,8 @@ add_shortcode('th_form', function () {
     static $ticket_form_enqueue = false;
 
     if (!$ticket_form_enqueue) {
-        wp_enqueue_style('th-form-style', PLUGIN_ROOT . 'css/th-form.css', array(), '', 'all');
-        wp_enqueue_script('th-form-script', PLUGIN_ROOT . 'js/th-form.js', array('jquery'), '', true);
+        wp_enqueue_style('th-form-style', PLUGIN_ROOT . 'css/th-form.css', array(), '1.0.0', 'all');
+        wp_enqueue_script('th-form-script', PLUGIN_ROOT . 'js/th-form.js', array('jquery'), '1.0.0', true);
         $ticket_form_enqueue = true;
     }
 
@@ -34,11 +34,11 @@ add_shortcode('th_form', function () {
         </label>
         <?php if (!$disable_attachments) : // Check if attachments are enabled 
         ?>
-            <label><?php printf(esc_html__('Attachments (up to 3 files, max file size: %s)', 'tickethub'), size_format($max_upload_size)); ?>
+            <!-- translators: %s: Maximum upload size for uploads. --> 
+            <label><?php printf(esc_html__('Attachments (up to 3 files, max file size: %s)', 'tickethub'), esc_attr(size_format($max_upload_size))); ?>
                 <input type="file" name="your-attachments[]" class="th-file-upload" multiple accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .txt, .xls, .xlsx, .csv" data-max-files="3" data-max-size="<?php echo esc_attr($max_upload_size); ?>">
             </label>
         <?php endif; ?>
-
         <!-- Custom fields generated dynamically -->
         <?php foreach ($custom_fields as $field) : ?>
             <label> <?php echo esc_html($field['label']) . ($field['required'] ? '<span>*</span>' : ''); ?>
@@ -194,6 +194,7 @@ add_action('admin_post_submit_ticket_form', function () {
 
     wp_mail(sanitize_email(get_option('admin_email')), $subject, esc_html($message), $headers);
 
+    // translators: %s: User name.
     $user_message = sprintf(__('Hello %s,\n\nThank you for submitting your ticket. It will now be reviewed.\n\nBest regards,\nYour Support Team', 'tickethub'), $name);
     wp_mail($email, __('Confirmation of Your Ticket Submission', 'tickethub'), esc_html($user_message), $headers);
 
