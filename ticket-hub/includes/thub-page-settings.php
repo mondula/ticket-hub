@@ -102,7 +102,7 @@ function thub_settings_field_callback($args)
         'echo' => 1,
         'show_option_none' => '&mdash; ' . esc_html__('Select', 'tickethub') . ' &mdash;',
         'option_none_value' => '0',
-        'selected' => isset($options[$field]) ? $options[$field] : ''
+        'selected' => esc_attr(isset($options[$field]) ? $options[$field] : '')
     ));
 }
 
@@ -136,6 +136,7 @@ function thub_page_options()
     // Check if the Plus plugin is active
     $is_plus_active = function_exists('thub_is_tickethub_plus_active') ? thub_is_tickethub_plus_active() : false;
 
+    //TODO: Plugin-Check: "Processing form data without nonce verification."
     $active_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'general';
 ?>
     <div class="wrap">
