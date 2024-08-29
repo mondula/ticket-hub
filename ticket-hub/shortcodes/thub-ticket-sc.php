@@ -58,7 +58,7 @@ add_shortcode('thub_ticket', function ($atts) {
                         </g>
                     </g>
                 </svg>
-                <a href="<?php echo esc_url($tickets_page_url); ?>" class="th-back-to-archive"><?php esc_attr_e('Back', 'tickethub') ?></a>
+                <a href="<?php echo esc_url($tickets_page_url); ?>" class="thub-back-to-archive"><?php esc_attr_e('Back', 'tickethub') ?></a>
                 <?php
                 $ticket_id = get_post_meta($post_id, 'thub_ticket_id', true);
                 if (!empty($ticket_id)) {

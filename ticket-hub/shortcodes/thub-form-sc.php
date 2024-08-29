@@ -37,7 +37,7 @@ add_shortcode('thub_form', function () {
         ?>
             <!-- translators: %s: Maximum upload size for uploads. --> 
             <label><?php printf(esc_html__('Attachments (up to 3 files, max file size: %s)', 'tickethub'), esc_attr(size_format($max_upload_size))); ?>
-                <input type="file" name="your-attachments[]" class="th-file-upload" multiple accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .txt, .xls, .xlsx, .csv" data-max-files="3" data-max-size="<?php echo esc_attr($max_upload_size); ?>">
+                <input type="file" name="your-attachments[]" class="thub-file-upload" multiple accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .txt, .xls, .xlsx, .csv" data-max-files="3" data-max-size="<?php echo esc_attr($max_upload_size); ?>">
             </label>
         <?php endif; ?>
         <!-- Custom fields generated dynamically -->

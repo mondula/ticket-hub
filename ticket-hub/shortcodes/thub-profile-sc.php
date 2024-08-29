@@ -45,7 +45,7 @@ add_shortcode('thub_profile', function () {
         }
         $logout_url = wp_logout_url(get_permalink()); // This will redirect users to the same page after logging out
 
-        echo '<div class="th-profile-head"><h3>' . esc_html__('Profile', 'tickethub') . '</h3><div><a href="' . esc_url($logout_url) . '" class="th-button">' . esc_html__('Logout', 'tickethub') . '</a></div></div>';
+        echo '<div class="thub-profile-head"><h3>' . esc_html__('Profile', 'tickethub') . '</h3><div><a href="' . esc_url($logout_url) . '" class="thub-button">' . esc_html__('Logout', 'tickethub') . '</a></div></div>';
         // translators: %s: User First name.
         echo '<p>' . sprintf(esc_html__('Hello %s', 'tickethub'), esc_attr($first_name)) . '</p>';
 

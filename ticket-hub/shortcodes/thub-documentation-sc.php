@@ -124,7 +124,7 @@ add_shortcode('thub_documentation', function () {
             ),
         );
 
-        echo '<td><div>' . esc_html($document_name) . '</div><a class="th-button" href="' . esc_url($document_url) . '" target="_blank"' . esc_attr($download_attribute) . '>' . wp_kses($icon_svg, $allowed_tags) . ' ' . wp_kses_post($button_text) . '</a></td>';
+        echo '<td><div>' . esc_html($document_name) . '</div><a class="thub-button" href="' . esc_url($document_url) . '" target="_blank"' . esc_attr($download_attribute) . '>' . wp_kses($icon_svg, $allowed_tags) . ' ' . wp_kses_post($button_text) . '</a></td>';
         echo '</tr>';
     }
     echo '</tbody></table>';
