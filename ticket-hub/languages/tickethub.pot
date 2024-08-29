@@ -16,468 +16,468 @@ msgstr ""
 "X-Loco-Version: 2.6.9; wp-6.5.2\n"
 "X-Domain: tickethub"
 
-#: post-types/th-ticket-pt.php:286
+#: post-types/thub-ticket-pt.php:286
 msgid " on your ticket (ID: "
 msgstr ""
 
-#: post-types/th-ticket-pt.php:131
+#: post-types/thub-ticket-pt.php:131
 msgid "- Select Type -"
 msgstr ""
 
-#: shortcodes/th-tickets-sc.php:49
+#: shortcodes/thub-tickets-sc.php:49
 msgid "- Status -"
 msgstr ""
 
-#: shortcodes/th-tickets-sc.php:54 shortcodes/th-documentation-sc.php:43
+#: shortcodes/thub-tickets-sc.php:54 shortcodes/thub-documentation-sc.php:43
 msgid "- Type -"
 msgstr ""
 
-#: post-types/th-change-pt.php:34
+#: post-types/thub-change-pt.php:34
 msgid "A link to a change."
 msgstr ""
 
-#: post-types/th-document-pt.php:34
+#: post-types/thub-document-pt.php:34
 msgid "A link to a document."
 msgstr ""
 
-#: post-types/th-faq-pt.php:34
+#: post-types/thub-faq-pt.php:34
 msgid "A link to a faq."
 msgstr ""
 
-#: post-types/th-ticket-pt.php:44
+#: post-types/thub-ticket-pt.php:44
 msgid "A link to a ticket."
 msgstr ""
 
-#: post-types/th-ticket-pt.php:286
+#: post-types/thub-ticket-pt.php:286
 msgid "A new comment has been posted by "
 msgstr ""
 
-#: includes/th-form-editor-tab.php:60
+#: includes/thub-form-editor-tab.php:60
 msgid "Actions"
 msgstr ""
 
-#: includes/th-form-editor-tab.php:91
+#: includes/thub-form-editor-tab.php:91
 msgid "Add Field"
 msgstr ""
 
-#: post-types/th-document-pt.php:36
+#: post-types/thub-document-pt.php:36
 msgid "Add links or files as your documentation"
 msgstr ""
 
-#: post-types/th-change-pt.php:13 post-types/th-change-pt.php:14
+#: post-types/thub-change-pt.php:13 post-types/thub-change-pt.php:14
 msgid "Add New Change"
 msgstr ""
 
-#: post-types/th-document-pt.php:13 post-types/th-document-pt.php:14
+#: post-types/thub-document-pt.php:13 post-types/thub-document-pt.php:14
 msgid "Add New Document"
 msgstr ""
 
-#: post-types/th-faq-pt.php:13 post-types/th-faq-pt.php:14
+#: post-types/thub-faq-pt.php:13 post-types/thub-faq-pt.php:14
 msgid "Add New FAQ"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:23 post-types/th-ticket-pt.php:24
+#: post-types/thub-ticket-pt.php:23 post-types/thub-ticket-pt.php:24
 msgid "Add New Ticket"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:94
+#: post-types/thub-ticket-pt.php:94
 msgid "Add New Ticket Tag"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:99
+#: post-types/thub-ticket-pt.php:99
 msgid "Add or remove ticket tags"
 msgstr ""
 
-#: includes/th-ticket-creators-tab.php:67
+#: includes/thub-ticket-creators-tab.php:67
 msgid "Add Ticket Creator"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:90
+#: post-types/thub-ticket-pt.php:90
 msgid "All Ticket Tags"
 msgstr ""
 
-#: post-types/th-faq-pt.php:66
+#: post-types/thub-faq-pt.php:66
 msgid "Answer"
 msgstr ""
 
-#: shortcodes/th-tickets-sc.php:43
+#: shortcodes/thub-tickets-sc.php:43
 msgid "Archive"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:406
+#: post-types/thub-ticket-pt.php:406
 #, php-format
 msgid "Archived %s post."
 msgid_plural "Archived %s posts."
 msgstr[0] ""
 msgstr[1] ""
 
-#: shortcodes/th-ticket-sc.php:151
+#: shortcodes/thub-ticket-sc.php:151
 msgid "Attachments"
 msgstr ""
 
-#: shortcodes/th-form-sc.php:37
+#: shortcodes/thub-form-sc.php:37
 #, php-format
 msgid "Attachments (up to 3 files, max file size: %s)"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:170
+#: post-types/thub-ticket-pt.php:170
 msgid "Attachments:"
 msgstr ""
 
-#: shortcodes/th-ticket-sc.php:58
+#: shortcodes/thub-ticket-sc.php:58
 msgid "Back"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:133 shortcodes/th-tickets-sc.php:36
+#: post-types/thub-ticket-pt.php:133 shortcodes/thub-tickets-sc.php:36
 msgid "Bug report"
 msgstr ""
 
-#: post-types/th-change-pt.php:7
+#: post-types/thub-change-pt.php:7
 msgid "Change"
 msgstr ""
 
-#: post-types/th-change-pt.php:20
+#: post-types/thub-change-pt.php:20
 msgid "Change Archives"
 msgstr ""
 
-#: post-types/th-change-pt.php:21
+#: post-types/thub-change-pt.php:21
 msgid "Change Attributes"
 msgstr ""
 
-#: post-types/th-change-pt.php:33
+#: post-types/thub-change-pt.php:33
 msgid "Change Link"
 msgstr ""
 
-#: post-types/th-change-pt.php:29
+#: post-types/thub-change-pt.php:29
 msgid "Change published privately."
 msgstr ""
 
-#: post-types/th-change-pt.php:28
+#: post-types/thub-change-pt.php:28
 msgid "Change published."
 msgstr ""
 
-#: post-types/th-ticket-pt.php:134 shortcodes/th-tickets-sc.php:37
+#: post-types/thub-ticket-pt.php:134 shortcodes/thub-tickets-sc.php:37
 msgid "Change request"
 msgstr ""
 
-#: post-types/th-change-pt.php:30
+#: post-types/thub-change-pt.php:30
 msgid "Change reverted to draft."
 msgstr ""
 
-#: post-types/th-change-pt.php:31
+#: post-types/thub-change-pt.php:31
 msgid "Change scheduled."
 msgstr ""
 
-#: post-types/th-change-pt.php:32
+#: post-types/thub-change-pt.php:32
 msgid "Change updated."
 msgstr ""
 
-#: includes/th-page-settings.php:41
+#: includes/thub-page-settings.php:41
 msgid "Changelog Page"
 msgstr ""
 
-#: post-types/th-change-pt.php:6 post-types/th-change-pt.php:8
-#: post-types/th-change-pt.php:9
+#: post-types/thub-change-pt.php:6 post-types/thub-change-pt.php:8
+#: post-types/thub-change-pt.php:9
 msgid "Changes"
 msgstr ""
 
-#: post-types/th-change-pt.php:27
+#: post-types/thub-change-pt.php:27
 msgid "Changes list"
 msgstr ""
 
-#: post-types/th-change-pt.php:26
+#: post-types/thub-change-pt.php:26
 msgid "Changes list navigation"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:100
+#: post-types/thub-ticket-pt.php:100
 msgid "Choose from the most used ticket tags"
 msgstr ""
 
-#: shortcodes/th-ticket-sc.php:196
+#: shortcodes/thub-ticket-sc.php:196
 msgid "Comment"
 msgstr ""
 
-#: shortcodes/th-ticket-sc.php:172
+#: shortcodes/thub-ticket-sc.php:172
 msgid "Comments"
 msgstr ""
 
-#: shortcodes/th-ticket-sc.php:203
+#: shortcodes/thub-ticket-sc.php:203
 msgid "Comments are closed for this ticket"
 msgstr ""
 
-#: includes/th-page-settings.php:67
+#: includes/thub-page-settings.php:67
 msgid ""
 "Configure the number of days after which completed tickets should be "
 "archived."
 msgstr ""
 
-#: shortcodes/th-form-sc.php:198
+#: shortcodes/thub-form-sc.php:198
 msgid "Confirmation of Your Ticket Submission"
 msgstr ""
 
-#: includes/th-ticket-creators-tab.php:82
+#: includes/thub-ticket-creators-tab.php:82
 msgid "Create User"
 msgstr ""
 
-#: shortcodes/th-tickets-sc.php:148
+#: shortcodes/thub-tickets-sc.php:148
 msgid "Created by"
 msgstr ""
 
-#: shortcodes/th-tickets-sc.php:67 shortcodes/th-ticket-sc.php:103
+#: shortcodes/thub-tickets-sc.php:67 shortcodes/thub-ticket-sc.php:103
 msgid "Creator"
 msgstr ""
 
-#: includes/th-page-settings.php:79
+#: includes/thub-page-settings.php:79
 msgid "Customize the prefix and suffix for ticket IDs."
 msgstr ""
 
-#: shortcodes/th-tickets-sc.php:65 shortcodes/th-tickets-sc.php:146
+#: shortcodes/thub-tickets-sc.php:65 shortcodes/thub-tickets-sc.php:146
 msgid "Date"
 msgstr ""
 
-#: includes/th-page-settings.php:55
+#: includes/thub-page-settings.php:55
 msgid "Days to Archive"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:139 shortcodes/th-ticket-sc.php:74
-#: shortcodes/th-form-sc.php:32
+#: post-types/thub-ticket-pt.php:139 shortcodes/thub-ticket-sc.php:74
+#: shortcodes/thub-form-sc.php:32
 msgid "Description"
 msgstr ""
 
-#: includes/th-form-editor-tab.php:44
+#: includes/thub-form-editor-tab.php:44
 msgid "Disable Ticket Attachments"
 msgstr ""
 
-#: post-types/th-document-pt.php:7
+#: post-types/thub-document-pt.php:7
 msgid "Document"
 msgstr ""
 
-#: post-types/th-document-pt.php:20
+#: post-types/thub-document-pt.php:20
 msgid "Document Archives"
 msgstr ""
 
-#: post-types/th-document-pt.php:21
+#: post-types/thub-document-pt.php:21
 msgid "Document Attributes"
 msgstr ""
 
-#: post-types/th-document-pt.php:33
+#: post-types/thub-document-pt.php:33
 msgid "Document Link"
 msgstr ""
 
-#: post-types/th-document-pt.php:29
+#: post-types/thub-document-pt.php:29
 msgid "Document published privately."
 msgstr ""
 
-#: post-types/th-document-pt.php:28
+#: post-types/thub-document-pt.php:28
 msgid "Document published."
 msgstr ""
 
-#: post-types/th-document-pt.php:30
+#: post-types/thub-document-pt.php:30
 msgid "Document reverted to draft."
 msgstr ""
 
-#: post-types/th-document-pt.php:31
+#: post-types/thub-document-pt.php:31
 msgid "Document scheduled."
 msgstr ""
 
-#: post-types/th-document-pt.php:32
+#: post-types/thub-document-pt.php:32
 msgid "Document updated."
 msgstr ""
 
-#: includes/th-page-settings.php:43
+#: includes/thub-page-settings.php:43
 msgid "Documentation Page"
 msgstr ""
 
-#: post-types/th-document-pt.php:6 post-types/th-document-pt.php:8
-#: post-types/th-document-pt.php:9
+#: post-types/thub-document-pt.php:6 post-types/thub-document-pt.php:8
+#: post-types/thub-document-pt.php:9
 msgid "Documents"
 msgstr ""
 
-#: post-types/th-document-pt.php:27
+#: post-types/thub-document-pt.php:27
 msgid "Documents list"
 msgstr ""
 
-#: post-types/th-document-pt.php:26
+#: post-types/thub-document-pt.php:26
 msgid "Documents list navigation"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:124 shortcodes/th-tickets-sc.php:32
+#: post-types/thub-ticket-pt.php:124 shortcodes/thub-tickets-sc.php:32
 msgid "Done"
 msgstr ""
 
-#: shortcodes/th-documentation-sc.php:73
+#: shortcodes/thub-documentation-sc.php:73
 msgid "Download"
 msgstr ""
 
-#: shortcodes/th-ticket-sc.php:104
+#: shortcodes/thub-ticket-sc.php:104
 msgid "E-Mail"
 msgstr ""
 
-#: post-types/th-change-pt.php:10
+#: post-types/thub-change-pt.php:10
 msgid "Edit Change"
 msgstr ""
 
-#: post-types/th-document-pt.php:10
+#: post-types/thub-document-pt.php:10
 msgid "Edit Document"
 msgstr ""
 
-#: post-types/th-faq-pt.php:10
+#: post-types/thub-faq-pt.php:10
 msgid "Edit FAQ"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:20
+#: post-types/thub-ticket-pt.php:20
 msgid "Edit Ticket"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:91
+#: post-types/thub-ticket-pt.php:91
 msgid "Edit Ticket Tag"
 msgstr ""
 
-#: includes/th-ticket-creators-tab.php:78
-#: includes/th-ticket-creators-tab.php:100
+#: includes/thub-ticket-creators-tab.php:78
+#: includes/thub-ticket-creators-tab.php:100
 msgid "Email"
 msgstr ""
 
-#: includes/th-ticket-creators-tab.php:37
+#: includes/thub-ticket-creators-tab.php:37
 msgid "Email already exists."
 msgstr ""
 
-#: includes/th-ticket-creators-tab.php:52
+#: includes/thub-ticket-creators-tab.php:52
 msgid "Error assigning ticket creator: "
 msgstr ""
 
-#: shortcodes/th-form-sc.php:136
+#: shortcodes/thub-form-sc.php:136
 msgid "Error creating the ticket. Please try again."
 msgstr ""
 
-#: shortcodes/th-tickets-sc.php:61
+#: shortcodes/thub-tickets-sc.php:61
 msgid "Export Tickets"
 msgstr ""
 
-#: post-types/th-faq-pt.php:7
+#: post-types/thub-faq-pt.php:7
 msgid "FAQ"
 msgstr ""
 
-#: post-types/th-faq-pt.php:20
+#: post-types/thub-faq-pt.php:20
 msgid "FAQ Archives"
 msgstr ""
 
-#: post-types/th-faq-pt.php:21
+#: post-types/thub-faq-pt.php:21
 msgid "FAQ Attributes"
 msgstr ""
 
-#: post-types/th-faq-pt.php:33
+#: post-types/thub-faq-pt.php:33
 msgid "FAQ Link"
 msgstr ""
 
-#: post-types/th-faq-pt.php:29
+#: post-types/thub-faq-pt.php:29
 msgid "FAQ published privately."
 msgstr ""
 
-#: post-types/th-faq-pt.php:28
+#: post-types/thub-faq-pt.php:28
 msgid "FAQ published."
 msgstr ""
 
-#: post-types/th-faq-pt.php:30
+#: post-types/thub-faq-pt.php:30
 msgid "FAQ reverted to draft."
 msgstr ""
 
-#: post-types/th-faq-pt.php:31
+#: post-types/thub-faq-pt.php:31
 msgid "FAQ scheduled."
 msgstr ""
 
-#: post-types/th-faq-pt.php:32
+#: post-types/thub-faq-pt.php:32
 msgid "FAQ updated."
 msgstr ""
 
-#: post-types/th-faq-pt.php:6 post-types/th-faq-pt.php:8
-#: post-types/th-faq-pt.php:9
+#: post-types/thub-faq-pt.php:6 post-types/thub-faq-pt.php:8
+#: post-types/thub-faq-pt.php:9
 msgid "FAQs"
 msgstr ""
 
-#: post-types/th-faq-pt.php:27
+#: post-types/thub-faq-pt.php:27
 msgid "FAQs list"
 msgstr ""
 
-#: post-types/th-faq-pt.php:26
+#: post-types/thub-faq-pt.php:26
 msgid "FAQs list navigation"
 msgstr ""
 
-#: includes/th-page-settings.php:42
+#: includes/thub-page-settings.php:42
 msgid "FAQs Page"
 msgstr ""
 
-#: includes/th-form-editor-tab.php:56
+#: includes/thub-form-editor-tab.php:56
 msgid "Field Type"
 msgstr ""
 
-#: includes/th-form-editor-tab.php:30
+#: includes/thub-form-editor-tab.php:30
 msgid "Fields saved."
 msgstr ""
 
-#: post-types/th-document-pt.php:69 post-types/th-document-pt.php:76
+#: post-types/thub-document-pt.php:69 post-types/thub-document-pt.php:76
 msgid "File"
 msgstr ""
 
-#: post-types/th-change-pt.php:25
+#: post-types/thub-change-pt.php:25
 msgid "Filter changes by date"
 msgstr ""
 
-#: post-types/th-change-pt.php:24
+#: post-types/thub-change-pt.php:24
 msgid "Filter changes list"
 msgstr ""
 
-#: post-types/th-document-pt.php:25
+#: post-types/thub-document-pt.php:25
 msgid "Filter documents by date"
 msgstr ""
 
-#: post-types/th-document-pt.php:24
+#: post-types/thub-document-pt.php:24
 msgid "Filter documents list"
 msgstr ""
 
-#: post-types/th-faq-pt.php:25
+#: post-types/thub-faq-pt.php:25
 msgid "Filter faqs by date"
 msgstr ""
 
-#: post-types/th-faq-pt.php:24
+#: post-types/thub-faq-pt.php:24
 msgid "Filter faqs list"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:35
+#: post-types/thub-ticket-pt.php:35
 msgid "Filter tickets by date"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:34
+#: post-types/thub-ticket-pt.php:34
 msgid "Filter tickets list"
 msgstr ""
 
-#: includes/th-ticket-creators-tab.php:70
-#: includes/th-ticket-creators-tab.php:98
+#: includes/thub-ticket-creators-tab.php:70
+#: includes/thub-ticket-creators-tab.php:98
 msgid "First Name"
 msgstr ""
 
-#: includes/th-page-settings.php:144
+#: includes/thub-page-settings.php:144
 msgid "Form Editor"
 msgstr ""
 
-#: includes/th-page-settings.php:143
+#: includes/thub-page-settings.php:143
 msgid "General"
 msgstr ""
 
-#: includes/th-form-editor-tab.php:41
+#: includes/thub-form-editor-tab.php:41
 msgid "General Settings"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:260
+#: post-types/thub-ticket-pt.php:260
 msgid "has changed to: "
 msgstr ""
 
-#: shortcodes/th-profile-sc.php:48
+#: shortcodes/thub-profile-sc.php:48
 #, php-format
 msgid "Hello %s"
 msgstr ""
 
-#: shortcodes/th-form-sc.php:197
+#: shortcodes/thub-form-sc.php:197
 #, php-format
 msgid ""
 "Hello %s,\\n\\nThank you for submitting your ticket. It will now be reviewed."
@@ -489,73 +489,73 @@ msgstr ""
 msgid "https://mondula.com"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:116 shortcodes/th-tickets-sc.php:65
-#: shortcodes/th-tickets-sc.php:143
+#: post-types/thub-ticket-pt.php:116 shortcodes/thub-tickets-sc.php:65
+#: shortcodes/thub-tickets-sc.php:143
 msgid "ID"
 msgstr ""
 
-#: post-types/th-change-pt.php:22
+#: post-types/thub-change-pt.php:22
 msgid "Insert into change"
 msgstr ""
 
-#: post-types/th-document-pt.php:22
+#: post-types/thub-document-pt.php:22
 msgid "Insert into document"
 msgstr ""
 
-#: post-types/th-faq-pt.php:22
+#: post-types/thub-faq-pt.php:22
 msgid "Insert into faq"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:32
+#: post-types/thub-ticket-pt.php:32
 msgid "Insert into ticket"
 msgstr ""
 
-#: shortcodes/th-form-sc.php:96
+#: shortcodes/thub-form-sc.php:96
 msgid ""
 "Invalid file type. Only JPG, JPEG, PNG, GIF, PDF, DOC, DOCX, TXT, XLS, XLSX, "
 "CSV, PPT, PPTX, ZIP, and RAR files are allowed."
 msgstr ""
 
-#: shortcodes/th-ticket-sc.php:211
+#: shortcodes/thub-ticket-sc.php:211
 msgid "Invalid ticket ID."
 msgstr ""
 
-#: includes/th-form-editor-tab.php:57 includes/th-form-editor-tab.php:125
+#: includes/thub-form-editor-tab.php:57 includes/thub-form-editor-tab.php:125
 msgid "Label"
 msgstr ""
 
-#: includes/th-ticket-creators-tab.php:74
-#: includes/th-ticket-creators-tab.php:99
+#: includes/thub-ticket-creators-tab.php:74
+#: includes/thub-ticket-creators-tab.php:99
 msgid "Last Name"
 msgstr ""
 
-#: shortcodes/th-documentation-sc.php:85
+#: shortcodes/thub-documentation-sc.php:85
 msgid "LINK"
 msgstr ""
 
-#: post-types/th-document-pt.php:70 post-types/th-document-pt.php:85
-#: shortcodes/th-documentation-sc.php:43
+#: post-types/thub-document-pt.php:70 post-types/thub-document-pt.php:85
+#: shortcodes/thub-documentation-sc.php:43
 msgid "Link"
 msgstr ""
 
-#: includes/th-ticket-creators-tab.php:93
+#: includes/thub-ticket-creators-tab.php:93
 msgid "List of Ticket Creators"
 msgstr ""
 
-#: post-types/th-change-pt.php:66
+#: post-types/thub-change-pt.php:66
 msgid "Log"
 msgstr ""
 
-#: shortcodes/th-profile-sc.php:22
+#: shortcodes/thub-profile-sc.php:22
 msgid "Log In"
 msgstr ""
 
-#: shortcodes/th-profile-sc.php:47
+#: shortcodes/thub-profile-sc.php:47
 msgid "Logout"
 msgstr ""
 
 #. Parent slug
-#: includes/th-ticket-tag-subpage.php:10
+#: includes/thub-ticket-tag-subpage.php:10
 msgid "Manage Ticket Tags"
 msgstr ""
 
@@ -563,225 +563,225 @@ msgstr ""
 msgid "Mondula GmbH"
 msgstr ""
 
-#: shortcodes/th-documentation-sc.php:52
+#: shortcodes/thub-documentation-sc.php:52
 msgid "Name"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:122 shortcodes/th-tickets-sc.php:30
+#: post-types/thub-ticket-pt.php:122 shortcodes/thub-tickets-sc.php:30
 msgid "New"
 msgstr ""
 
-#: post-types/th-change-pt.php:15
+#: post-types/thub-change-pt.php:15
 msgid "New Change"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:285
+#: post-types/thub-ticket-pt.php:285
 msgid "New Comment on Ticket ID: "
 msgstr ""
 
-#: post-types/th-document-pt.php:15
+#: post-types/thub-document-pt.php:15
 msgid "New Document"
 msgstr ""
 
-#: post-types/th-faq-pt.php:15
+#: post-types/thub-faq-pt.php:15
 msgid "New FAQ"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:25
+#: post-types/thub-ticket-pt.php:25
 msgid "New Ticket"
 msgstr ""
 
-#: includes/th-ticket-creators-tab.php:50
+#: includes/thub-ticket-creators-tab.php:50
 msgid "New ticket creator assigned."
 msgstr ""
 
-#: shortcodes/th-form-sc.php:192
+#: shortcodes/thub-form-sc.php:192
 msgid "New Ticket Submitted"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:95
+#: post-types/thub-ticket-pt.php:95
 msgid "New Ticket Tag Name"
 msgstr ""
 
-#: post-types/th-change-pt.php:18
+#: post-types/thub-change-pt.php:18
 msgid "No changes found"
 msgstr ""
 
-#: post-types/th-change-pt.php:19
+#: post-types/thub-change-pt.php:19
 msgid "No changes found in Trash"
 msgstr ""
 
-#: shortcodes/th-changelog-sc.php:42
+#: shortcodes/thub-changelog-sc.php:42
 msgid "No changes found."
 msgstr ""
 
-#: shortcodes/th-ticket-sc.php:185
+#: shortcodes/thub-ticket-sc.php:185
 msgid "No comments yet."
 msgstr ""
 
-#: post-types/th-document-pt.php:18
+#: post-types/thub-document-pt.php:18
 msgid "No documents found"
 msgstr ""
 
-#: post-types/th-document-pt.php:19
+#: post-types/thub-document-pt.php:19
 msgid "No documents found in Trash"
 msgstr ""
 
-#: post-types/th-faq-pt.php:18
+#: post-types/thub-faq-pt.php:18
 msgid "No faqs found"
 msgstr ""
 
-#: post-types/th-faq-pt.php:19
+#: post-types/thub-faq-pt.php:19
 msgid "No faqs found in Trash"
 msgstr ""
 
-#: shortcodes/th-faqs-sc.php:40
+#: shortcodes/thub-faqs-sc.php:40
 msgid "No FAQs found."
 msgstr ""
 
-#: post-types/th-ticket-pt.php:101
+#: post-types/thub-ticket-pt.php:101
 msgid "No ticket tags found"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:28
+#: post-types/thub-ticket-pt.php:28
 msgid "No tickets found"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:29
+#: post-types/thub-ticket-pt.php:29
 msgid "No tickets found in Trash"
 msgstr ""
 
-#: includes/th-ticket-creators-tab.php:118
+#: includes/thub-ticket-creators-tab.php:118
 msgid "No Users found."
 msgstr ""
 
-#: shortcodes/th-documentation-sc.php:86
+#: shortcodes/thub-documentation-sc.php:86
 msgid "Open"
 msgstr ""
 
-#: includes/th-form-editor-tab.php:58
+#: includes/thub-form-editor-tab.php:58
 msgid "Options (for Select)"
 msgstr ""
 
-#: includes/th-page-settings.php:37
+#: includes/thub-page-settings.php:37
 msgid "Page Settings"
 msgstr ""
 
-#: post-types/th-change-pt.php:16
+#: post-types/thub-change-pt.php:16
 msgid "Parent Change:"
 msgstr ""
 
-#: post-types/th-document-pt.php:16
+#: post-types/thub-document-pt.php:16
 msgid "Parent Document:"
 msgstr ""
 
-#: post-types/th-faq-pt.php:16
+#: post-types/thub-faq-pt.php:16
 msgid "Parent FAQ:"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:26
+#: post-types/thub-ticket-pt.php:26
 msgid "Parent Ticket:"
 msgstr ""
 
-#: shortcodes/th-profile-sc.php:20
+#: shortcodes/thub-profile-sc.php:20
 msgid "Password"
 msgstr ""
 
-#: includes/th-page-settings.php:147
+#: includes/thub-page-settings.php:147
 msgid "Plus"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:97
+#: post-types/thub-ticket-pt.php:97
 msgid "Popular Ticket Tags"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:123 shortcodes/th-tickets-sc.php:31
+#: post-types/thub-ticket-pt.php:123 shortcodes/thub-tickets-sc.php:31
 msgid "Processing"
 msgstr ""
 
-#: shortcodes/th-profile-sc.php:47
+#: shortcodes/thub-profile-sc.php:47
 msgid "Profile"
 msgstr ""
 
-#: shortcodes/th-ticket-sc.php:66
+#: shortcodes/thub-ticket-sc.php:66
 msgid "Related Tickets"
 msgstr ""
 
-#: shortcodes/th-profile-sc.php:21
+#: shortcodes/thub-profile-sc.php:21
 msgid "Remember Me"
 msgstr ""
 
-#: includes/th-form-editor-tab.php:59
+#: includes/thub-form-editor-tab.php:59
 msgid "Required"
 msgstr ""
 
-#: includes/th-form-editor-tab.php:97
+#: includes/thub-form-editor-tab.php:97
 msgid "Save Fields"
 msgstr ""
 
-#: includes/th-page-settings.php:157 includes/th-page-settings.php:171
+#: includes/thub-page-settings.php:157 includes/thub-page-settings.php:171
 msgid "Save Settings"
 msgstr ""
 
-#: shortcodes/th-tickets-sc.php:41 shortcodes/th-documentation-sc.php:42
+#: shortcodes/thub-tickets-sc.php:41 shortcodes/thub-documentation-sc.php:42
 msgid "Search"
 msgstr ""
 
-#: post-types/th-change-pt.php:17
+#: post-types/thub-change-pt.php:17
 msgid "Search Changes"
 msgstr ""
 
-#: post-types/th-document-pt.php:17
+#: post-types/thub-document-pt.php:17
 msgid "Search Documents"
 msgstr ""
 
-#: post-types/th-faq-pt.php:17
+#: post-types/thub-faq-pt.php:17
 msgid "Search FAQs"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:96
+#: post-types/thub-ticket-pt.php:96
 msgid "Search Ticket Tags"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:27
+#: post-types/thub-ticket-pt.php:27
 msgid "Search Tickets"
 msgstr ""
 
-#: shortcodes/th-form-sc.php:74
+#: shortcodes/thub-form-sc.php:74
 msgid "Security check failed"
 msgstr ""
 
-#: includes/th-page-settings.php:102 includes/th-form-editor-tab.php:72
-#: includes/th-form-editor-tab.php:124
+#: includes/thub-page-settings.php:102 includes/thub-form-editor-tab.php:72
+#: includes/thub-form-editor-tab.php:124
 msgid "Select"
 msgstr ""
 
-#: post-types/th-document-pt.php:79
+#: post-types/thub-document-pt.php:79
 msgid "Select File"
 msgstr ""
 
-#: includes/th-page-settings.php:91
+#: includes/thub-page-settings.php:91
 msgid "Select the pages for each plugin functionality."
 msgstr ""
 
-#: post-types/th-ticket-pt.php:98
+#: post-types/thub-ticket-pt.php:98
 msgid "Separate ticket tags with commas"
 msgstr ""
 
-#: includes/th-page-settings.php:25 includes/th-page-settings.php:26
+#: includes/thub-page-settings.php:25 includes/thub-page-settings.php:26
 msgid "Settings"
 msgstr ""
 
-#: shortcodes/th-form-sc.php:29
+#: shortcodes/thub-form-sc.php:29
 msgid "Short Description"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:120 shortcodes/th-tickets-sc.php:65
-#: shortcodes/th-tickets-sc.php:144 shortcodes/th-ticket-sc.php:77
+#: post-types/thub-ticket-pt.php:120 shortcodes/thub-tickets-sc.php:65
+#: shortcodes/thub-tickets-sc.php:144 shortcodes/thub-ticket-sc.php:77
 msgid "Status"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:237
+#: post-types/thub-ticket-pt.php:237
 msgid "Status Update Notification"
 msgstr ""
 
@@ -791,244 +791,244 @@ msgid ""
 "plugin for managing tickets, FAQs, and documentation efficiently."
 msgstr ""
 
-#: shortcodes/th-form-sc.php:62
+#: shortcodes/thub-form-sc.php:62
 msgid "Submit"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:132 shortcodes/th-tickets-sc.php:35
+#: post-types/thub-ticket-pt.php:132 shortcodes/thub-tickets-sc.php:35
 msgid "Support"
 msgstr ""
 
-#: includes/th-form-editor-tab.php:70 includes/th-form-editor-tab.php:124
+#: includes/thub-form-editor-tab.php:70 includes/thub-form-editor-tab.php:124
 msgid "Text"
 msgstr ""
 
-#: includes/th-form-editor-tab.php:71 includes/th-form-editor-tab.php:124
+#: includes/thub-form-editor-tab.php:71 includes/thub-form-editor-tab.php:124
 msgid "Textarea"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:260
+#: post-types/thub-ticket-pt.php:260
 msgid "The status of your ticket (ID: "
 msgstr ""
 
-#: shortcodes/th-form-sc.php:116
+#: shortcodes/thub-form-sc.php:116
 msgid "There was an error uploading your file: "
 msgstr ""
 
-#: post-types/th-ticket-pt.php:46
+#: post-types/thub-ticket-pt.php:46
 msgid "These are the tickets created by people."
 msgstr ""
 
-#: includes/th-form-editor-tab.php:47
+#: includes/thub-form-editor-tab.php:47
 msgid "This option disables attachments in the ticket form."
 msgstr ""
 
-#: shortcodes/th-ticket-sc.php:208
+#: shortcodes/thub-ticket-sc.php:208
 msgid "This ticket is private and cannot be displayed."
 msgstr ""
 
-#: post-types/th-ticket-pt.php:17
+#: post-types/thub-ticket-pt.php:17
 msgid "Ticket"
 msgstr ""
 
-#: includes/th-page-settings.php:54
+#: includes/thub-page-settings.php:54
 msgid "Ticket Archive Settings"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:30
+#: post-types/thub-ticket-pt.php:30
 msgid "Ticket Archives"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:31
+#: post-types/thub-ticket-pt.php:31
 msgid "Ticket Attributes"
 msgstr ""
 
-#: includes/th-page-settings.php:145
+#: includes/thub-page-settings.php:145
 msgid "Ticket Creators"
 msgstr ""
 
-#: includes/th-form-editor-tab.php:52
+#: includes/thub-form-editor-tab.php:52
 msgid "Ticket Form Fields"
 msgstr ""
 
-#: includes/th-page-settings.php:39
+#: includes/thub-page-settings.php:39
 msgid "Ticket Form Page"
 msgstr ""
 
-#: includes/th-page-settings.php:50
+#: includes/thub-page-settings.php:50
 msgid "Ticket ID Configuration"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:43
+#: post-types/thub-ticket-pt.php:43
 msgid "Ticket Link"
 msgstr ""
 
-#: includes/th-page-settings.php:51
+#: includes/thub-page-settings.php:51
 msgid "Ticket Prefix"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:39
+#: post-types/thub-ticket-pt.php:39
 msgid "Ticket published privately."
 msgstr ""
 
-#: post-types/th-ticket-pt.php:38
+#: post-types/thub-ticket-pt.php:38
 msgid "Ticket published."
 msgstr ""
 
-#: post-types/th-ticket-pt.php:40
+#: post-types/thub-ticket-pt.php:40
 msgid "Ticket reverted to draft."
 msgstr ""
 
-#: post-types/th-ticket-pt.php:41
+#: post-types/thub-ticket-pt.php:41
 msgid "Ticket scheduled."
 msgstr ""
 
-#: post-types/th-ticket-pt.php:259
+#: post-types/thub-ticket-pt.php:259
 msgid "Ticket Status Update: "
 msgstr ""
 
-#: shortcodes/th-form-sc.php:200
+#: shortcodes/thub-form-sc.php:200
 msgid "Ticket submitted successfully"
 msgstr ""
 
-#: includes/th-page-settings.php:52
+#: includes/thub-page-settings.php:52
 msgid "Ticket Suffix"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:88
+#: post-types/thub-ticket-pt.php:88
 msgid "Ticket Tag"
 msgstr ""
 
 #. Page title
-#: post-types/th-ticket-pt.php:87 post-types/th-ticket-pt.php:89
-#: includes/th-ticket-tag-subpage.php:11
+#: post-types/thub-ticket-pt.php:87 post-types/thub-ticket-pt.php:89
+#: includes/thub-ticket-tag-subpage.php:11
 msgid "Ticket Tags"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:42
+#: post-types/thub-ticket-pt.php:42
 msgid "Ticket updated."
 msgstr ""
 
 #. Name of the plugin
-#: includes/th-page-settings.php:14 includes/th-page-settings.php:15
+#: includes/thub-page-settings.php:14 includes/thub-page-settings.php:15
 msgid "TicketHub"
 msgstr ""
 
-#: includes/th-page-settings.php:60
+#: includes/thub-page-settings.php:60
 msgid "TicketHub Plus Settings"
 msgstr ""
 
-#: includes/th-page-settings.php:44
+#: includes/thub-page-settings.php:44
 msgid "TicketHub Profile Page"
 msgstr ""
 
-#: includes/th-page-settings.php:141
+#: includes/thub-page-settings.php:141
 msgid "TicketHub Settings"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:16 post-types/th-ticket-pt.php:18
-#: post-types/th-ticket-pt.php:19
+#: post-types/thub-ticket-pt.php:16 post-types/thub-ticket-pt.php:18
+#: post-types/thub-ticket-pt.php:19
 msgid "Tickets"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:37
+#: post-types/thub-ticket-pt.php:37
 msgid "Tickets list"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:36
+#: post-types/thub-ticket-pt.php:36
 msgid "Tickets list navigation"
 msgstr ""
 
-#: includes/th-page-settings.php:40
+#: includes/thub-page-settings.php:40
 msgid "Tickets Page"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:129 post-types/th-document-pt.php:66
-#: shortcodes/th-tickets-sc.php:65 shortcodes/th-tickets-sc.php:145
-#: shortcodes/th-ticket-sc.php:78 shortcodes/th-documentation-sc.php:52
+#: post-types/thub-ticket-pt.php:129 post-types/thub-document-pt.php:66
+#: shortcodes/thub-tickets-sc.php:65 shortcodes/thub-tickets-sc.php:145
+#: shortcodes/thub-ticket-sc.php:78 shortcodes/thub-documentation-sc.php:52
 msgid "Type"
 msgstr ""
 
-#: shortcodes/th-ticket-sc.php:194
+#: shortcodes/thub-ticket-sc.php:194
 msgid "Type your comment here"
 msgstr ""
 
-#: post-types/th-document-pt.php:63
+#: post-types/thub-document-pt.php:63
 msgid "Type: "
 msgstr ""
 
-#: post-types/th-ticket-pt.php:93
+#: post-types/thub-ticket-pt.php:93
 msgid "Update Ticket Tag"
 msgstr ""
 
-#: post-types/th-change-pt.php:23
+#: post-types/thub-change-pt.php:23
 msgid "Uploaded to this change"
 msgstr ""
 
-#: post-types/th-document-pt.php:23
+#: post-types/thub-document-pt.php:23
 msgid "Uploaded to this document"
 msgstr ""
 
-#: post-types/th-faq-pt.php:23
+#: post-types/thub-faq-pt.php:23
 msgid "Uploaded to this faq"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:33
+#: post-types/thub-ticket-pt.php:33
 msgid "Uploaded to this ticket"
 msgstr ""
 
-#: shortcodes/th-profile-sc.php:19 includes/th-ticket-creators-tab.php:97
+#: shortcodes/thub-profile-sc.php:19 includes/thub-ticket-creators-tab.php:97
 msgid "Username"
 msgstr ""
 
-#: post-types/th-change-pt.php:11
+#: post-types/thub-change-pt.php:11
 msgid "View Change"
 msgstr ""
 
-#: post-types/th-change-pt.php:12
+#: post-types/thub-change-pt.php:12
 msgid "View Changes"
 msgstr ""
 
-#: post-types/th-document-pt.php:11
+#: post-types/thub-document-pt.php:11
 msgid "View Document"
 msgstr ""
 
-#: post-types/th-document-pt.php:12
+#: post-types/thub-document-pt.php:12
 msgid "View Documents"
 msgstr ""
 
-#: post-types/th-faq-pt.php:11
+#: post-types/thub-faq-pt.php:11
 msgid "View FAQ"
 msgstr ""
 
-#: post-types/th-faq-pt.php:12
+#: post-types/thub-faq-pt.php:12
 msgid "View FAQs"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:21
+#: post-types/thub-ticket-pt.php:21
 msgid "View Ticket"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:92
+#: post-types/thub-ticket-pt.php:92
 msgid "View Ticket Tag"
 msgstr ""
 
-#: post-types/th-ticket-pt.php:22
+#: post-types/thub-ticket-pt.php:22
 msgid "View Tickets"
 msgstr ""
 
-#: shortcodes/th-form-sc.php:87
+#: shortcodes/thub-form-sc.php:87
 msgid "You can upload a maximum of 3 files."
 msgstr ""
 
-#: includes/th-ticket-creators-tab.php:18
+#: includes/thub-ticket-creators-tab.php:18
 msgid "You do not have permission to access this page."
 msgstr ""
 
-#: shortcodes/th-form-sc.php:70
+#: shortcodes/thub-form-sc.php:70
 msgid "You do not have permission to submit tickets."
 msgstr ""
 
-#: shortcodes/th-profile-sc.php:51
+#: shortcodes/thub-profile-sc.php:51
 msgid "Your Tickets"
 msgstr ""

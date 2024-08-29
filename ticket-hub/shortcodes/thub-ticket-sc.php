@@ -1,11 +1,12 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-add_shortcode('th_ticket', function ($atts) {
+add_shortcode('thub_ticket', function ($atts) {
     static $ticket_enqueue = false;
 
     if (!$ticket_enqueue) {
-        wp_enqueue_script('th-lightbox-script', PLUGIN_ROOT . 'js/th-lightbox.js', array('jquery'), '1.0.0', true);
-        wp_enqueue_style('th-ticket-style', PLUGIN_ROOT . 'css/th-ticket.css', array(), '1.0.0', 'all');
+        wp_enqueue_script('thub-lightbox-script', PLUGIN_ROOT . 'js/thub-lightbox.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_style('thub-ticket-style', PLUGIN_ROOT . 'css/thub-ticket.css', array(), '1.0.0', 'all');
         $ticket_enqueue = true;
     }
 
@@ -13,8 +14,8 @@ add_shortcode('th_ticket', function ($atts) {
     $post_id = intval($atts['id']);
 
     // Get the options
-    $options = get_option('th_options');
-    $tickets_page_id = isset($options['th_tickets']) ? intval($options['th_tickets']) : 0;
+    $options = get_option('thub_options');
+    $tickets_page_id = isset($options['thub_tickets']) ? intval($options['thub_tickets']) : 0;
     $tickets_page_url = $tickets_page_id ? get_permalink($tickets_page_id) : home_url('/');
 
     ob_start();
@@ -29,10 +30,10 @@ add_shortcode('th_ticket', function ($atts) {
             if (empty($first_name) && empty($last_name)) {
                 $ticket_author = get_the_author_meta('display_name', $author_id);
             }
-            $current_tags = wp_get_post_terms($post_id, 'th_ticket_tag', array("fields" => "slugs"));
+            $current_tags = wp_get_post_terms($post_id, 'thub_ticket_tag', array("fields" => "slugs"));
 
             $related_args = array(
-                'post_type' => 'th_ticket',
+                'post_type' => 'thub_ticket',
                 'post_status' => 'publish',
                 'posts_per_page' => -1,
                 // herausgenommen, damit cache reused werden kann, auslassen dann in Schleife
@@ -40,7 +41,7 @@ add_shortcode('th_ticket', function ($atts) {
                 //TODO: Plugin-Check beschwert sich: "Detected usage of meta_query, possible slow query." -> Entweder fixen oder Kommentar lˆschen und ignorieren.
                 'tax_query' => array(
                     array(
-                        'taxonomy' => 'th_ticket_tag',
+                        'taxonomy' => 'thub_ticket_tag',
                         'field' => 'slug',
                         'terms' => $current_tags
                     )
@@ -48,7 +49,7 @@ add_shortcode('th_ticket', function ($atts) {
             );
             $related_tickets = new WP_Query($related_args);
 ?>
-            <div class="th-ticket-details">
+            <div class="thub-ticket-details">
                 <!-- TODO: Turn SVG into pseudo element with CSS -->
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="22" height="13" viewBox="0 0 22 13">
                     <g id="Gruppe_54" data-name="Gruppe 54" transform="translate(21.648 13) rotate(180)">
@@ -59,13 +60,13 @@ add_shortcode('th_ticket', function ($atts) {
                 </svg>
                 <a href="<?php echo esc_url($tickets_page_url); ?>" class="th-back-to-archive"><?php esc_attr_e('Back', 'tickethub') ?></a>
                 <?php
-                $ticket_id = get_post_meta($post_id, 'th_ticket_id', true);
+                $ticket_id = get_post_meta($post_id, 'thub_ticket_id', true);
                 if (!empty($ticket_id)) {
                     echo '<h3>' . esc_html($ticket_id) . '</h3>';
                 }
 
                 if ($related_tickets->have_posts()) {
-                    echo '<div class="th-related-tickets"><span>' . esc_html__('Related Tickets', 'tickethub') . '</span>';
+                    echo '<div class="thub-related-tickets"><span>' . esc_html__('Related Tickets', 'tickethub') . '</span>';
                     while ($related_tickets->have_posts()) {
                         $related_tickets->the_post();
                         // gleichen Post ausschlieﬂen
@@ -76,15 +77,15 @@ add_shortcode('th_ticket', function ($atts) {
                     echo '</div>';
                 }
 
-                echo '<div class="th-ticket-field"><h4>' . esc_html__('Description', 'tickethub') . '</h4><p>' . esc_html(get_post_meta($post_id, 'th_ticket_description', true)) . '</p></div>';
+                echo '<div class="thub-ticket-field"><h4>' . esc_html__('Description', 'tickethub') . '</h4><p>' . esc_html(get_post_meta($post_id, 'thub_ticket_description', true)) . '</p></div>';
 
                 $fields = [
-                    'th_ticket_status' => __('Status', 'tickethub'),
-                    'th_ticket_type' => __('Type', 'tickethub'),
+                    'thub_ticket_status' => __('Status', 'tickethub'),
+                    'thub_ticket_type' => __('Type', 'tickethub'),
                 ];
 
                 // TODO: Turn SVG into pseudo element with CSS
-                $zoomSVG = '<svg class="th-zoom-icon" version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                $zoomSVG = '<svg class="thub-zoom-icon" version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                     viewBox="0 0 67.3 67.24" style="enable-background:new 0 0 67.3 67.24;" xml:space="preserve">
                     <style type="text/css">
                         .st0{fill:#FFFFFF;}
@@ -99,20 +100,20 @@ add_shortcode('th_ticket', function ($atts) {
                     </g>
                     </svg>';
 
-                echo '<div class="th-ticket-info">';
+                echo '<div class="thub-ticket-info">';
                 $index = 0;
                 foreach ($fields as $field => $label) {
                     $value = get_post_meta($post_id, $field, true);
-                    echo '<div class="th-ticket-field"><h4>' . esc_html($label) . '</h4><p>' . esc_html($value) . '<p></div>';
+                    echo '<div class="thub-ticket-field"><h4>' . esc_html($label) . '</h4><p>' . esc_html($value) . '<p></div>';
                     if ($index == 1) {
-                        echo '<div class="th-ticket-field"><h4>' . esc_html__('Creator', 'tickethub') . '</h4><p>' . esc_html($ticket_author) . '</p></div>';
-                        echo '<div class="th-ticket-field"><h4>' . esc_html__('E-Mail', 'tickethub') . '</h4><p>' . esc_html($email) . '</p></div>';
+                        echo '<div class="thub-ticket-field"><h4>' . esc_html__('Creator', 'tickethub') . '</h4><p>' . esc_html($ticket_author) . '</p></div>';
+                        echo '<div class="thub-ticket-field"><h4>' . esc_html__('E-Mail', 'tickethub') . '</h4><p>' . esc_html($email) . '</p></div>';
                     }
                     $index++;
                 }
                 echo '</div>';
 
-                $custom_fields = get_option('th_custom_fields', []);
+                $custom_fields = get_option('thub_custom_fields', []);
                 $custom_field_values = array_filter($custom_fields, function ($field) use ($post_id) {
                     return get_post_meta($post_id, 'thcf_' . sanitize_title($field['label']), true);
                 });
@@ -120,7 +121,7 @@ add_shortcode('th_ticket', function ($atts) {
                 if (!empty($custom_field_values)) {
                     foreach ($custom_field_values as $field) {
                         $field_value = get_post_meta($post_id, 'thcf_' . sanitize_title($field['label']), true);
-                        echo '<div class="th-ticket-field">';
+                        echo '<div class="thub-ticket-field">';
                         echo '<h4>' . esc_html($field['label']);
                         echo '</h4>';
                         if ($field['type'] === 'text' || $field['type'] === 'textarea') {
@@ -153,8 +154,8 @@ add_shortcode('th_ticket', function ($atts) {
                 }
 
                 if (!empty($image_attachments) || !empty($other_attachments)) {
-                    echo '<div class="th-ticket-field"><h4>' . esc_html__('Attachments', 'tickethub') . '</h4>';
-                    echo '<div class="th-ticket-attachments">';
+                    echo '<div class="thub-ticket-field"><h4>' . esc_html__('Attachments', 'tickethub') . '</h4>';
+                    echo '<div class="thub-ticket-attachments">';
                     foreach ($image_attachments as $attachment) {
                         $image_url = wp_get_attachment_url($attachment->ID);
                         if ($image_url) {
@@ -181,7 +182,7 @@ add_shortcode('th_ticket', function ($atts) {
                                     'fill'     => array(),
                                 ),
                             );
-                            echo '<a href="' . esc_url($image_url) . '" class="th-lightbox-trigger"><div class="th-image-container"><img src="' . esc_url($image_url) . '" alt="' . esc_attr($attachment->post_title) . '" class="th-ticket-image">' . wp_kses($zoomSVG, $allowed_tags) . '</div></a>';
+                            echo '<a href="' . esc_url($image_url) . '" class="thub-lightbox-trigger"><div class="thub-image-container"><img src="' . esc_url($image_url) . '" alt="' . esc_attr($attachment->post_title) . '" class="thub-ticket-image">' . wp_kses($zoomSVG, $allowed_tags) . '</div></a>';
                         }
                     }
                     echo '</div>';
@@ -196,7 +197,7 @@ add_shortcode('th_ticket', function ($atts) {
 
             if (current_user_can('comment_tickets') || current_user_can('administrator')) {
                 echo '<hr>';
-                echo '<div class="th-ticket-comments">';
+                echo '<div class="thub-ticket-comments">';
                 echo '<h4>' . esc_html__('Comments', 'tickethub') . '</h4>';
 
                 $top_level_comments = get_comments(array(
@@ -207,24 +208,24 @@ add_shortcode('th_ticket', function ($atts) {
 
                 if ($top_level_comments) {
                     foreach ($top_level_comments as $comment) {
-                        display_comment_with_replies($comment);
+                        thub_display_comment_withub_replies($comment);
                     }
                 } else {
                     echo '<p>' . esc_html__('No comments yet.', 'tickethub') . '</p>';
                 }
 
                 echo '</div>';
-                echo '<div class="th_ticket-comment-form">';
+                echo '<div class="thub_ticket-comment-form">';
                 if (comments_open($post_id)) {
                     $args = array(
                         'post_id' => $post_id,
                         'title_reply' => '',
-                        'comment_field' => '<textarea id="comment" name="comment" rows="10" cols="80" class="th-comment-area" placeholder="' . esc_attr__('Type your comment here', 'tickethub') . '" required="required"></textarea>',
+                        'comment_field' => '<textarea id="comment" name="comment" rows="10" cols="80" class="thub-comment-area" placeholder="' . esc_attr__('Type your comment here', 'tickethub') . '" required="required"></textarea>',
                         'fields' => array(),
                         'label_submit' => esc_html__('Comment', 'tickethub'),
                         'comment_notes_before' => '',
                         'comment_notes_after' => '',
-                        'submit_button' => '<button type="submit" class="th-button">%4$s</button>',
+                        'submit_button' => '<button type="submit" class="thub-button">%4$s</button>',
                     );
                     comment_form($args);
                 } else {
@@ -242,18 +243,18 @@ add_shortcode('th_ticket', function ($atts) {
     return ob_get_clean();
 });
 
-function display_comment_with_replies($comment, $depth = 0)
+function thub_display_comment_withub_replies($comment, $depth = 0)
 {
-    echo '<div class="th-comment-wrapper" style="left: relative;">'; // Wrapper div
+    echo '<div class="thub-comment-wrapper" style="left: relative;">'; // Wrapper div
 
     if ($depth > 0) {
-        echo '<div style="margin-left:' . esc_attr((($depth - 1) * 20)) . 'px;" class="th-vertical-bar"></div>';
+        echo '<div style="margin-left:' . esc_attr((($depth - 1) * 20)) . 'px;" class="thub-vertical-bar"></div>';
     }
 
-    echo '<div class="th-ticket-comment" style="margin-left:' . esc_attr(($depth * 30)) . 'px;">'; // Indent nested comments
+    echo '<div class="thub-ticket-comment" style="margin-left:' . esc_attr(($depth * 30)) . 'px;">'; // Indent nested comments
     echo '<div class="comment-author"><h5>' . esc_html($comment->comment_author) . '</h5></div>';
     echo '<div class="comment-content"><p>' . esc_html($comment->comment_content) . '</p></div>';
-    echo '<div class="th-comment-date"><p>' . esc_html(get_comment_date('', $comment)) . '</p></div>';
+    echo '<div class="thub-comment-date"><p>' . esc_html(get_comment_date('', $comment)) . '</p></div>';
     echo '</div>';
     $replies = get_comments(array(
         'parent' => $comment->comment_ID,
@@ -262,7 +263,7 @@ function display_comment_with_replies($comment, $depth = 0)
 
     if ($replies) {
         foreach ($replies as $reply) {
-            display_comment_with_replies($reply, $depth + 1);
+            thub_display_comment_withub_replies($reply, $depth + 1);
         }
     }
 

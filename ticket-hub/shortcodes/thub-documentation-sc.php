@@ -1,19 +1,20 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-add_shortcode('th_documentation', function () {
+add_shortcode('thub_documentation', function () {
 
     static $documentation_enqueue = false;
 
     if (!$documentation_enqueue) {
-        wp_enqueue_script('th-documentation-script', PLUGIN_ROOT . 'js/th-documentation.js', array('jquery'), '1.0.0', true);
-        wp_enqueue_style('th-documentation-style', PLUGIN_ROOT . 'css/th-documentation.css', array(), '1.0.0', 'all');
+        wp_enqueue_script('thub-documentation-script', PLUGIN_ROOT . 'js/thub-documentation.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_style('thub-documentation-style', PLUGIN_ROOT . 'css/thub-documentation.css', array(), '1.0.0', 'all');
         $documentation_enqueue = true;
     }
 
     ob_start(); // Start output buffering
 
     $args = array(
-        'post_type'      => 'th_document', // Set to 'document' post type
+        'post_type'      => 'thub_document', // Set to 'document' post type
         'posts_per_page' => -1, // Retrieve all document posts
         'post_status'    => 'publish', // Only select published posts
     );
@@ -38,9 +39,9 @@ add_shortcode('th_documentation', function () {
     wp_reset_postdata();
 
     // Output the search field and dropdown for filtering by document type (File types or Link)
-    echo '<div class="th-document-controls">';
+    echo '<div class="thub-document-controls">';
     echo '<input type="text" id="search" placeholder="' . esc_attr__('Search', 'tickethub') . '">';
-    echo '<select id="th-document-type" class="th-select"><option value="">' . esc_html__('- Type -', 'tickethub') . '</option><option value="LINK">' . esc_html__('Link', 'tickethub') . '</option>';
+    echo '<select id="thub-document-type" class="thub-select"><option value="">' . esc_html__('- Type -', 'tickethub') . '</option><option value="LINK">' . esc_html__('Link', 'tickethub') . '</option>';
     foreach ($file_types as $file_type) {
         echo '<option value="' . esc_attr($file_type) . '">' . esc_html($file_type) . '</option>';
     }
@@ -49,7 +50,7 @@ add_shortcode('th_documentation', function () {
 
     // Query for the actual display
     $the_query = new WP_Query($args);
-    echo '<table class="th-document-table"><thead><tr><th>' . esc_html__('Type', 'tickethub') . '</th><th>' . esc_html__('Name', 'tickethub') . '</th></tr></thead><tbody>';
+    echo '<table class="thub-document-table"><thead><tr><th>' . esc_html__('Type', 'tickethub') . '</th><th>' . esc_html__('Name', 'tickethub') . '</th></tr></thead><tbody>';
     while ($the_query->have_posts()) {
         $the_query->the_post();
 
@@ -70,7 +71,7 @@ add_shortcode('th_documentation', function () {
             $file_type = wp_check_filetype($file_path);
             $file_extension = strtoupper($file_type['ext']);
             $type_display = esc_html($file_extension);
-            $button_text = '<span class="th-hide-text-mobile">' . esc_html__('Download', 'tickethub') . '</span>';
+            $button_text = '<span class="thub-hide-text-mobile">' . esc_html__('Download', 'tickethub') . '</span>';
             $download_attribute = ' download';
             // Set the download SVG icon for files
             // TODO: Turn SVG Sting into pseudo element with CSS
@@ -83,7 +84,7 @@ add_shortcode('th_documentation', function () {
         } elseif ($document_type === 'Link') {
             $document_url = esc_url(get_post_meta($document_id, 'link', true));
             $type_display = esc_html__('LINK', 'tickethub');
-            $button_text = '<span class="th-hide-text-mobile">' . esc_html__('Open', 'tickethub') . '</span>';
+            $button_text = '<span class="thub-hide-text-mobile">' . esc_html__('Open', 'tickethub') . '</span>';
             // Set the open SVG icon for links
             // TODO: Turn SVG Sting into pseudo element with CSS
             $icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">

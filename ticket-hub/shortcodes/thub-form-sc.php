@@ -1,6 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-add_shortcode('th_form', function () {
+add_shortcode('thub_form', function () {
     if (!current_user_can('submit_tickets') && !current_user_can('administrator')) {
         return '';
     }
@@ -8,21 +9,21 @@ add_shortcode('th_form', function () {
     static $ticket_form_enqueue = false;
 
     if (!$ticket_form_enqueue) {
-        wp_enqueue_style('th-form-style', PLUGIN_ROOT . 'css/th-form.css', array(), '1.0.0', 'all');
-        wp_enqueue_script('th-form-script', PLUGIN_ROOT . 'js/th-form.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_style('thub-form-style', PLUGIN_ROOT . 'css/thub-form.css', array(), '1.0.0', 'all');
+        wp_enqueue_script('thub-form-script', PLUGIN_ROOT . 'js/thub-form.js', array('jquery'), '1.0.0', true);
         $ticket_form_enqueue = true;
     }
 
     // Fetch custom fields and attachment setting
-    $custom_fields = get_option('th_custom_fields', []);
-    $disable_attachments = get_option('th_disable_attachments', 0); // 0 is unchecked by default
+    $custom_fields = get_option('thub_custom_fields', []);
+    $disable_attachments = get_option('thub_disable_attachments', 0); // 0 is unchecked by default
 
     // Get the maximum upload size from PHP configuration
     $max_upload_size = wp_max_upload_size();
 
     ob_start();
 ?>
-    <form id="th-form" class="th-form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post" enctype="multipart/form-data">
+    <form id="thub-form" class="thub-form" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" method="post" enctype="multipart/form-data">
         <?php wp_nonce_field('submit_ticket_nonce', 'ticket_nonce_field'); ?>
 
         <!-- Standard fields -->
@@ -49,7 +50,7 @@ add_shortcode('th_form', function () {
                 <?php elseif ($field['type'] == 'textarea') : ?>
                     <textarea name="thcf_<?php echo esc_attr(sanitize_title($field['label'])); ?>" <?php echo esc_attr($required_attr); ?>></textarea>
                 <?php elseif ($field['type'] == 'select' && !empty($field['options'])) : ?>
-                    <select name="thcf_<?php echo esc_attr(sanitize_title($field['label'])); ?>" <?php echo esc_attr($required_attr); ?> class="th-select">
+                    <select name="thcf_<?php echo esc_attr(sanitize_title($field['label'])); ?>" <?php echo esc_attr($required_attr); ?> class="thub-select">
                         <?php foreach ($field['options'] as $option) : ?>
                             <option value="<?php echo esc_attr($option); ?>"><?php echo esc_html($option); ?></option>
                         <?php endforeach; ?>
@@ -59,7 +60,7 @@ add_shortcode('th_form', function () {
         <?php endforeach; ?>
 
         <input type="hidden" name="action" value="submit_ticket_form">
-        <input type="submit" class="th-button" value="<?php esc_html_e('Submit', 'tickethub'); ?>">
+        <input type="submit" class="thub-button" value="<?php esc_html_e('Submit', 'tickethub'); ?>">
     </form>
 <?php
     return ob_get_clean();
@@ -70,11 +71,11 @@ add_action('admin_post_submit_ticket_form', function () {
         wp_send_json_error(__('You do not have permission to submit tickets.', 'tickethub'));
     }
 
-    if (!isset($_POST['ticket_nonce_field']) || !wp_verify_nonce($_POST['ticket_nonce_field'], 'submit_ticket_nonce')) {
+    if (!isset($_POST['ticket_nonce_field']) || !wp_verify_nonce(sanitize_text_field( wp_unslash ($_POST['ticket_nonce_field'])), 'submit_ticket_nonce')) {
         wp_send_json_error(__('Security check failed', 'tickethub'));
     }
 
-    $attachments = $_FILES['your-attachments'];
+    $attachments = $_FILES[sanitize_file_name('your-attachments')];
     $attachment_urls = [];
     $attachment_files = [];
 
@@ -129,14 +130,14 @@ add_action('admin_post_submit_ticket_form', function () {
 
     $post_id = wp_insert_post([
         'post_status'  => 'pending',
-        'post_type'    => 'th_ticket',
+        'post_type'    => 'thub_ticket',
     ]);
 
     if (is_wp_error($post_id)) {
         wp_send_json_error(__('Error creating the ticket. Please try again.', 'tickethub'));
     }
 
-    $options = get_option('th_options');
+    $options = get_option('thub_options');
     $prefix = isset($options['ticket_prefix']) ? sanitize_text_field($options['ticket_prefix']) : '';
     $suffix = isset($options['ticket_suffix']) ? sanitize_text_field($options['ticket_suffix']) : '';
     $formatted_post_id = sprintf('%06d', $post_id);
@@ -146,11 +147,11 @@ add_action('admin_post_submit_ticket_form', function () {
         'post_title' => $title
     ]);
 
-    update_post_meta($post_id, 'th_ticket_id', $id);
-    update_post_meta($post_id, 'th_ticket_status', 'New');
-    update_post_meta($post_id, 'th_ticket_description', $description);
+    update_post_meta($post_id, 'thub_ticket_id', $id);
+    update_post_meta($post_id, 'thub_ticket_status', 'New');
+    update_post_meta($post_id, 'thub_ticket_description', $description);
 
-    $custom_fields = get_option('th_custom_fields', []);
+    $custom_fields = get_option('thub_custom_fields', []);
     $custom_fields_content = "";
     foreach ($custom_fields as $field) {
         if (isset($_POST['thcf_' . sanitize_title($field['label'])])) {

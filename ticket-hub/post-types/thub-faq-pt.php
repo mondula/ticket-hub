@@ -1,7 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_action('init', function () {
-	register_post_type('th_faq', array(
+	register_post_type('thub_faq', array(
 		'labels' => array(
 			'name' => __('FAQs', 'tickethub'),
 			'singular_name' => __('FAQ', 'tickethub'),
@@ -34,7 +35,7 @@ add_action('init', function () {
 			'item_link_description' => __('A link to a faq.', 'tickethub'),
 		),
 		'public' => true,
-		'show_in_menu' => 'th_main_menu',
+		'show_in_menu' => 'thub_main_menu',
 		'menu_position' => 3,
 		'show_in_rest' => true,
 		'supports' => array('title'),
@@ -42,20 +43,20 @@ add_action('init', function () {
 });
 
 add_action('edit_form_after_title', function ($post) {
-	// Check if we're on the 'th_faq' post type
-	if ($post->post_type !== 'th_faq') {
+	// Check if we're on the 'thub_faq' post type
+	if ($post->post_type !== 'thub_faq') {
 		return;
 	}
 
 	// Use nonce for verification to secure data handling
-	wp_nonce_field('th_save_answer_meta', 'th_answer_meta_nonce');
+	wp_nonce_field('thub_save_answer_meta', 'thub_answer_meta_nonce');
 
 	// Get the current value of the 'answer' field, if any
-	$answer_content = get_post_meta($post->ID, '_th_answer', true);
+	$answer_content = get_post_meta($post->ID, '_thub_answer', true);
 
 	// Settings for the wp_editor
 	$settings = array(
-		'textarea_name' => 'th_answer',
+		'textarea_name' => 'thub_answer',
 		'media_buttons' => true,
 		'teeny' => false,
 		'tinymce' => true,
@@ -66,12 +67,12 @@ add_action('edit_form_after_title', function ($post) {
 	echo '<h3>' . esc_html__('Answer', 'tickethub') . '</h3>';
 
 	// Display the editor
-	wp_editor(esc_textarea($answer_content), 'th_answer_editor', $settings);
+	wp_editor(esc_textarea($answer_content), 'thub_answer_editor', $settings);
 });
 
-add_action('save_post_th_faq', function ($post_id) {
+add_action('save_post_thub_faq', function ($post_id) {
 	// Check for nonce security
-	if (!isset($_POST['th_answer_meta_nonce']) || !wp_verify_nonce($_POST['th_answer_meta_nonce'], 'th_save_answer_meta')) {
+	if (!isset($_POST['thub_answer_meta_nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash ($_POST['thub_answer_meta_nonce'])), 'thub_save_answer_meta')) {
 		return;
 	}
 
@@ -81,7 +82,7 @@ add_action('save_post_th_faq', function ($post_id) {
 	}
 
 	// Save/update the meta field in the database
-	if (isset($_POST['th_answer'])) {
-		update_post_meta($post_id, '_th_answer', wp_kses_post($_POST['th_answer']));
+	if (isset($_POST['thub_answer'])) {
+		update_post_meta($post_id, '_thub_answer', wp_kses_post($_POST['thub_answer']));
 	}
 });

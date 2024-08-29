@@ -1,7 +1,8 @@
 <?php
-#require 'wp-includes/http.php';
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 add_action('init', function () {
-    register_post_type('th_document', array(
+    register_post_type('thub_document', array(
         'labels' => array(
             'name' => __('Documents', 'tickethub'),
             'singular_name' => __('Document', 'tickethub'),
@@ -35,7 +36,7 @@ add_action('init', function () {
         ),
         'description' => __('Add links or files as your documentation', 'tickethub'),
         'public' => true,
-        'show_in_menu' => 'th_main_menu',
+        'show_in_menu' => 'thub_main_menu',
         'menu_position' => 4,
         'show_in_rest' => true,
         'supports' => array('title'),
@@ -44,11 +45,11 @@ add_action('init', function () {
 
 // Hook into the 'edit_form_after_title' to display custom fields after the post title.
 add_action('edit_form_after_title', function ($post) {
-    if ($post->post_type != 'th_document') {
+    if ($post->post_type != 'thub_document') {
         return;
     }
 
-    wp_nonce_field(basename(__FILE__), 'th_document_fields_nonce');
+    wp_nonce_field(basename(__FILE__), 'thub_document_fields_nonce');
 
     $type = get_post_meta($post->ID, 'type', true) ?: 'File';
     $file_id = get_post_meta($post->ID, 'file', true);
@@ -62,77 +63,38 @@ add_action('edit_form_after_title', function ($post) {
 ?>
     <h1><?php echo esc_html(__('Type: ', 'tickethub')) . esc_html(get_post_meta($post->ID, 'document_category', true)); ?></h1>
     <div>
-        <label for="th-document-type">
+        <label for="thub-document-type">
             <h3><?php esc_html_e('Type', 'tickethub'); ?></h3>
         </label>
-        <select name="type" id="th-document-type">
+        <select name="type" id="thub-document-type">
             <option value="File" <?php selected($type, 'File'); ?>><?php esc_html_e('File', 'tickethub'); ?></option>
             <option value="Link" <?php selected($type, 'Link'); ?>><?php esc_html_e('Link', 'tickethub'); ?></option>
         </select>
     </div><br />
 
-    <div id="th-file-upload-section" style="<?php echo ($type == 'File' ? '' : 'display: none;'); ?>">
-        <label for="th-document-file">
+    <div id="thub-file-upload-section" style="<?php echo ($type == 'File' ? '' : 'display: none;'); ?>">
+        <label for="thub-document-file">
             <h3><?php esc_html_e('File', 'tickethub'); ?></h3>
         </label>
-        <input type="hidden" id="th-document-file-id" name="file_id" value="<?php echo esc_attr($file_id); ?>" />
-        <button type="button" id="th-upload-file-button" class="button"><?php esc_html_e('Select File', 'tickethub'); ?></button>
-        <span id="th-file-name"><?php echo esc_html($file_name); ?></span>
+        <input type="hidden" id="thub-document-file-id" name="file_id" value="<?php echo esc_attr($file_id); ?>" />
+        <button type="button" id="thub-upload-file-button" class="button"><?php esc_html_e('Select File', 'tickethub'); ?></button>
+        <span id="thub-file-name"><?php echo esc_html($file_name); ?></span>
     </div>
 
-    <div id="th-link-section" style="<?php echo ($type == 'Link' ? '' : 'display: none;'); ?>">
-        <label for="th-document-link">
+    <div id="thub-link-section" style="<?php echo ($type == 'Link' ? '' : 'display: none;'); ?>">
+        <label for="thub-document-link">
             <h3><?php esc_html_e('Link', 'tickethub'); ?></h3>
         </label>
-        <input type="url" name="link" id="th-document-link" value="<?php echo esc_url($link); ?>" />
+        <input type="url" name="link" id="thub-document-link" value="<?php echo esc_url($link); ?>" />
     </div>
-
-    <script>
-        jQuery(document).ready(function($) {
-            $('#th-document-type').change(function() {
-                if ($(this).val() === 'File') {
-                    $('#th-file-upload-section').show();
-                    $('#th-link-section').hide();
-                } else {
-                    $('#th-file-upload-section').hide();
-                    $('#th-link-section').show();
-                }
-            });
-
-            $('#th-upload-file-button').click(function(e) {
-                e.preventDefault();
-                var fileFrame;
-
-                if (fileFrame) {
-                    fileFrame.open();
-                    return;
-                }
-
-                fileFrame = wp.media({
-                    title: 'Select or Upload a File',
-                    button: {
-                        text: 'Use this file'
-                    },
-                    multiple: false
-                });
-
-                fileFrame.on('select', function() {
-                    var attachment = fileFrame.state().get('selection').first().toJSON();
-                    $('#th-document-file-id').val(attachment.id);
-                    $('#th-file-name').text(attachment.title);
-                });
-
-                fileFrame.open();
-            });
-        });
-    </script>
 <?php
+    wp_enqueue_script('thub-document-script', PLUGIN_ROOT . 'js/thub-document.js', array('jquery'), '1.0.0', true);
     wp_enqueue_media();
 });
 
-add_action('save_post_th_document', function ($post_id) {
+add_action('save_post_thub_document', function ($post_id) {
     // Security checks (nonce, autosave, permission).
-    if (!isset($_POST['th_document_fields_nonce']) || !wp_verify_nonce($_POST['th_document_fields_nonce'], basename(__FILE__))) {
+    if (!isset($_POST['thub_document_fields_nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash ($_POST['thub_document_fields_nonce'])), basename(__FILE__))) {
         return $post_id;
     }
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return $post_id;

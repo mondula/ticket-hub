@@ -16,7 +16,7 @@
 		<?php echo wp_kses_post($header); ?>
 		<main>
 			<div class="wrapper">
-				<?php echo do_shortcode('[th_ticket id="' . esc_attr(get_the_ID()) . '"]'); ?>
+				<?php echo do_shortcode('[thub_ticket id="' . esc_attr(get_the_ID()) . '"]'); ?>
 			</div>
 		</main>
 		<?php echo wp_kses_post($footer); ?>

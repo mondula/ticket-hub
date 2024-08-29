@@ -1,17 +1,18 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_action('init', function () {
-    register_th_ticket_post_type();
-    register_th_ticket_tag_taxonomy();
+    thub_register_thub_ticket_post_type();
+    thub_register_thub_ticket_tag_taxonomy();
 });
 
-function register_th_ticket_post_type()
+function thub_register_thub_ticket_post_type()
 {
     // Get the option value
-    $options = get_option('th_plus_options');
+    $options = get_option('thub_plus_options');
     $auto_publish = isset($options['auto_publish']) && $options['auto_publish'] ? true : false;
 
-    register_post_type('th_ticket', array(
+    register_post_type('thub_ticket', array(
         'labels' => array(
             'name' => __('Tickets', 'tickethub'),
             'singular_name' => __('Ticket', 'tickethub'),
@@ -45,22 +46,22 @@ function register_th_ticket_post_type()
         ),
         'description' => __('These are the tickets created by people.', 'tickethub'),
         'public' => true,
-        'show_in_menu' => 'th_main_menu',
+        'show_in_menu' => 'thub_main_menu',
         'menu_position' => 1,
         'show_in_rest' => true,
         'supports' => array('title', 'author', 'comments'),
-        'delete_with_user' => true,
-        'taxonomies' => array('th_ticket_tag'), // Enable tag support
+        'delete_withub_user' => true,
+        'taxonomies' => array('thub_ticket_tag'), // Enable tag support
         'capability_type' => 'post',
         'map_meta_cap' => true,
         'capabilities' => array(
-            'edit_post' => 'edit_th_ticket',
-            'read_post' => 'read_th_ticket',
-            'delete_post' => 'delete_th_ticket',
-            'edit_posts' => 'edit_th_tickets',
-            'edit_others_posts' => 'edit_others_th_tickets',
-            'publish_posts' => 'publish_th_tickets',
-            'read_private_posts' => 'read_private_th_tickets',
+            'edit_post' => 'edit_thub_ticket',
+            'read_post' => 'read_thub_ticket',
+            'delete_post' => 'delete_thub_ticket',
+            'edit_posts' => 'edit_thub_tickets',
+            'edit_others_posts' => 'edit_others_thub_tickets',
+            'publish_posts' => 'publish_thub_tickets',
+            'read_private_posts' => 'read_private_thub_tickets',
         ),
         'has_archive' => true,
     ));
@@ -68,20 +69,20 @@ function register_th_ticket_post_type()
 
 add_action('admin_init', function () {
     $role = get_role('administrator');
-    $role->add_cap('edit_th_ticket');
-    $role->add_cap('read_th_ticket');
-    $role->add_cap('delete_th_ticket');
-    $role->add_cap('edit_th_tickets');
-    $role->add_cap('edit_others_th_tickets');
-    $role->add_cap('publish_th_tickets');
-    $role->add_cap('read_private_th_tickets');
+    $role->add_cap('edit_thub_ticket');
+    $role->add_cap('read_thub_ticket');
+    $role->add_cap('delete_thub_ticket');
+    $role->add_cap('edit_thub_tickets');
+    $role->add_cap('edit_others_thub_tickets');
+    $role->add_cap('publish_thub_tickets');
+    $role->add_cap('read_private_thub_tickets');
 });
 
-function register_th_ticket_tag_taxonomy()
+function thub_register_thub_ticket_tag_taxonomy()
 {
     register_taxonomy(
-        'th_ticket_tag',
-        'th_ticket',
+        'thub_ticket_tag',
+        'thub_ticket',
         array(
             'labels' => array(
                 'name' => __('Ticket Tags', 'tickethub'),
@@ -95,7 +96,7 @@ function register_th_ticket_tag_taxonomy()
                 'new_item_name' => __('New Ticket Tag Name', 'tickethub'),
                 'search_items' => __('Search Ticket Tags', 'tickethub'),
                 'popular_items' => __('Popular Ticket Tags', 'tickethub'),
-                'separate_items_with_commas' => __('Separate ticket tags with commas', 'tickethub'),
+                'separate_items_withub_commas' => __('Separate ticket tags with commas', 'tickethub'),
                 'add_or_remove_items' => __('Add or remove ticket tags', 'tickethub'),
                 'choose_from_most_used' => __('Choose from the most used ticket tags', 'tickethub'),
                 'not_found' => __('No ticket tags found', 'tickethub'),
@@ -108,14 +109,14 @@ function register_th_ticket_tag_taxonomy()
 
 
 add_action('edit_form_after_title', function ($post) {
-    if ($post->post_type != 'th_ticket') return;
+    if ($post->post_type != 'thub_ticket') return;
 
     $fields = [
-        'th_ticket_id' => [
+        'thub_ticket_id' => [
             'type' => 'text',
             'label' => __('ID', 'tickethub'),
         ],
-        'th_ticket_status' => [
+        'thub_ticket_status' => [
             'type' => 'select',
             'label' => __('Status', 'tickethub'),
             'options' => [
@@ -124,7 +125,7 @@ add_action('edit_form_after_title', function ($post) {
                 'Done' => __('Done', 'tickethub'),
             ]
         ],
-        'th_ticket_type' => [
+        'thub_ticket_type' => [
             'type' => 'select',
             'label' => __('Type', 'tickethub'),
             'options' => [
@@ -134,7 +135,7 @@ add_action('edit_form_after_title', function ($post) {
                 'Change request' => __('Change request', 'tickethub'),
             ]
         ],
-        'th_ticket_description' => [
+        'thub_ticket_description' => [
             'type' => 'textarea',
             'label' => __('Description', 'tickethub'),
         ],
@@ -176,7 +177,7 @@ add_action('edit_form_after_title', function ($post) {
         echo '</ul><br>';
     }
 
-    $saved_custom_fields = get_option('th_custom_fields', []);
+    $saved_custom_fields = get_option('thub_custom_fields', []);
 
     foreach ($saved_custom_fields as $field) {
         $value = get_post_meta($post->ID, 'thcf_' . sanitize_title($field['label']), true);
@@ -199,11 +200,11 @@ add_action('edit_form_after_title', function ($post) {
     wp_nonce_field('save_ticket_meta', 'ticket_meta_nonce');
 });
 
-add_action('save_post_th_ticket', function ($post_id) {
+add_action('save_post_thub_ticket', function ($post_id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-    if (!isset($_POST['ticket_meta_nonce']) || !wp_verify_nonce($_POST['ticket_meta_nonce'], 'save_ticket_meta')) return;
+    if (!isset($_POST['ticket_meta_nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash ($_POST['ticket_meta_nonce'])), 'save_ticket_meta')) return;
 
-    $fields = ['th_ticket_id', 'th_ticket_status', 'th_ticket_type', 'th_ticket_description'];
+    $fields = ['thub_ticket_id', 'thub_ticket_status', 'thub_ticket_type', 'thub_ticket_description'];
 
     foreach ($fields as $field) {
         if (array_key_exists($field, $_POST)) {
@@ -211,7 +212,7 @@ add_action('save_post_th_ticket', function ($post_id) {
         }
     }
 
-    $saved_custom_fields = get_option('th_custom_fields', []);
+    $saved_custom_fields = get_option('thub_custom_fields', []);
 
     foreach ($saved_custom_fields as $field) {
         $field_key = 'thcf_' . sanitize_title($field['label']);
@@ -222,11 +223,11 @@ add_action('save_post_th_ticket', function ($post_id) {
 });
 
 add_action('updated_post_meta', function ($meta_id, $post_id, $meta_key, $meta_value) {
-    if ($meta_key == 'th_ticket_status') {
+    if ($meta_key == 'thub_ticket_status') {
 
         $author_id = get_post_field('post_author', $post_id);
         $email = get_the_author_meta('email', $author_id);
-        $id = get_post_meta($post_id, 'th_ticket_id', true);
+        $id = get_post_meta($post_id, 'thub_ticket_id', true);
         $ticket_link = get_permalink($post_id);
 
         if ($meta_value == 'Done') {
@@ -244,14 +245,14 @@ add_action('updated_post_meta', function ($meta_id, $post_id, $meta_key, $meta_v
 }, 10, 4);
 
 add_action('transition_post_status', function ($new_status, $old_status, $post) {
-    if ($post->post_type != 'th_ticket') {
+    if ($post->post_type != 'thub_ticket') {
         return;
     }
 
-    if (($new_status == 'publish' || $new_status == 'th_archive') && $old_status != $new_status) {
+    if (($new_status == 'publish' || $new_status == 'thub_archive') && $old_status != $new_status) {
         $author_id = $post->post_author;
         $email = get_the_author_meta('email', $author_id);
-        $ticket_id = get_post_meta($post->ID, 'th_ticket_id', true);
+        $ticket_id = get_post_meta($post->ID, 'thub_ticket_id', true);
         $status = ucfirst($new_status);
         $ticket_link = get_permalink($post->ID);
 
@@ -273,10 +274,10 @@ add_action('wp_insert_comment', function ($comment_id, $comment) {
     $post_id = $comment->comment_post_ID;
     $post = get_post($post_id);
 
-    if ($post->post_type == 'th_ticket') {
+    if ($post->post_type == 'thub_ticket') {
         $author_id = $post->post_author;
         $email = get_the_author_meta('email', $author_id);
-        $ticket_id = get_post_meta($post_id, 'th_ticket_id', true);
+        $ticket_id = get_post_meta($post_id, 'thub_ticket_id', true);
         $ticket_link = get_permalink($post_id);
         $comment_author = esc_html($comment->comment_author);
         $comment_content = esc_html($comment->comment_content);
@@ -298,11 +299,11 @@ add_action('wp', function () {
 });
 
 add_action('archive_done_tickets', function () {
-    $options = get_option('th_options');
+    $options = get_option('thub_options');
     $archive_days = isset($options['archive_days']) ? intval($options['archive_days']) : 0; // Default to 0 days if not set
 
     $args = array(
-        'post_type'      => 'th_ticket',
+        'post_type'      => 'thub_ticket',
         'post_status'    => 'publish',
         'posts_per_page' => -1,
         //TODO: Plugin-Check beschwert sich: "Detected usage of meta_query, possible slow query." -> Entweder fixen oder Kommentar löschen und ignorieren.
@@ -323,13 +324,13 @@ add_action('archive_done_tickets', function () {
         if ($diff > $archive_days) {
             wp_update_post(array(
                 'ID'          => $ticket->ID,
-                'post_status' => 'th_archive'
+                'post_status' => 'thub_archive'
             ));
         }
     }
 });
 
-add_filter('manage_th_ticket_posts_columns', function ($columns) {
+add_filter('manage_thub_ticket_posts_columns', function ($columns) {
     unset($columns['title']);
     $new_columns = [
         'cb' => $columns['cb'],
@@ -340,36 +341,36 @@ add_filter('manage_th_ticket_posts_columns', function ($columns) {
     return array_merge($new_columns, $columns);
 });
 
-add_filter('manage_edit-th_ticket_sortable_columns', function ($columns) {
+add_filter('manage_edit-thub_ticket_sortable_columns', function ($columns) {
     $columns['id'] = 'id';
     $columns['status'] = 'status';
     $columns['type'] = 'type';
     return $columns;
 });
 
-add_action('manage_th_ticket_posts_custom_column', function ($column, $post_id) {
+add_action('manage_thub_ticket_posts_custom_column', function ($column, $post_id) {
     switch ($column) {
         case 'id':
-            $id = esc_html(get_post_meta($post_id, 'th_ticket_id', true));
+            $id = esc_html(get_post_meta($post_id, 'thub_ticket_id', true));
             $edit_link = get_edit_post_link($post_id);
             echo '<a href="' . esc_url($edit_link) . '">' . esc_html($id) . '</a>';
             break;
         case 'status':
-            $status = esc_html(get_post_meta($post_id, 'th_ticket_status', true));
+            $status = esc_html(get_post_meta($post_id, 'thub_ticket_status', true));
             echo esc_html($status);
             break;
         case 'type':
-            $type = esc_html(get_post_meta($post_id, 'th_ticket_type', true));
+            $type = esc_html(get_post_meta($post_id, 'thub_ticket_type', true));
             echo esc_html($type);
             break;
     }
 }, 10, 2);
 
 
-add_action('save_post_th_ticket', function ($post_id, $post, $update) {
+add_action('save_post_thub_ticket', function ($post_id, $post, $update) {
     if ($update) return; // Only set post status on creation
 
-    $options = get_option('th_plus_options');
+    $options = get_option('thub_plus_options');
     $auto_publish = isset($options['auto_publish']) && $options['auto_publish'];
 
     if ($auto_publish) {
@@ -380,18 +381,18 @@ add_action('save_post_th_ticket', function ($post_id, $post, $update) {
     }
 }, 10, 3);
 
-add_filter('bulk_actions-edit-th_ticket', function ($bulk_actions) {
+add_filter('bulk_actions-edit-thub_ticket', function ($bulk_actions) {
     $bulk_actions['mark_as_archived'] = 'Mark as Archived';
     return $bulk_actions;
 });
 
-add_filter('handle_bulk_actions-edit-th_ticket', function ($redirect_to, $doaction, $post_ids) {
+add_filter('handle_bulk_actions-edit-thub_ticket', function ($redirect_to, $doaction, $post_ids) {
     if ($doaction === 'mark_as_archived') {
         foreach ($post_ids as $post_id) {
-            // Update the post status to 'th_archive'
+            // Update the post status to 'thub_archive'
             $post = array(
                 'ID' => $post_id,
-                'post_status' => 'th_archive',
+                'post_status' => 'thub_archive',
             );
             wp_update_post($post);
         }
@@ -415,7 +416,7 @@ add_action('admin_notices', function () {
 // Delete attachments when a ticket is deleted
 add_action('before_delete_post', function ($post_id) {
     $post_type = get_post_type($post_id);
-    if ($post_type !== 'th_ticket') {
+    if ($post_type !== 'thub_ticket') {
         return;
     }
 
@@ -431,11 +432,11 @@ add_action('before_delete_post', function ($post_id) {
     }
 });
 
-add_action('pre_get_posts', 'th_search_by_ticket_id');
-function th_search_by_ticket_id($query)
+add_action('pre_get_posts', 'thub_search_by_ticket_id');
+function thub_search_by_ticket_id($query)
 {
     // Check if this is a search query in the admin area and for our custom post type
-    if ($query->is_search() && $query->is_main_query() && is_admin() && $query->get('post_type') == 'th_ticket') {
+    if ($query->is_search() && $query->is_main_query() && is_admin() && $query->get('post_type') == 'thub_ticket') {
         $search_term = $query->get('s');
         if (!empty($search_term)) {
             // Remove default search parameter
@@ -445,7 +446,7 @@ function th_search_by_ticket_id($query)
             $meta_query = [
                 'relation' => 'OR',
                 [
-                    'key'     => 'th_ticket_id',
+                    'key'     => 'thub_ticket_id',
                     'value'   => sanitize_text_field($search_term),
                     'compare' => 'LIKE',
                 ]

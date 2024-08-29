@@ -21,9 +21,9 @@ TicketHub is a comprehensive support management plugin that allows you to create
 * Initial release of TicketHub.
 
 == Custom Shortcodes ==
-* `[th_form]` - Embed the ticket submission form on any page.
-* `[th_tickets]` - Display a list of all tickets.
-* `[th_faqs]` - Display the FAQ section.
-* `[th_documentation]` - Display the documentation section.
-* `[th_changelog]` - Display the change log section.
-* `[th_profile]` - Display the user's profile and their tickets. Dont use on the same page as `[th_tickets]`.
+* `[thub_form]` - Embed the ticket submission form on any page.
+* `[thub_tickets]` - Display a list of all tickets.
+* `[thub_faqs]` - Display the FAQ section.
+* `[thub_documentation]` - Display the documentation section.
+* `[thub_changelog]` - Display the change log section.
+* `[thub_profile]` - Display the user's profile and their tickets. Dont use on the same page as `[thub_tickets]`.

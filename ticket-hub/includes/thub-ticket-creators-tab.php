@@ -1,9 +1,10 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-function get_th_ticket_creators()
+function thub_get_thub_ticket_creators()
 {
     $args = array(
-        'role'    => 'th_ticket_creator',
+        'role'    => 'thub_ticket_creator',
         'orderby' => 'user_nicename',
         'order'   => 'ASC'
     );
@@ -11,7 +12,7 @@ function get_th_ticket_creators()
     return $user_query->get_results();
 }
 
-function th_ticket_creator_form_page()
+function thub_ticket_creator_form_page()
 {
     // Check if the current user has the capability to create users
     if (!current_user_can('create_users')) {
@@ -19,7 +20,7 @@ function th_ticket_creator_form_page()
     }
 
     // Handle form submission for single user creation
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_user_nonce']) && wp_verify_nonce($_POST['create_user_nonce'], 'create_th_ticket_creator')) {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_user_nonce']) && wp_verify_nonce(sanitize_text_field( wp_unslash ($_POST['create_user_nonce'])), 'create_thub_ticket_creator')) {
         $first_name = sanitize_text_field($_POST['first_name']);
         $last_name = sanitize_text_field($_POST['last_name']);
         $email = sanitize_email($_POST['email']);
@@ -38,9 +39,9 @@ function th_ticket_creator_form_page()
         } else {
             $user_id = wp_create_user($username, wp_generate_password(), $email);
             if (!is_wp_error($user_id)) {
-                // Set the role to 'th_ticket_creator'
+                // Set the role to 'thub_ticket_creator'
                 $user = new WP_User($user_id);
-                $user->set_role('th_ticket_creator');
+                $user->set_role('thub_ticket_creator');
                 // Add first and last name to user meta
                 update_user_meta($user_id, 'first_name', $first_name);
                 update_user_meta($user_id, 'last_name', $last_name);
@@ -56,14 +57,14 @@ function th_ticket_creator_form_page()
 
     // Handle CSV upload if the Plus plugin is active
     if (is_plugin_active('ticket-hub-plus/ticket-hub-plus.php')) {
-        th_plus_handle_csv_upload();
+        thub_plus_handle_csv_upload();
     }
 
     // Display the form
 ?>
     <div class="wrap">
         <form method="post">
-            <?php wp_nonce_field('create_th_ticket_creator', 'create_user_nonce'); ?>
+            <?php wp_nonce_field('create_thub_ticket_creator', 'create_user_nonce'); ?>
             <h2><?php esc_html_e('Add Ticket Creator', 'tickethub'); ?></h2>
             <table class="form-table">
                 <tr>
@@ -85,8 +86,8 @@ function th_ticket_creator_form_page()
         <?php
         // Display bulk upload form if the Plus plugin is active
         if (is_plugin_active('ticketHubPlus/ticketHubPlus.php')) {
-            th_plus_handle_csv_upload();
-            th_plus_bulk_upload_form();
+            thub_plus_handle_csv_upload();
+            thub_plus_bulk_upload_form();
         }
         ?>
 
@@ -102,9 +103,9 @@ function th_ticket_creator_form_page()
             </thead>
             <tbody>
                 <?php
-                $th_ticket_creators = get_th_ticket_creators();
-                if (!empty($th_ticket_creators)) {
-                    foreach ($th_ticket_creators as $user) {
+                $thub_ticket_creators = thub_get_thub_ticket_creators();
+                if (!empty($thub_ticket_creators)) {
+                    foreach ($thub_ticket_creators as $user) {
                         $first_name = get_user_meta($user->ID, 'first_name', true);
                         $last_name = get_user_meta($user->ID, 'last_name', true);
                         echo '<tr>';

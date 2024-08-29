@@ -4,8 +4,8 @@
 
 jQuery(document).ready(function ($) {
     // Create the lightbox elements
-    var lightboxBackdrop = $('<div/>', { 'class': 'th-lightbox-backdrop' }).appendTo('body');
-    var lightboxContent = $('<div/>', { 'class': 'th-lightbox-content' }).appendTo(lightboxBackdrop);
+    var lightboxBackdrop = $('<div/>', { 'class': 'thub-lightbox-backdrop' }).appendTo('body');
+    var lightboxContent = $('<div/>', { 'class': 'thub-lightbox-content' }).appendTo(lightboxBackdrop);
     var lightboxImg = $('<img/>').appendTo(lightboxContent);
 
     // Function to open the lightbox
@@ -22,7 +22,7 @@ jQuery(document).ready(function ($) {
     }
 
     // Event listener for image click
-    $('.th-lightbox-trigger').click(function (e) {
+    $('.thub-lightbox-trigger').click(function (e) {
         e.preventDefault();
         openLightbox(this.href);
     });

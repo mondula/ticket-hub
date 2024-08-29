@@ -1,32 +1,32 @@
 /* Documentation Style Sheet */
 
-.th-document-table span {
+.thub-document-table span {
   color: #ffffff;
 }
 
-.th-document-table {
+.thub-document-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
 }
 
-.th-document-table th,
-.th-document-table td {
+.thub-document-table th,
+.thub-document-table td {
   text-align: left;
   padding: 12px 0;
 }
 
-.th-document-table th {
+.thub-document-table th {
   border-bottom: 1px solid #000;
   font-weight: 600;
   font-size: 1.2rem;
 }
 
-.th-document-table tr:not(:last-child) {
+.thub-document-table tr:not(:last-child) {
   border-bottom: 1px solid #ddd;
 }
 
-.th-document-table td a {
+.thub-document-table td a {
   text-decoration: none;
   display: flex;
   width: min-content;
@@ -34,24 +34,24 @@
   align-items: center;
 }
 
-.th-document-table td {
+.thub-document-table td {
   padding: 10px 0;
 }
 
-.th-document-table th:first-child,
-.th-document-table td:first-child {
+.thub-document-table th:first-child,
+.thub-document-table td:first-child {
   white-space: nowrap;
   width: 25%;
   min-width: 100px;
 }
 
-.th-document-table tbody td:nth-child(2) {
+.thub-document-table tbody td:nthub-child(2) {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.th-document-controls {
+.thub-document-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -70,8 +70,8 @@
 
 @media (max-width: 768px) {
 
-  .th-document-table th:first-child,
-  .th-document-table td:first-child {
+  .thub-document-table th:first-child,
+  .thub-document-table td:first-child {
     max-width: 50px;
     width: unset;
     min-width: unset;
@@ -80,15 +80,15 @@
     padding-right: 20px;
   }
 
-  .th-hide-text-mobile {
+  .thub-hide-text-mobile {
     display: none;
   }
 
-  .th-document-controls {
+  .thub-document-controls {
     display: unset;
   }
 
-  .th-select {
+  .thub-select {
     margin-top: 15px;
   }
 

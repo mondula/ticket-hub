@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-add_shortcode('th_profile', function () {
+add_shortcode('thub_profile', function () {
 
-    static $th_ticket_creator_enqueue = false;
+    static $thub_ticket_creator_enqueue = false;
 
-    if (!$th_ticket_creator_enqueue) {
-        wp_enqueue_style('th-profile-style', PLUGIN_ROOT . 'css/th-profile.css', array(), '1.0.0', 'all');
-        $th_ticket_creator_enqueue = true;
+    if (!$thub_ticket_creator_enqueue) {
+        wp_enqueue_style('thub-profile-style', PLUGIN_ROOT . 'css/thub-profile.css', array(), '1.0.0', 'all');
+        $thub_ticket_creator_enqueue = true;
     }
 
     // Check if user is logged in
@@ -15,7 +16,7 @@ add_shortcode('th_profile', function () {
         $args = array(
             'echo'           => false,
             'redirect'       => (is_ssl() ? 'https://' : 'http://') . sanitize_text_field($_SERVER['HTTP_HOST']) . sanitize_text_field($_SERVER['REQUEST_URI']), // Redirect back to the current page
-            'form_id'        => 'th-loginform',
+            'form_id'        => 'thub-loginform',
             'label_username' => __('Username', 'tickethub'),
             'label_password' => __('Password', 'tickethub'),
             'label_remember' => __('Remember Me', 'tickethub'),
@@ -48,10 +49,10 @@ add_shortcode('th_profile', function () {
         // translators: %s: User First name.
         echo '<p>' . sprintf(esc_html__('Hello %s', 'tickethub'), esc_attr($first_name)) . '</p>';
 
-        // Call the 'th_tickets' shortcode with the current user's ID
+        // Call the 'thub_tickets' shortcode with the current user's ID
         echo '<h4>' . esc_html__('Your Tickets', 'tickethub') . '</h4>';
         $user_id = intval($current_user->ID); // Sanitize user ID
-        echo do_shortcode('[th_tickets user_id="' . esc_attr($user_id) . '"]');
+        echo do_shortcode('[thub_tickets user_id="' . esc_attr($user_id) . '"]');
 
         return ob_get_clean();
     }

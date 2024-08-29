@@ -1,55 +1,55 @@
 /* Accordion Style Sheet */
 
-.th-accordion .th-accordion-item {
+.thub-accordion .thub-accordion-item {
     margin-bottom: 20px;
     padding: 30px 40px;
     border: 1px solid #D1D1D1;
     border-radius: 10px;
 }
 
-.th-accordion h3 {
+.thub-accordion h3 {
     font-size: 1.2rem;
     margin-bottom: 20px;
 }
 
-.th-accordion .th-accordion-content ul {
+.thub-accordion .thub-accordion-content ul {
     margin-bottom: 20px;
     margin-left: 15px;
 }
 
-.th-accordion .th-accordion-content ul li {
+.thub-accordion .thub-accordion-content ul li {
     margin-bottom: 10px;
     line-height: 1.6;
 }
 
-.th-accordion-title {
+.thub-accordion-title {
     cursor: pointer;
     position: relative;
     display: flex;
     justify-content: space-between;
 }
 
-.th-accordion-title h2,
-.th-accordion-title h3 {
+.thub-accordion-title h2,
+.thub-accordion-title h3 {
     font-size: 1.2rem;
     margin-bottom: unset;
     display: inline;
 }
 
-.th-accordion-title h2 {
+.thub-accordion-title h2 {
     margin-right: 10px;
     font-weight: 700;
 }
 
-.th-accordion-title h3 {
+.thub-accordion-title h3 {
     font-weight: 400;
 }
 
-.th-accordion-toggle {
+.thub-accordion-toggle {
     margin: 5px 5px 5px 10px;
 }
 
-.th-accordion-toggle::after {
+.thub-accordion-toggle::after {
     content: '';
     background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="21.829" height="12.328" viewBox="0 0 21.829 12.328"><path id="Pfad_1" data-name="Pfad 1" d="M20.414,0l-9.5,9.5L1.414,0,0,1.414,10.915,12.328,21.829,1.414Z" transform="translate(0 0)"/></svg>');
     width: 22px;
@@ -58,7 +58,7 @@
     background-repeat: no-repeat;
 }
 
-.th-accordion-title.active .th-accordion-toggle::after {
+.thub-accordion-title.active .thub-accordion-toggle::after {
     content: '';
     background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="18.035" height="18.035" viewBox="0 0 18.035 18.035"><g id="Gruppe_10" data-name="Gruppe 10" transform="translate(-1576.793 -660.793)"><line id="Linie_3" data-name="Linie 3" y1="16.621" x2="16.621" transform="translate(1577.5 661.5)" fill="none" stroke="%23000" stroke-width="2"/><line id="Linie_4" data-name="Linie 4" x1="16.621" y1="16.621" transform="translate(1577.5 661.5)" fill="none" stroke="%23000" stroke-width="2"/></g></svg>');
     width: 18px;
@@ -67,38 +67,38 @@
     background-repeat: no-repeat;
 }
 
-.th-accordion-content {
+.thub-accordion-content {
     padding: 30px 0 0 0;
     display: none;
 }
 
 @media (max-width: 999px) {
 
-    .th-accordion-title h2,
-    .th-accordion-title h3 {
+    .thub-accordion-title h2,
+    .thub-accordion-title h3 {
         display: block;
     }
 
-    .th-accordion-title h2 {
+    .thub-accordion-title h2 {
         margin-right: 20%;
     }
 
-    .th-accordion-title h3 {
+    .thub-accordion-title h3 {
         margin-top: 5px;
     }
 }
 
 @media (max-width: 499px) {
-    .th-accordion .th-accordion-item {
+    .thub-accordion .thub-accordion-item {
         padding: 15px 20px;
     }
 
-    .th-accordion-toggle {
+    .thub-accordion-toggle {
         margin: 5px 0px;
     }
 
-    .th-accordion-title h2,
-    .th-accordion-title h3 {
+    .thub-accordion-title h2,
+    .thub-accordion-title h3 {
         font-size: 1.1rem;
     }
 }

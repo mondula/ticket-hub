@@ -5,9 +5,9 @@
 jQuery(document).ready(function ($) {
     function filterDocuments() {
         var searchValue = $('#search').val().toUpperCase();
-        var typeFilterValue = $('#th-document-type').val();
+        var typeFilterValue = $('#thub-document-type').val();
 
-        $('.th-document-table tbody tr').each(function () {
+        $('.thub-document-table tbody tr').each(function () {
             var $row = $(this);
             var nameText = $row.find('td:eq(1)>div').text().toUpperCase(); // Assuming the Name is in the second column
             console.log(nameText);
@@ -24,6 +24,6 @@ jQuery(document).ready(function ($) {
     }
 
     $('#search').on('keyup', filterDocuments);
-    $('#th-document-type').on('change', filterDocuments);
+    $('#thub-document-type').on('change', filterDocuments);
 });
 

@@ -11,10 +11,10 @@ jQuery(document).ready(function ($) {
             page = 1; // Reset to the first page when filters change
         }
 
-        var isArchive = $('#th-toggle-archive').is(':checked');
-        var searchValue = $('#th-ticket-search').val();
-        var statusValue = $('#th-ticket-status').val();
-        var typeValue = $('#th-ticket-type').val();
+        var isArchive = $('#thub-toggle-archive').is(':checked');
+        var searchValue = $('#thub-ticket-search').val();
+        var statusValue = $('#thub-ticket-status').val();
+        var typeValue = $('#thub-ticket-type').val();
 
         let data = {
             action: 'fetch_tickets',
@@ -35,8 +35,8 @@ jQuery(document).ready(function ($) {
             data,
             success: function (data) {
                 console.log(data);
-                $('#th-tickets-container').html(data.tickets);
-                $('#th-ticket-pagination').html(data.pagination);
+                $('#thub-tickets-container').html(data.tickets);
+                $('#thub-ticket-pagination').html(data.pagination);
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching tickets:", xhr.responseText);
@@ -44,12 +44,12 @@ jQuery(document).ready(function ($) {
         });
     }
 
-    $('#th-ticket-search').on('keyup', function () { fetchTickets(true); });
-    $('#th-ticket-status').on('change', function () { fetchTickets(true); });
-    $('#th-ticket-type').on('change', function () { fetchTickets(true); });
-    $('#th-toggle-archive').on('change', function () { fetchTickets(true); });
+    $('#thub-ticket-search').on('keyup', function () { fetchTickets(true); });
+    $('#thub-ticket-status').on('change', function () { fetchTickets(true); });
+    $('#thub-ticket-type').on('change', function () { fetchTickets(true); });
+    $('#thub-toggle-archive').on('change', function () { fetchTickets(true); });
 
-    $(document).on('click', '.th-page-number', function (e) {
+    $(document).on('click', '.thub-page-number', function (e) {
         // Check if the inner HTML is '...'
         if ($(this).text().trim() === '…') return;
 

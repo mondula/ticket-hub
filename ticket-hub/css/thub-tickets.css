@@ -1,32 +1,32 @@
 /* Ticket Archive Style Sheet */
 
-.th-ticket-table {
+.thub-ticket-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
 }
 
-.th-ticket-table th,
-.th-ticket-table td {
+.thub-ticket-table th,
+.thub-ticket-table td {
   text-align: left;
   padding: 12px 0px;
 }
 
-.th-ticket-table th {
+.thub-ticket-table th {
   border-bottom: 1px solid #000;
   font-weight: 600;
   font-size: 1.2rem;
 }
 
-.th-ticket-table tr:not(:last-child) {
+.thub-ticket-table tr:not(:last-child) {
   border-bottom: 1px solid #ddd;
 }
 
-.th-ticket-table td a {
+.thub-ticket-table td a {
   text-decoration: none;
 }
 
-.th-ticket-table td a:hover {
+.thub-ticket-table td a:hover {
   border-bottom: 2px solid #000000;
 }
 
@@ -37,7 +37,7 @@
   text-overflow: ellipsis;
 }
 
-.th-status-chip {
+.thub-status-chip {
   display: inline-block;
   padding: 5px 14px;
   border-radius: 16px;
@@ -46,19 +46,19 @@
   font-size: 0.8em;
 }
 
-.th-status-chip[data-status='New'] {
+.thub-status-chip[data-status='New'] {
   background-color: rgb(74, 158, 206);
 }
 
-.th-status-chip[data-status='Processing'] {
+.thub-status-chip[data-status='Processing'] {
   background-color: rgb(174, 36, 197);
 }
 
-.th-status-chip[data-status='Done'] {
+.thub-status-chip[data-status='Done'] {
   background-color: rgb(76, 168, 164);
 }
 
-.th-ticket-controls {
+.thub-ticket-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -67,12 +67,12 @@
   row-gap: 20px;
 }
 
-#th-ticket-status,
-#th-ticket-type {
+#thub-ticket-status,
+#thub-ticket-type {
   margin-left: 10px;
 }
 
-#th-ticket-search {
+#thub-ticket-search {
   border-radius: 20px;
   padding: 10px 15px;
   margin-left: 10px;
@@ -83,17 +83,17 @@
   width: auto;
 }
 
-.th-mobile-table-header {
+.thub-mobile-table-header {
   display: none;
 }
 
-.th-tickets-filter-container {
+.thub-tickets-filter-container {
   display: flex;
   align-items: center;
   flex-grow: 1;
 }
 
-.th-switch-container {
+.thub-switch-container {
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -103,8 +103,8 @@
   font-size: 15px;
 }
 
-/* The switch - the box around the th-slider */
-.th-switch {
+/* The switch - the box around the thub-slider */
+.thub-switch {
   scale: 60%;
   position: relative;
   display: inline-block;
@@ -113,14 +113,14 @@
 }
 
 /* Hide default HTML checkbox */
-.th-switch input {
+.thub-switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-/* The th-slider */
-.th-slider {
+/* The thub-slider */
+.thub-slider {
   position: absolute;
   top: 0;
   left: 0;
@@ -131,7 +131,7 @@
   transition: .4s;
 }
 
-.th-slider:before {
+.thub-slider:before {
   position: absolute;
   content: "";
   height: 26px;
@@ -143,35 +143,35 @@
   transition: .4s;
 }
 
-input:checked+.th-slider {
+input:checked+.thub-slider {
   background-color: #000;
 }
 
-input:focus+.th-slider {
+input:focus+.thub-slider {
   box-shadow: 0 0 1px #000;
 }
 
-input:checked+.th-slider:before {
+input:checked+.thub-slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
 
 /* Rounded sliders */
-.th-slider.th-round {
+.thub-slider.thub-round {
   border-radius: 34px;
 }
 
-.th-slider.th-round:before {
+.thub-slider.thub-round:before {
   border-radius: 50%;
 }
 
-.th-pagination-wrap {
+.thub-pagination-wrap {
   display: flex;
   padding: 10px 0px;
 }
 
-.th-page-number {
+.thub-page-number {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -195,16 +195,16 @@ input:checked+.th-slider:before {
   font-size: 15px;
 }
 
-.th-page-number a {
+.thub-page-number a {
   text-decoration: none;
 }
 
-.th-page-number:hover {
+.thub-page-number:hover {
   background-color: #ddd;
   /* Hover background color */
 }
 
-.th-page-number.active {
+.thub-page-number.active {
   background-color: #000;
   /* Active page background color */
   color: #fff;
@@ -227,39 +227,39 @@ input:checked+.th-slider:before {
 }
 
 @media (max-width: 768px) {
-  .th-ticket-controls .th-tickets-filter-container {
+  .thub-ticket-controls .thub-tickets-filter-container {
     display: block;
     max-width: 150px;
     margin-top: 30px;
   }
 
-  .th-ticket-table td,
-  .th-ticket-table tr {
+  .thub-ticket-table td,
+  .thub-ticket-table tr {
     display: block;
     padding: 5px 0px;
     min-height: 28px;
   }
 
-  .th-ticket-table tr {
+  .thub-ticket-table tr {
     padding: 20px 0;
   }
 
-  .th-ticket-table thead {
+  .thub-ticket-table thead {
     display: none;
   }
 
-  .th-mobile-table-header {
+  .thub-mobile-table-header {
     display: inline-block;
     width: 140px;
     font-weight: 600;
   }
 
-  .th-ticket-controls {
+  .thub-ticket-controls {
     display: unset;
   }
 
-  #th-ticket-status,
-  #th-ticket-type {
+  #thub-ticket-status,
+  #thub-ticket-type {
     margin-top: 15px;
     margin-left: unset;
     margin-right: 10px;

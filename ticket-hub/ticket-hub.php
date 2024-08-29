@@ -27,18 +27,18 @@ function mondula_require_files($directory, $files)
 mondula_require_files(
     'post-types',
     [
-        'th-ticket-pt.php',
-        'th-change-pt.php',
-        'th-faq-pt.php',
-        'th-document-pt.php'
+        'thub-ticket-pt.php',
+        'thub-change-pt.php',
+        'thub-faq-pt.php',
+        'thub-document-pt.php'
     ]
 );
 
 
 add_action('init', function () {
     load_plugin_textdomain('tickethub', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-    mondula_require_files('includes', ['th-page-settings.php', 'th-ticket-tag-subpage.php']);
-    mondula_require_files('shortcodes', ['th-changelog-sc.php', 'th-documentation-sc.php', 'th-faqs-sc.php', 'th-form-sc.php', 'th-ticket-sc.php', 'th-tickets-sc.php', 'th-profile-sc.php']);
+    mondula_require_files('includes', ['thub-page-settings.php', 'thub-ticket-tag-subpage.php']);
+    mondula_require_files('shortcodes', ['thub-changelog-sc.php', 'thub-documentation-sc.php', 'thub-faqs-sc.php', 'thub-form-sc.php', 'thub-ticket-sc.php', 'thub-tickets-sc.php', 'thub-profile-sc.php']);
 
     // Define custom capabilities for submitting and commenting on tickets.
     $capabilities = array(
@@ -46,7 +46,7 @@ add_action('init', function () {
         'comment_tickets' => true,
     );
 
-    register_post_status('th_archive', array(
+    register_post_status('thub_archive', array(
         'label'                     => 'Archived',
         'public'                    => true,
         'exclude_from_search'       => false,
@@ -58,14 +58,14 @@ add_action('init', function () {
 });
 
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('ticket-hub-style', PLUGIN_ROOT . 'css/ticket-hub.css', array(), '1.0', 'all');
+    wp_enqueue_style('ticket-hub-style', PLUGIN_ROOT . 'css/ticket-hub.css', array(), '1.0.0', 'all');
 });
 
 add_filter('single_template', function ($template) {
     global $post;
 
-    // Check if the current post is of type 'th_ticket'
-    if (is_singular('th_ticket')) {
+    // Check if the current post is of type 'thub_ticket'
+    if (is_singular('thub_ticket')) {
         $custom_template = '';
         if (wp_is_block_theme()) {
             $custom_template = plugin_dir_path(__FILE__) . 'templates/single-ticket-blockified.php';
@@ -82,40 +82,30 @@ add_filter('single_template', function ($template) {
 });
 
 register_activation_hook(__FILE__, function () {
-    add_role('th_ticket_creator', __('Ticket Creator', 'tickethub'), ['submit_tickets' => true, 'comment_tickets' => true]);
+    add_role('thub_ticket_creator', __('Ticket Creator', 'tickethub'), ['submit_tickets' => true, 'comment_tickets' => true]);
 });
 
 register_deactivation_hook(__FILE__, function () {
-    $users = get_users(array('role' => 'th_ticket_creator'));
+    $users = get_users(array('role' => 'thub_ticket_creator'));
     foreach ($users as $user) {
         $user->set_role('subscriber');  // Change 'subscriber' to whatever default you consider appropriate
     }
 
-    remove_role('th_ticket_creator');
+    remove_role('thub_ticket_creator');
 });
 
 add_action('after_setup_theme', function () {
-    if (in_array('th_ticket_creator', (array) wp_get_current_user()->roles)) {
+    if (in_array('thub_ticket_creator', (array) wp_get_current_user()->roles)) {
         show_admin_bar(false);
     }
 });
 
-function enqueue_admin_post_status_script()
-{
+function enqueue_admin_post_status_script($hook_suffix) {
     global $post;
-    if ($post != null && $post->post_type == 'th_ticket') {
-        $archived_text = esc_js(__('Archived', 'tickethub'));
-?>
-        <script>
-            jQuery(document).ready(function($) {
-                // Append the new status to the status selector in the edit post and quick edit screens
-                //TODO: $archived_text sollt laut Plugin-Check noch erscaped werden? aber ist ja bereits esc_js()
-                $("select[name='post_status']").append("<option value='th_archive'><?php echo $archived_text; ?></option>");
 
                 // Check if the current post status is 'th_archive' and update the selector
                 <?php if ('th_archive' == $post->post_status) : ?>
                     $("select[name='post_status']").val('archive');
-                    //TODO: $archived_text sollt laut Plugin-Check noch erscaped werden? aber ist ja bereits esc_js()
                     $('#post-status-display').text('<?php echo $archived_text; ?>');
                 <?php endif; ?>
 
@@ -123,7 +113,6 @@ function enqueue_admin_post_status_script()
                 $(".editinline").click(function() {
                     var $row = $(this).closest('tr');
                     var $status = $row.find('.status').text();
-                    //TODO: $archived_text sollt laut Plugin-Check noch erscaped werden? aber ist ja bereits esc_js()
                     if ('<?php echo $archived_text; ?>' === $status) {
                         $('select[name="_status"]', '.inline-edit-row').val('th_archive');
                     }
@@ -133,17 +122,47 @@ function enqueue_admin_post_status_script()
 <?php
     }
 }
-add_action('admin_footer-post.php', 'enqueue_admin_post_status_script');
-add_action('admin_footer-edit.php', 'enqueue_admin_post_status_script');
+add_action('admin_enqueue_scripts', 'enqueue_admin_post_status_script');
+
 
 add_action('admin_enqueue_scripts', function () {
     // Use get_plugin_data() if you need versioning based on your plugin version
     $version = '1.0.0';
 
     // Properly form the URL to the stylesheet
-    $admin_style_url = plugins_url('css/th-admin-style.css', __FILE__);
+    $admin_style_url = plugins_url('css/thub-admin-style.css', __FILE__);
 
     // Enqueue the stylesheet
-    wp_enqueue_style('th-admin-style', $admin_style_url, array(), $version);
+    wp_enqueue_style('thub-admin-style', $admin_style_url, array(), $version);
+});
+
+//register and enqueue for form editor script
+add_action('admin_enqueue_scripts', function () {
+
+    // Use get_plugin_data() if you need versioning based on your plugin version
+    $version = '1.0.0';
+
+    // Properly form the URL to the stylesheet
+    $admin_form_editor_tab_script_url = plugins_url('js/thub-form-editor-tab.js', __FILE__);
+
+     // Register the script
+     wp_register_script(
+        'thub-form-editor-tab-script', // Handle for the script
+        $admin_form_editor_tab_script_url, // URL of the script file
+        array('jquery'), // Dependencies (in this case, jQuery)
+        $version, // Version number
+        true // Load in footer
+    );
+
+    // Localize the script with translation strings
+    wp_localize_script('thub-form-editor-tab-script', 'tickethub_vars', array(
+        'text' => esc_html__('Text', 'tickethub'),
+        'textarea' => esc_html__('Textarea', 'tickethub'),
+        'select' => esc_html__('Select', 'tickethub'),
+        'label' => esc_html__('Label', 'tickethub')
+    ));
+
+    // Enqueue the script
+    wp_enqueue_script('thub-form-editor-tab-script');
 });
 ?>

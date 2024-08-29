@@ -1,7 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_action('init', function () {
-	register_post_type('th_change', array(
+	register_post_type('thub_change', array(
 		'labels' => array(
 			'name' => __('Changes', 'tickethub'),
 			'singular_name' => __('Change', 'tickethub'),
@@ -34,7 +35,7 @@ add_action('init', function () {
 			'item_link_description' => __('A link to a change.', 'tickethub'),
 		),
 		'public' => true,
-		'show_in_menu' => 'th_main_menu',
+		'show_in_menu' => 'thub_main_menu',
 		'menu_position' => 2,
 		'show_in_rest' => true,
 		'supports' => array('title'),
@@ -42,20 +43,20 @@ add_action('init', function () {
 });
 
 add_action('edit_form_after_title', function ($post) {
-	// Check if we're on the 'th_change' post type
-	if ($post->post_type !== 'th_change') {
+	// Check if we're on the 'thub_change' post type
+	if ($post->post_type !== 'thub_change') {
 		return;
 	}
 
 	// Use nonce for verification to secure data handling
-	wp_nonce_field('th_save_log_meta', 'th_log_meta_nonce');
+	wp_nonce_field('thub_save_log_meta', 'thub_log_meta_nonce');
 
 	// Get the current value of the 'log' field, if any
-	$log_content = get_post_meta($post->ID, '_th_log', true);
+	$log_content = get_post_meta($post->ID, '_thub_log', true);
 
 	// Settings for the wp_editor
 	$settings = array(
-		'textarea_name' => 'th_log',
+		'textarea_name' => 'thub_log',
 		'media_buttons' => true,
 		'teeny' => false,
 		'tinymce' => true,
@@ -66,13 +67,13 @@ add_action('edit_form_after_title', function ($post) {
 	echo '<h3>' . esc_html__('Log', 'tickethub') . '</h3>';
 
 	// Display the editor
-	wp_editor(esc_textarea($log_content), 'th_log_editor', $settings);
+	wp_editor(esc_textarea($log_content), 'thub_log_editor', $settings);
 });
 
 
-add_action('save_post_th_change', function ($post_id) {
+add_action('save_post_thub_change', function ($post_id) {
 	// Check for nonce security
-	if (!isset($_POST['th_log_meta_nonce']) || !wp_verify_nonce($_POST['th_log_meta_nonce'], 'th_save_log_meta')) {
+	if (!isset($_POST['thub_log_meta_nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash ($_POST['thub_log_meta_nonce'])), 'thub_save_log_meta')) {
 		return;
 	}
 
@@ -82,7 +83,7 @@ add_action('save_post_th_change', function ($post_id) {
 	}
 
 	// Save/update the meta field in the database
-	if (isset($_POST['th_log'])) {
-		update_post_meta($post_id, '_th_log', wp_kses_post($_POST['th_log']));
+	if (isset($_POST['thub_log'])) {
+		update_post_meta($post_id, '_thub_log', wp_kses_post($_POST['thub_log']));
 	}
 });
