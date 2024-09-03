@@ -19,27 +19,31 @@ done
 
 # Install WordPress if not installed
 if ! wp core is-installed --path=/var/www/html --allow-root; then
-  wp core install --url="http://localhost:8000" --title="WordPress Site" --admin_user="admin" --admin_password="admin_password" --admin_email="admin@example.com" --path=/var/www/html --allow-root
+  wp core install --url="http://localhost:8000" --title="TicketHub" --admin_user="admin" --admin_password="R8RRM4ee!Yga9@69n(" --admin_email="mmanthey@mondula.com" --path=/var/www/html --allow-root
 fi
 
-# Install and activate WP Mail SMTP plugin
-if ! wp plugin is-installed wp-mail-smtp --path=/var/www/html --allow-root; then
-  wp plugin install wp-mail-smtp --activate --path=/var/www/html --allow-root
-else
-  wp plugin activate wp-mail-smtp --path=/var/www/html --allow-root
-fi
+# Array of plugins to install and activate
+plugins=(
+  "wp-mail-smtp"
+  "loco-translate"
+  "plugin-check"
+  "wp-crontrol"
+)
 
-# Install and activate Loco Translate plugin
-if ! wp plugin is-installed loco-translate --path=/var/www/html --allow-root; then
-  wp plugin install loco-translate --activate --path=/var/www/html --allow-root
-else
-  wp plugin activate loco-translate --path=/var/www/html --allow-root
-fi
+# Install and activate plugins
+for plugin in "${plugins[@]}"; do
+  if ! wp plugin is-installed "$plugin" --path=/var/www/html --allow-root; then
+    wp plugin install "$plugin" --activate --path=/var/www/html --allow-root
+  else
+    wp plugin activate "$plugin" --path=/var/www/html --allow-root
+  fi
+done
 
 # Configure WP Mail SMTP
-wp config set WP_MAIL_SMTP_HOST mailhog --path=/var/www/html --allow-root
-wp config set WP_MAIL_SMTP_PORT 1025 --path=/var/www/html --allow-root
-wp config set WP_MAIL_SMTP_AUTH false --path=/var/www/html --allow-root
-wp config set WP_MAIL_SMTP_SECURE '' --path=/var/www/html --allow-root
+wp config set WPMS_ON true --raw --path=/var/www/html --allow-root
+wp config set WPMS_MAILER smtp --path=/var/www/html --allow-root
+wp config set WPMS_SMTP_HOST mailhog --path=/var/www/html --allow-root
+wp config set WPMS_SMTP_PORT 1025 --raw --path=/var/www/html --allow-root
+wp config set WPMS_SMTP_AUTH false --raw --path=/var/www/html --allow-root
 
 exec "$@"

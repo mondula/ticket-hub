@@ -40,7 +40,7 @@ add_shortcode('thub_changelog', function () {
 
         echo '</div>';
     } else {
-        echo '<p>' . esc_html__('No changes found.', 'tickethub') . '</p>';
+        echo '<p>' . esc_html__('No changes found.', 'ticket-hub') . '</p>';
     }
 
     wp_reset_postdata();

@@ -15,12 +15,12 @@ add_shortcode('thub_profile', function () {
         // User is not logged in, display the WordPress login form
         $args = array(
             'echo'           => false,
-            'redirect'       => (is_ssl() ? 'https://' : 'http://') . sanitize_text_field($_SERVER['HTTP_HOST']) . sanitize_text_field($_SERVER['REQUEST_URI']), // Redirect back to the current page
+            'redirect'       => wp_guess_url(), // Use wp_guess_url() instead of $_SERVER variables
             'form_id'        => 'thub-loginform',
-            'label_username' => __('Username', 'tickethub'),
-            'label_password' => __('Password', 'tickethub'),
-            'label_remember' => __('Remember Me', 'tickethub'),
-            'label_log_in'   => __('Log In', 'tickethub'),
+            'label_username' => __('Username', 'ticket-hub'),
+            'label_password' => __('Password', 'ticket-hub'),
+            'label_remember' => __('Remember Me', 'ticket-hub'),
+            'label_log_in'   => __('Log In', 'ticket-hub'),
             'id_username'    => 'user_login',
             'id_password'    => 'user_pass',
             'id_remember'    => 'rememberme',
@@ -45,12 +45,12 @@ add_shortcode('thub_profile', function () {
         }
         $logout_url = wp_logout_url(get_permalink()); // This will redirect users to the same page after logging out
 
-        echo '<div class="thub-profile-head"><h3>' . esc_html__('Profile', 'tickethub') . '</h3><div><a href="' . esc_url($logout_url) . '" class="thub-button">' . esc_html__('Logout', 'tickethub') . '</a></div></div>';
+        echo '<div class="thub-profile-head"><h3>' . esc_html__('Profile', 'ticket-hub') . '</h3><div><a href="' . esc_url($logout_url) . '" class="thub-button">' . esc_html__('Logout', 'ticket-hub') . '</a></div></div>';
         // translators: %s: User First name.
-        echo '<p>' . sprintf(esc_html__('Hello %s', 'tickethub'), esc_attr($first_name)) . '</p>';
+        echo '<p>' . sprintf(esc_html__('Hello %s', 'ticket-hub'), esc_attr($first_name)) . '</p>';
 
         // Call the 'thub_tickets' shortcode with the current user's ID
-        echo '<h4>' . esc_html__('Your Tickets', 'tickethub') . '</h4>';
+        echo '<h4>' . esc_html__('Your Tickets', 'ticket-hub') . '</h4>';
         $user_id = intval($current_user->ID); // Sanitize user ID
         echo do_shortcode('[thub_tickets user_id="' . esc_attr($user_id) . '"]');
 

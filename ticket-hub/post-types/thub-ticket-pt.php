@@ -14,37 +14,37 @@ function thub_register_thub_ticket_post_type()
 
     register_post_type('thub_ticket', array(
         'labels' => array(
-            'name' => __('Tickets', 'tickethub'),
-            'singular_name' => __('Ticket', 'tickethub'),
-            'menu_name' => __('Tickets', 'tickethub'),
-            'all_items' => __('Tickets', 'tickethub'),
-            'edit_item' => __('Edit Ticket', 'tickethub'),
-            'view_item' => __('View Ticket', 'tickethub'),
-            'view_items' => __('View Tickets', 'tickethub'),
-            'add_new_item' => __('Add New Ticket', 'tickethub'),
-            'add_new' => __('Add New Ticket', 'tickethub'),
-            'new_item' => __('New Ticket', 'tickethub'),
-            'parent_item_colon' => __('Parent Ticket:', 'tickethub'),
-            'search_items' => __('Search Tickets', 'tickethub'),
-            'not_found' => __('No tickets found', 'tickethub'),
-            'not_found_in_trash' => __('No tickets found in Trash', 'tickethub'),
-            'archives' => __('Ticket Archives', 'tickethub'),
-            'attributes' => __('Ticket Attributes', 'tickethub'),
-            'insert_into_item' => __('Insert into ticket', 'tickethub'),
-            'uploaded_to_this_item' => __('Uploaded to this ticket', 'tickethub'),
-            'filter_items_list' => __('Filter tickets list', 'tickethub'),
-            'filter_by_date' => __('Filter tickets by date', 'tickethub'),
-            'items_list_navigation' => __('Tickets list navigation', 'tickethub'),
-            'items_list' => __('Tickets list', 'tickethub'),
-            'item_published' => __('Ticket published.', 'tickethub'),
-            'item_published_privately' => __('Ticket published privately.', 'tickethub'),
-            'item_reverted_to_draft' => __('Ticket reverted to draft.', 'tickethub'),
-            'item_scheduled' => __('Ticket scheduled.', 'tickethub'),
-            'item_updated' => __('Ticket updated.', 'tickethub'),
-            'item_link' => __('Ticket Link', 'tickethub'),
-            'item_link_description' => __('A link to a ticket.', 'tickethub'),
+            'name' => __('Tickets', 'ticket-hub'),
+            'singular_name' => __('Ticket', 'ticket-hub'),
+            'menu_name' => __('Tickets', 'ticket-hub'),
+            'all_items' => __('Tickets', 'ticket-hub'),
+            'edit_item' => __('Edit Ticket', 'ticket-hub'),
+            'view_item' => __('View Ticket', 'ticket-hub'),
+            'view_items' => __('View Tickets', 'ticket-hub'),
+            'add_new_item' => __('Add New Ticket', 'ticket-hub'),
+            'add_new' => __('Add New Ticket', 'ticket-hub'),
+            'new_item' => __('New Ticket', 'ticket-hub'),
+            'parent_item_colon' => __('Parent Ticket:', 'ticket-hub'),
+            'search_items' => __('Search Tickets', 'ticket-hub'),
+            'not_found' => __('No tickets found', 'ticket-hub'),
+            'not_found_in_trash' => __('No tickets found in Trash', 'ticket-hub'),
+            'archives' => __('Ticket Archives', 'ticket-hub'),
+            'attributes' => __('Ticket Attributes', 'ticket-hub'),
+            'insert_into_item' => __('Insert into ticket', 'ticket-hub'),
+            'uploaded_to_this_item' => __('Uploaded to this ticket', 'ticket-hub'),
+            'filter_items_list' => __('Filter tickets list', 'ticket-hub'),
+            'filter_by_date' => __('Filter tickets by date', 'ticket-hub'),
+            'items_list_navigation' => __('Tickets list navigation', 'ticket-hub'),
+            'items_list' => __('Tickets list', 'ticket-hub'),
+            'item_published' => __('Ticket published.', 'ticket-hub'),
+            'item_published_privately' => __('Ticket published privately.', 'ticket-hub'),
+            'item_reverted_to_draft' => __('Ticket reverted to draft.', 'ticket-hub'),
+            'item_scheduled' => __('Ticket scheduled.', 'ticket-hub'),
+            'item_updated' => __('Ticket updated.', 'ticket-hub'),
+            'item_link' => __('Ticket Link', 'ticket-hub'),
+            'item_link_description' => __('A link to a ticket.', 'ticket-hub'),
         ),
-        'description' => __('These are the tickets created by people.', 'tickethub'),
+        'description' => __('These are the tickets created by people.', 'ticket-hub'),
         'public' => true,
         'show_in_menu' => 'thub_main_menu',
         'menu_position' => 1,
@@ -85,21 +85,21 @@ function thub_register_thub_ticket_tag_taxonomy()
         'thub_ticket',
         array(
             'labels' => array(
-                'name' => __('Ticket Tags', 'tickethub'),
-                'singular_name' => __('Ticket Tag', 'tickethub'),
-                'menu_name' => __('Ticket Tags', 'tickethub'),
-                'all_items' => __('All Ticket Tags', 'tickethub'),
-                'edit_item' => __('Edit Ticket Tag', 'tickethub'),
-                'view_item' => __('View Ticket Tag', 'tickethub'),
-                'update_item' => __('Update Ticket Tag', 'tickethub'),
-                'add_new_item' => __('Add New Ticket Tag', 'tickethub'),
-                'new_item_name' => __('New Ticket Tag Name', 'tickethub'),
-                'search_items' => __('Search Ticket Tags', 'tickethub'),
-                'popular_items' => __('Popular Ticket Tags', 'tickethub'),
-                'separate_items_withub_commas' => __('Separate ticket tags with commas', 'tickethub'),
-                'add_or_remove_items' => __('Add or remove ticket tags', 'tickethub'),
-                'choose_from_most_used' => __('Choose from the most used ticket tags', 'tickethub'),
-                'not_found' => __('No ticket tags found', 'tickethub'),
+                'name' => __('Ticket Tags', 'ticket-hub'),
+                'singular_name' => __('Ticket Tag', 'ticket-hub'),
+                'menu_name' => __('Ticket Tags', 'ticket-hub'),
+                'all_items' => __('All Ticket Tags', 'ticket-hub'),
+                'edit_item' => __('Edit Ticket Tag', 'ticket-hub'),
+                'view_item' => __('View Ticket Tag', 'ticket-hub'),
+                'update_item' => __('Update Ticket Tag', 'ticket-hub'),
+                'add_new_item' => __('Add New Ticket Tag', 'ticket-hub'),
+                'new_item_name' => __('New Ticket Tag Name', 'ticket-hub'),
+                'search_items' => __('Search Ticket Tags', 'ticket-hub'),
+                'popular_items' => __('Popular Ticket Tags', 'ticket-hub'),
+                'separate_items_withub_commas' => __('Separate ticket tags with commas', 'ticket-hub'),
+                'add_or_remove_items' => __('Add or remove ticket tags', 'ticket-hub'),
+                'choose_from_most_used' => __('Choose from the most used ticket tags', 'ticket-hub'),
+                'not_found' => __('No ticket tags found', 'ticket-hub'),
             ),
             'public' => true,
             'show_in_rest' => true
@@ -114,30 +114,30 @@ add_action('edit_form_after_title', function ($post) {
     $fields = [
         'thub_ticket_id' => [
             'type' => 'text',
-            'label' => __('ID', 'tickethub'),
+            'label' => __('ID', 'ticket-hub'),
         ],
         'thub_ticket_status' => [
             'type' => 'select',
-            'label' => __('Status', 'tickethub'),
+            'label' => __('Status', 'ticket-hub'),
             'options' => [
-                'New' => __('New', 'tickethub'),
-                'Processing' => __('Processing', 'tickethub'),
-                'Done' => __('Done', 'tickethub'),
+                'New' => __('New', 'ticket-hub'),
+                'Processing' => __('Processing', 'ticket-hub'),
+                'Done' => __('Done', 'ticket-hub'),
             ]
         ],
         'thub_ticket_type' => [
             'type' => 'select',
-            'label' => __('Type', 'tickethub'),
+            'label' => __('Type', 'ticket-hub'),
             'options' => [
-                '' => __('- Select Type -', 'tickethub'),
-                'Support' => __('Support', 'tickethub'),
-                'Bug report' => __('Bug report', 'tickethub'),
-                'Change request' => __('Change request', 'tickethub'),
+                '' => __('- Type -', 'ticket-hub'),
+                'Support' => __('Support', 'ticket-hub'),
+                'Bug report' => __('Bug report', 'ticket-hub'),
+                'Change request' => __('Change request', 'ticket-hub'),
             ]
         ],
         'thub_ticket_description' => [
             'type' => 'textarea',
-            'label' => __('Description', 'tickethub'),
+            'label' => __('Description', 'ticket-hub'),
         ],
     ];
 
@@ -168,7 +168,7 @@ add_action('edit_form_after_title', function ($post) {
     $attachments = get_posts($args);
 
     if ($attachments) {
-        echo '<label><h3>' . esc_html__('Attachments:', 'tickethub') . '</h3></label>';
+        echo '<label><h3>' . esc_html__('Attachments:', 'ticket-hub') . '</h3></label>';
         echo '<ul>';
         foreach ($attachments as $attachment) {
             $attachment_url = wp_get_attachment_url($attachment->ID);
@@ -208,7 +208,7 @@ add_action('save_post_thub_ticket', function ($post_id) {
 
     foreach ($fields as $field) {
         if (array_key_exists($field, $_POST)) {
-            update_post_meta($post_id, $field, sanitize_text_field($_POST[$field]));
+            update_post_meta($post_id, $field, sanitize_text_field(wp_unslash($_POST[$field])));
         }
     }
 
@@ -217,7 +217,7 @@ add_action('save_post_thub_ticket', function ($post_id) {
     foreach ($saved_custom_fields as $field) {
         $field_key = 'thcf_' . sanitize_title($field['label']);
         if (isset($_POST[$field_key])) {
-            update_post_meta($post_id, $field_key, sanitize_text_field($_POST[$field_key]));
+            update_post_meta($post_id, $field_key, sanitize_text_field(wp_unslash($_POST[$field_key])));
         }
     }
 });
@@ -235,7 +235,7 @@ add_action('updated_post_meta', function ($meta_id, $post_id, $meta_key, $meta_v
         }
 
         if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $subject = __('Status Update Notification', 'tickethub');
+            $subject = __('Status Update Notification', 'ticket-hub');
             $message = 'The status of your ticket (ID: <a href="' . esc_url($ticket_link) . '">' . esc_html($id) . '</a>) has been updated to: ' . esc_html($meta_value) . '.';
             $headers = array('Content-Type: text/html; charset=UTF-8');
 
@@ -257,8 +257,8 @@ add_action('transition_post_status', function ($new_status, $old_status, $post) 
         $ticket_link = get_permalink($post->ID);
 
         if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $subject = esc_html__('Ticket Status Update: ', 'tickethub') . esc_html($status);
-            $message = esc_html__('The status of your ticket (ID: ', 'tickethub') . '<a href="' . esc_url($ticket_link) . '">' . esc_html($ticket_id) . '</a>) ' . esc_html__('has changed to: ', 'tickethub') . esc_html($status) . '.';
+            $subject = esc_html__('Ticket Status Update: ', 'ticket-hub') . esc_html($status);
+            $message = esc_html__('The status of your ticket (ID: ', 'ticket-hub') . '<a href="' . esc_url($ticket_link) . '">' . esc_html($ticket_id) . '</a>) ' . esc_html__('has changed to: ', 'ticket-hub') . esc_html($status) . '.';
             $headers = array('Content-Type: text/html; charset=UTF-8');
 
             wp_mail($email, $subject, $message, $headers);
@@ -283,8 +283,8 @@ add_action('wp_insert_comment', function ($comment_id, $comment) {
         $comment_content = esc_html($comment->comment_content);
 
         if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $subject = esc_html__('New Comment on Ticket ID: ', 'tickethub') . esc_html($ticket_id);
-            $message = esc_html__('A new comment has been posted by ', 'tickethub') . esc_html($comment_author) . esc_html__(' on your ticket (ID: ', 'tickethub') . '<a href="' . esc_url($ticket_link) . '">' . esc_html($ticket_id) . '</a>):<br/><br/> "' . esc_html($comment_content) . '"';
+            $subject = esc_html__('New Comment on Ticket ID: ', 'ticket-hub') . esc_html($ticket_id);
+            $message = esc_html__('A new comment has been posted by ', 'ticket-hub') . esc_html($comment_author) . esc_html__(' on your ticket (ID: ', 'ticket-hub') . '<a href="' . esc_url($ticket_link) . '">' . esc_html($ticket_id) . '</a>):<br/><br/> "' . esc_html($comment_content) . '"';
             $headers = array('Content-Type: text/html; charset=UTF-8');
 
             wp_mail($email, $subject, $message, $headers);
@@ -306,7 +306,7 @@ add_action('archive_done_tickets', function () {
         'post_type'      => 'thub_ticket',
         'post_status'    => 'publish',
         'posts_per_page' => -1,
-        //TODO: Plugin-Check beschwert sich: "Detected usage of meta_query, possible slow query." -> Entweder fixen oder Kommentar löschen und ignorieren.
+        //TODO: Plugin-Check beschwert sich: "Detected usage of meta_query, possible slow query." -> Entweder fixen oder Kommentar lschen und ignorieren.
         'meta_query'     => array(
             array(
                 'key'     => 'status',
@@ -386,10 +386,15 @@ add_filter('bulk_actions-edit-thub_ticket', function ($bulk_actions) {
     return $bulk_actions;
 });
 
+// Add this function to create and verify the nonce
+function thub_verify_bulk_action_nonce() {
+    return isset($_REQUEST['_wpnonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_REQUEST['_wpnonce'])), 'bulk-posts');
+}
+
+// Modify the bulk action handler
 add_filter('handle_bulk_actions-edit-thub_ticket', function ($redirect_to, $doaction, $post_ids) {
-    if ($doaction === 'mark_as_archived') {
+    if ($doaction === 'mark_as_archived' && thub_verify_bulk_action_nonce()) {
         foreach ($post_ids as $post_id) {
-            // Update the post status to 'thub_archive'
             $post = array(
                 'ID' => $post_id,
                 'post_status' => 'thub_archive',
@@ -401,15 +406,12 @@ add_filter('handle_bulk_actions-edit-thub_ticket', function ($redirect_to, $doac
     return $redirect_to;
 }, 10, 3);
 
+// Modify the admin notice
 add_action('admin_notices', function () {
-    //TODO: Plugin-Check beschwert sich bei "$_REQUEST['bulk_...": "Processing form data without nonce verification."
-    if (!empty($_REQUEST['bulk_archived_posts'])) {
-        //TODO: Plugin-Check beschwert sich bei "$_REQUEST['bulk_...": "Processing form data without nonce verification."
+    if (!empty($_REQUEST['bulk_archived_posts']) && isset($_REQUEST['_wpnonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_REQUEST['_wpnonce'])), 'bulk-posts')) {
         $archived_count = intval($_REQUEST['bulk_archived_posts']);
-        printf('<div id="message" class="updated fade"><p>' .
-        // translators: %s: Count of archived posts
-            esc_html(_n('Archived %s post.', 'Archived %s posts.', $archived_count, 'tickethub')) .
-            '</p></div>', esc_html($archived_count));
+        // Translators: %s is the number of posts archived
+        printf('<div id="message" class="updated fade"><p>' .esc_html(_n('Archived %s post.', 'Archived %s posts.', $archived_count, 'ticket-hub')) . '</p></div>', esc_html($archived_count));
     }
 });
 

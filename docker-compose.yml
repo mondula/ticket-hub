@@ -6,6 +6,7 @@ services:
     image: wordpress:latest
     volumes:
       - ./ticket-hub:/var/www/html/wp-content/plugins/ticket-hub
+      - ticket-hub_wp_data:/var/www/html
     environment:
       - WORDPRESS_DB_HOST=db
       - WORDPRESS_DB_USER=wordpress
@@ -19,7 +20,7 @@ services:
   db:
     image: mysql:8.0
     volumes:
-      - db_data:/var/lib/mysql
+      - ticket-hub_db_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: somewordpress
       MYSQL_DATABASE: wordpress
@@ -34,4 +35,5 @@ services:
       - "1025:1025" # SMTP server
 
 volumes:
-  db_data:
+  ticket-hub_db_data:
+  ticket-hub_wp_data:

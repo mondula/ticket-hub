@@ -7,9 +7,9 @@ Author:      Mondula GmbH
 Author URI:  https://mondula.com
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: tickethub
+Text Domain: ticket-hub
 Requires at least: 6.0
-Tested up to: 6.5.3
+Tested up to: 6.6.1
 Tags: tickets, support, faq, documentation, change log
 */
 
@@ -36,7 +36,7 @@ mondula_require_files(
 
 
 add_action('init', function () {
-    load_plugin_textdomain('tickethub', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+    load_plugin_textdomain('ticket-hub', false, dirname(plugin_basename(__FILE__)) . '/languages/');
     mondula_require_files('includes', ['thub-page-settings.php', 'thub-ticket-tag-subpage.php']);
     mondula_require_files('shortcodes', ['thub-changelog-sc.php', 'thub-documentation-sc.php', 'thub-faqs-sc.php', 'thub-form-sc.php', 'thub-ticket-sc.php', 'thub-tickets-sc.php', 'thub-profile-sc.php']);
 
@@ -82,7 +82,7 @@ add_filter('single_template', function ($template) {
 });
 
 register_activation_hook(__FILE__, function () {
-    add_role('thub_ticket_creator', __('Ticket Creator', 'tickethub'), ['submit_tickets' => true, 'comment_tickets' => true]);
+    add_role('thub_ticket_creator', __('Ticket Creator', 'ticket-hub'), ['submit_tickets' => true, 'comment_tickets' => true]);
 });
 
 register_deactivation_hook(__FILE__, function () {
@@ -119,7 +119,7 @@ function enqueue_admin_post_status_script($hook_suffix) {
 
         // Localize the script with necessary variables
         wp_localize_script('thub-admin-post-status-script', 'tickethub_status_vars', array(
-            'archived_text' => esc_js(__('Archived', 'tickethub')),
+            'archived_text' => esc_js(__('Archived', 'ticket-hub')),
             'post_status' => esc_js($post->post_status),
         ));
 
@@ -161,10 +161,10 @@ add_action('admin_enqueue_scripts', function () {
 
     // Localize the script with translation strings
     wp_localize_script('thub-form-editor-tab-script', 'tickethub_vars', array(
-        'text' => esc_html__('Text', 'tickethub'),
-        'textarea' => esc_html__('Textarea', 'tickethub'),
-        'select' => esc_html__('Select', 'tickethub'),
-        'label' => esc_html__('Label', 'tickethub')
+        'text' => esc_html__('Text', 'ticket-hub'),
+        'textarea' => esc_html__('Textarea', 'ticket-hub'),
+        'select' => esc_html__('Select', 'ticket-hub'),
+        'label' => esc_html__('Label', 'ticket-hub')
     ));
 
     // Enqueue the script

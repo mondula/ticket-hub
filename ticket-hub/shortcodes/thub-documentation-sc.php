@@ -40,8 +40,8 @@ add_shortcode('thub_documentation', function () {
 
     // Output the search field and dropdown for filtering by document type (File types or Link)
     echo '<div class="thub-document-controls">';
-    echo '<input type="text" id="search" placeholder="' . esc_attr__('Search', 'tickethub') . '">';
-    echo '<select id="thub-document-type" class="thub-select"><option value="">' . esc_html__('- Type -', 'tickethub') . '</option><option value="LINK">' . esc_html__('Link', 'tickethub') . '</option>';
+    echo '<input type="text" id="search" placeholder="' . esc_attr__('Search', 'ticket-hub') . '">';
+    echo '<select id="thub-document-type" class="thub-select"><option value="">' . esc_html__('- Type -', 'ticket-hub') . '</option><option value="LINK">' . esc_html__('Link', 'ticket-hub') . '</option>';
     foreach ($file_types as $file_type) {
         echo '<option value="' . esc_attr($file_type) . '">' . esc_html($file_type) . '</option>';
     }
@@ -50,7 +50,7 @@ add_shortcode('thub_documentation', function () {
 
     // Query for the actual display
     $the_query = new WP_Query($args);
-    echo '<table class="thub-document-table"><thead><tr><th>' . esc_html__('Type', 'tickethub') . '</th><th>' . esc_html__('Name', 'tickethub') . '</th><th></th></tr></thead><tbody>';
+    echo '<table class="thub-document-table"><thead><tr><th>' . esc_html__('Type', 'ticket-hub') . '</th><th>' . esc_html__('Name', 'ticket-hub') . '</th><th></th></tr></thead><tbody>';
     while ($the_query->have_posts()) {
         $the_query->the_post();
 
@@ -71,7 +71,7 @@ add_shortcode('thub_documentation', function () {
             $file_type = wp_check_filetype($file_path);
             $file_extension = strtoupper($file_type['ext']);
             $type_display = esc_html($file_extension);
-            $button_text = '<span class="thub-hide-text-mobile">' . esc_html__('Download', 'tickethub') . '</span>';
+            $button_text = '<span class="thub-hide-text-mobile">' . esc_html__('Download', 'ticket-hub') . '</span>';
             $download_attribute = ' download';
             // Set the download SVG icon for files
             // TODO: Turn SVG Sting into pseudo element with CSS
@@ -83,8 +83,8 @@ add_shortcode('thub_documentation', function () {
             </svg>';
         } elseif ($document_type === 'Link') {
             $document_url = esc_url(get_post_meta($document_id, 'link', true));
-            $type_display = esc_html__('LINK', 'tickethub');
-            $button_text = '<span class="thub-hide-text-mobile">' . esc_html__('Open', 'tickethub') . '</span>';
+            $type_display = esc_html__('LINK', 'ticket-hub');
+            $button_text = '<span class="thub-hide-text-mobile">' . esc_html__('Open', 'ticket-hub') . '</span>';
             // Set the open SVG icon for links
             // TODO: Turn SVG Sting into pseudo element with CSS
             $icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
@@ -100,8 +100,8 @@ add_shortcode('thub_documentation', function () {
         echo "<tr data-document-type='" . esc_attr($document_type === 'File' ? $file_extension : 'LINK') . "'>";
         echo '<td>' . esc_html($type_display) . '</td>';
 
-        // Definiere die zulässigen HTML-Tags für das SVG-Icon, somit funktioniert wp_kses()
-        //TODO: Ich habe keine Übersicht, welche hier nötig sind, ChatGPT hat das hier ausgespuckt, bitte einmal rüberschauen
+        // Definiere die zulï¿½ssigen HTML-Tags fï¿½r das SVG-Icon, somit funktioniert wp_kses()
+        //TODO: Ich habe keine ï¿½bersicht, welche hier nï¿½tig sind, ChatGPT hat das hier ausgespuckt, bitte einmal rï¿½berschauen
         $allowed_tags = array(
             'svg'   => array(
                 'xmlns'    => array(),

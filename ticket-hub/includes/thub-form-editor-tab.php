@@ -5,13 +5,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function thub_ticket_editor_page()
 {
     // Check if the form has been submitted
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('thub_save_ticket_fields', 'thub_ticket_fields_nonce')) {
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('thub_save_ticket_fields', 'thub_ticket_fields_nonce')) {
         // Process saving multiple fields, their options, and required status
         update_option('thub_disable_attachments', isset($_POST['disable_attachments']) ? 1 : 0);
-        $types = isset($_POST['input_type']) ? array_map('sanitize_text_field', $_POST['input_type']) : [];
-        $labels = isset($_POST['input_label']) ? array_map('sanitize_text_field', $_POST['input_label']) : [];
-        $options_list = isset($_POST['input_options']) ? array_map('sanitize_text_field',$_POST['input_options']) : [];
-        $requireds = isset($_POST['input_required']) ? array_map('sanitize_text_field', $_POST['input_required']) : [];
+        $types = isset($_POST['input_type']) ? array_map('sanitize_text_field', wp_unslash($_POST['input_type'])) : [];
+        $labels = isset($_POST['input_label']) ? array_map('sanitize_text_field', wp_unslash($_POST['input_label'])) : [];
+        $options_list = isset($_POST['input_options']) ? array_map('sanitize_text_field', wp_unslash($_POST['input_options'])) : [];
+        $requireds = isset($_POST['input_required']) ? array_map('sanitize_text_field', wp_unslash($_POST['input_required'])) : [];
         $fields = [];
 
         foreach ($types as $key => $type) {
@@ -29,7 +29,7 @@ function thub_ticket_editor_page()
 
         // Save the fields as a serialized array
         update_option('thub_custom_fields', $fields);
-        echo '<div class="notice notice-success"><p>' . esc_html__('Fields saved.', 'tickethub') . '</p></div>';
+        echo '<div class="notice notice-success"><p>' . esc_html__('Fields saved.', 'ticket-hub') . '</p></div>';
     }
 
     // Retrieve any existing values
@@ -40,26 +40,26 @@ function thub_ticket_editor_page()
     <div class="wrap">
         <form method="post" action="">
             <?php wp_nonce_field('thub_save_ticket_fields', 'thub_ticket_fields_nonce'); ?>
-            <h2><?php esc_html_e('General Settings', 'tickethub'); ?></h2>
+            <h2><?php esc_html_e('General Settings', 'ticket-hub'); ?></h2>
             <table class="form-table">
                 <tr>
-                    <th scope="row"><?php esc_html_e('Disable Ticket Attachments', 'tickethub'); ?></th>
+                    <th scope="row"><?php esc_html_e('Disable Ticket Attachments', 'ticket-hub'); ?></th>
                     <td>
                         <input type="checkbox" name="disable_attachments" value="1" <?php checked(get_option('thub_disable_attachments'), 1); ?> />
-                        <label for="disable_attachments"><?php esc_html_e('This option disables attachments in the ticket form.', 'tickethub'); ?></label>
+                        <label for="disable_attachments"><?php esc_html_e('This option disables attachments in the ticket form.', 'ticket-hub'); ?></label>
                     </td>
                 </tr>
             </table>
 
-            <h2><?php esc_html_e('Ticket Form Fields', 'tickethub'); ?></h2>
+            <h2><?php esc_html_e('Ticket Form Fields', 'ticket-hub'); ?></h2>
             <table class="wp-list-table widefat striped" id="custom_fields_table">
                 <thead>
                     <tr>
-                        <th><?php esc_html_e('Field Type', 'tickethub'); ?></th>
-                        <th><?php esc_html_e('Label', 'tickethub'); ?></th>
-                        <th><?php esc_html_e('Options (for Select)', 'tickethub'); ?></th>
-                        <th><?php esc_html_e('Required', 'tickethub'); ?></th>
-                        <th><?php esc_html_e('Actions', 'tickethub'); ?></th>
+                        <th><?php esc_html_e('Field Type', 'ticket-hub'); ?></th>
+                        <th><?php esc_html_e('Label', 'ticket-hub'); ?></th>
+                        <th><?php esc_html_e('Options (for Select)', 'ticket-hub'); ?></th>
+                        <th><?php esc_html_e('Required', 'ticket-hub'); ?></th>
+                        <th><?php esc_html_e('Actions', 'ticket-hub'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,9 +69,9 @@ function thub_ticket_editor_page()
                         <tr class="field-row">
                             <td>
                                 <select name="input_type[]" class="input-type">
-                                    <option value="text" <?php selected($field['type'], 'text'); ?>><?php esc_html_e('Text', 'tickethub'); ?></option>
-                                    <option value="textarea" <?php selected($field['type'], 'textarea'); ?>><?php esc_html_e('Textarea', 'tickethub'); ?></option>
-                                    <option value="select" <?php selected($field['type'], 'select'); ?>><?php esc_html_e('Select', 'tickethub'); ?></option>
+                                    <option value="text" <?php selected($field['type'], 'text'); ?>><?php esc_html_e('Text', 'ticket-hub'); ?></option>
+                                    <option value="textarea" <?php selected($field['type'], 'textarea'); ?>><?php esc_html_e('Textarea', 'ticket-hub'); ?></option>
+                                    <option value="select" <?php selected($field['type'], 'select'); ?>><?php esc_html_e('Select', 'ticket-hub'); ?></option>
                                 </select>
                             </td>
                             <td>
@@ -90,13 +90,13 @@ function thub_ticket_editor_page()
                     <?php } ?>
                     <tr id="add_field_row">
                         <td colspan="5">
-                            <button type="button" class="button" id="add_field_button"><span class="dashicons dashicons-plus"></span> <?php esc_html_e('Add Field', 'tickethub'); ?></button>
+                            <button type="button" class="button" id="add_field_button"><span class="dashicons dashicons-plus"></span> <?php esc_html_e('Add Field', 'ticket-hub'); ?></button>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <?php submit_button(esc_html__('Save Fields', 'tickethub')); ?>
+            <?php submit_button(esc_html__('Save Fields', 'ticket-hub')); ?>
         </form>
     </div>
 <?php

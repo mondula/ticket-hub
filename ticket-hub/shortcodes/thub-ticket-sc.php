@@ -38,7 +38,7 @@ add_shortcode('thub_ticket', function ($atts) {
                 'posts_per_page' => -1,
                 // herausgenommen, damit cache reused werden kann, auslassen dann in Schleife
                 //'post__not_in' => array($post_id),
-                //TODO: Plugin-Check beschwert sich: "Detected usage of meta_query, possible slow query." -> Entweder fixen oder Kommentar löschen und ignorieren.
+                //TODO: Plugin-Check beschwert sich: "Detected usage of meta_query, possible slow query." -> Entweder fixen oder Kommentar lï¿½schen und ignorieren.
                 'tax_query' => array(
                     array(
                         'taxonomy' => 'thub_ticket_tag',
@@ -58,7 +58,7 @@ add_shortcode('thub_ticket', function ($atts) {
                         </g>
                     </g>
                 </svg>
-                <a href="<?php echo esc_url($tickets_page_url); ?>" class="thub-back-to-archive"><?php esc_attr_e('Back', 'tickethub') ?></a>
+                <a href="<?php echo esc_url($tickets_page_url); ?>" class="thub-back-to-archive"><?php esc_attr_e('Back', 'ticket-hub') ?></a>
                 <?php
                 $ticket_id = get_post_meta($post_id, 'thub_ticket_id', true);
                 if (!empty($ticket_id)) {
@@ -66,10 +66,10 @@ add_shortcode('thub_ticket', function ($atts) {
                 }
 
                 if ($related_tickets->have_posts()) {
-                    echo '<div class="thub-related-tickets"><span>' . esc_html__('Related Tickets', 'tickethub') . '</span>';
+                    echo '<div class="thub-related-tickets"><span>' . esc_html__('Related Tickets', 'ticket-hub') . '</span>';
                     while ($related_tickets->have_posts()) {
                         $related_tickets->the_post();
-                        // gleichen Post ausschließen
+                        // gleichen Post ausschlieï¿½en
                         if (get_the_ID() != $post_id) {
                             echo '<div><a href="' . esc_url(get_permalink()) . '">' . esc_html(get_the_title()) . '</a></div>';
                         }
@@ -77,11 +77,11 @@ add_shortcode('thub_ticket', function ($atts) {
                     echo '</div>';
                 }
 
-                echo '<div class="thub-ticket-field"><h4>' . esc_html__('Description', 'tickethub') . '</h4><p>' . esc_html(get_post_meta($post_id, 'thub_ticket_description', true)) . '</p></div>';
+                echo '<div class="thub-ticket-field"><h4>' . esc_html__('Description', 'ticket-hub') . '</h4><p>' . esc_html(get_post_meta($post_id, 'thub_ticket_description', true)) . '</p></div>';
 
                 $fields = [
-                    'thub_ticket_status' => __('Status', 'tickethub'),
-                    'thub_ticket_type' => __('Type', 'tickethub'),
+                    'thub_ticket_status' => __('Status', 'ticket-hub'),
+                    'thub_ticket_type' => __('Type', 'ticket-hub'),
                 ];
 
                 // TODO: Turn SVG into pseudo element with CSS
@@ -106,8 +106,8 @@ add_shortcode('thub_ticket', function ($atts) {
                     $value = get_post_meta($post_id, $field, true);
                     echo '<div class="thub-ticket-field"><h4>' . esc_html($label) . '</h4><p>' . esc_html($value) . '<p></div>';
                     if ($index == 1) {
-                        echo '<div class="thub-ticket-field"><h4>' . esc_html__('Creator', 'tickethub') . '</h4><p>' . esc_html($ticket_author) . '</p></div>';
-                        echo '<div class="thub-ticket-field"><h4>' . esc_html__('E-Mail', 'tickethub') . '</h4><p>' . esc_html($email) . '</p></div>';
+                        echo '<div class="thub-ticket-field"><h4>' . esc_html__('Creator', 'ticket-hub') . '</h4><p>' . esc_html($ticket_author) . '</p></div>';
+                        echo '<div class="thub-ticket-field"><h4>' . esc_html__('E-Mail', 'ticket-hub') . '</h4><p>' . esc_html($email) . '</p></div>';
                     }
                     $index++;
                 }
@@ -154,13 +154,13 @@ add_shortcode('thub_ticket', function ($atts) {
                 }
 
                 if (!empty($image_attachments) || !empty($other_attachments)) {
-                    echo '<div class="thub-ticket-field"><h4>' . esc_html__('Attachments', 'tickethub') . '</h4>';
+                    echo '<div class="thub-ticket-field"><h4>' . esc_html__('Attachments', 'ticket-hub') . '</h4>';
                     echo '<div class="thub-ticket-attachments">';
                     foreach ($image_attachments as $attachment) {
                         $image_url = wp_get_attachment_url($attachment->ID);
                         if ($image_url) {
-                            // Definiere die zulässigen HTML-Tags für das SVG-Icon, somit funktioniert wp_kses()
-                            //TODO: Ich habe keine Übersicht, welche hier nötig sind, ChatGPT hat das hier ausgespuckt, bitte einmal rüberschauen
+                            // Definiere die zulï¿½ssigen HTML-Tags fï¿½r das SVG-Icon, somit funktioniert wp_kses()
+                            //TODO: Ich habe keine ï¿½bersicht, welche hier nï¿½tig sind, ChatGPT hat das hier ausgespuckt, bitte einmal rï¿½berschauen
                             $allowed_tags = array(
                                 'svg'   => array(
                                     'xmlns'    => array(),
@@ -198,7 +198,7 @@ add_shortcode('thub_ticket', function ($atts) {
             if (current_user_can('comment_tickets') || current_user_can('administrator')) {
                 echo '<hr>';
                 echo '<div class="thub-ticket-comments">';
-                echo '<h4>' . esc_html__('Comments', 'tickethub') . '</h4>';
+                echo '<h4>' . esc_html__('Comments', 'ticket-hub') . '</h4>';
 
                 $top_level_comments = get_comments(array(
                     'post_id' => $post_id,
@@ -211,7 +211,7 @@ add_shortcode('thub_ticket', function ($atts) {
                         thub_display_comment_withub_replies($comment);
                     }
                 } else {
-                    echo '<p>' . esc_html__('No comments yet.', 'tickethub') . '</p>';
+                    echo '<p>' . esc_html__('No comments yet.', 'ticket-hub') . '</p>';
                 }
 
                 echo '</div>';
@@ -220,24 +220,24 @@ add_shortcode('thub_ticket', function ($atts) {
                     $args = array(
                         'post_id' => $post_id,
                         'title_reply' => '',
-                        'comment_field' => '<textarea id="comment" name="comment" rows="10" cols="80" class="thub-comment-area" placeholder="' . esc_attr__('Type your comment here', 'tickethub') . '" required="required"></textarea>',
+                        'comment_field' => '<textarea id="comment" name="comment" rows="10" cols="80" class="thub-comment-area" placeholder="' . esc_attr__('Type your comment here', 'ticket-hub') . '" required="required"></textarea>',
                         'fields' => array(),
-                        'label_submit' => esc_html__('Comment', 'tickethub'),
+                        'label_submit' => esc_html__('Comment', 'ticket-hub'),
                         'comment_notes_before' => '',
                         'comment_notes_after' => '',
                         'submit_button' => '<button type="submit" class="thub-button">%4$s</button>',
                     );
                     comment_form($args);
                 } else {
-                    echo '<p>' . esc_html__('Comments are closed for this ticket', 'tickethub') . '</p>';
+                    echo '<p>' . esc_html__('Comments are closed for this ticket', 'ticket-hub') . '</p>';
                 }
                 echo '</div>';
             }
         } else {
-            echo '<p>' . esc_html__('This ticket is private and cannot be displayed.', 'tickethub') . '</p>';
+            echo '<p>' . esc_html__('This ticket is private and cannot be displayed.', 'ticket-hub') . '</p>';
         }
     } else {
-        echo '<p>' . esc_html__('Invalid ticket ID.', 'tickethub') . '</p>';
+        echo '<p>' . esc_html__('Invalid ticket ID.', 'ticket-hub') . '</p>';
     }
 
     return ob_get_clean();
