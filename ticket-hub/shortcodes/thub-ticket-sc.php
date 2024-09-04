@@ -38,7 +38,7 @@ add_shortcode('thub_ticket', function ($atts) {
                 'posts_per_page' => -1,
                 // herausgenommen, damit cache reused werden kann, auslassen dann in Schleife
                 //'post__not_in' => array($post_id),
-                //TODO: Plugin-Check beschwert sich: "Detected usage of meta_query, possible slow query." -> Entweder fixen oder Kommentar l�schen und ignorieren.
+                //TODO: Plugin-Check beschwert sich: "Detected usage of meta_query, possible slow query." -> Entweder fixen oder Kommentar lschen und ignorieren.
                 'tax_query' => array(
                     array(
                         'taxonomy' => 'thub_ticket_tag',
@@ -50,14 +50,6 @@ add_shortcode('thub_ticket', function ($atts) {
             $related_tickets = new WP_Query($related_args);
 ?>
             <div class="thub-ticket-details">
-                <!-- TODO: Turn SVG into pseudo element with CSS -->
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="22" height="13" viewBox="0 0 22 13">
-                    <g id="Gruppe_54" data-name="Gruppe 54" transform="translate(21.648 13) rotate(180)">
-                        <g id="Gruppe_53" data-name="Gruppe 53" transform="translate(-0.355)">
-                            <path id="Pfad_16" data-name="Pfad 16" d="M21.639,6.363a1.071,1.071,0,0,0-.258-.657L16.289.3A1.093,1.093,0,0,0,14.9.217a.994.994,0,0,0,.01,1.392l3.58,3.8H.955a.955.955,0,1,0,0,1.909H18.487l-3.58,3.8a1.052,1.052,0,0,0-.01,1.392,1.079,1.079,0,0,0,1.392-.08l5.092-5.41A.919.919,0,0,0,21.639,6.363Z" transform="translate(0.364 0)" />
-                        </g>
-                    </g>
-                </svg>
                 <a href="<?php echo esc_url($tickets_page_url); ?>" class="thub-back-to-archive"><?php esc_attr_e('Back', 'ticket-hub') ?></a>
                 <?php
                 $ticket_id = get_post_meta($post_id, 'thub_ticket_id', true);
@@ -69,7 +61,7 @@ add_shortcode('thub_ticket', function ($atts) {
                     echo '<div class="thub-related-tickets"><span>' . esc_html__('Related Tickets', 'ticket-hub') . '</span>';
                     while ($related_tickets->have_posts()) {
                         $related_tickets->the_post();
-                        // gleichen Post ausschlie�en
+                        // gleichen Post ausschlieen
                         if (get_the_ID() != $post_id) {
                             echo '<div><a href="' . esc_url(get_permalink()) . '">' . esc_html(get_the_title()) . '</a></div>';
                         }
@@ -83,22 +75,6 @@ add_shortcode('thub_ticket', function ($atts) {
                     'thub_ticket_status' => __('Status', 'ticket-hub'),
                     'thub_ticket_type' => __('Type', 'ticket-hub'),
                 ];
-
-                // TODO: Turn SVG into pseudo element with CSS
-                $zoomSVG = '<svg class="thub-zoom-icon" version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                    viewBox="0 0 67.3 67.24" style="enable-background:new 0 0 67.3 67.24;" xml:space="preserve">
-                    <style type="text/css">
-                        .st0{fill:#FFFFFF;}
-                    </style>
-                    <g id="Gruppe_50" transform="translate(0 -0.17)">
-                        <path id="Pfad_14" class="st0" d="M33.83,2.35c-17.72,0-32.08,14.36-32.08,32.08s14.36,32.08,32.08,32.08s32.08-14.36,32.08-32.08
-                            C65.9,16.72,51.54,2.37,33.83,2.35 M33.83,62.95c-15.75,0-28.52-12.76-28.53-28.51c0-15.75,12.76-28.52,28.51-28.53
-                            c15.75,0,28.52,12.76,28.53,28.51c0,0,0,0.01,0,0.01C62.33,50.17,49.57,62.93,33.83,62.95"/>
-                        <path id="Pfad_15" class="st0" d="M44.52,32.65h-8.91v-8.91c0-0.98-0.8-1.78-1.78-1.78c-0.98,0-1.78,0.8-1.78,1.78l0,0v8.91h-8.91
-                            c-0.98,0-1.78,0.8-1.78,1.78c0,0.98,0.8,1.78,1.78,1.78l0,0h8.91v8.91c0,0.98,0.8,1.78,1.78,1.78c0.98,0,1.78-0.8,1.78-1.78v-8.91
-                            h8.91c0.98,0,1.78-0.8,1.78-1.78C46.31,33.45,45.51,32.65,44.52,32.65"/>
-                    </g>
-                    </svg>';
 
                 echo '<div class="thub-ticket-info">';
                 $index = 0;
@@ -159,30 +135,7 @@ add_shortcode('thub_ticket', function ($atts) {
                     foreach ($image_attachments as $attachment) {
                         $image_url = wp_get_attachment_url($attachment->ID);
                         if ($image_url) {
-                            // Definiere die zul�ssigen HTML-Tags f�r das SVG-Icon, somit funktioniert wp_kses()
-                            //TODO: Ich habe keine �bersicht, welche hier n�tig sind, ChatGPT hat das hier ausgespuckt, bitte einmal r�berschauen
-                            $allowed_tags = array(
-                                'svg'   => array(
-                                    'xmlns'    => array(),
-                                    'xmlns:xlink' => array(),
-                                    'width'    => array(),
-                                    'height'   => array(),
-                                    'viewBox'  => array(),
-                                ),
-                                'g'     => array(
-                                    'id'       => array(),
-                                    'transform'=> array(),
-                                    'data-name'=> array(),
-                                ),
-                                'path'  => array(
-                                    'id'       => array(),
-                                    'data-name'=> array(),
-                                    'd'        => array(),
-                                    'transform'=> array(),
-                                    'fill'     => array(),
-                                ),
-                            );
-                            echo '<a href="' . esc_url($image_url) . '" class="thub-lightbox-trigger"><div class="thub-image-container"><img src="' . esc_url($image_url) . '" alt="' . esc_attr($attachment->post_title) . '" class="thub-ticket-image">' . wp_kses($zoomSVG, $allowed_tags) . '</div></a>';
+                            echo '<a href="' . esc_url($image_url) . '" class="thub-lightbox-trigger"><div class="thub-image-container"><img src="' . esc_url($image_url) . '" alt="' . esc_attr($attachment->post_title) . '" class="thub-ticket-image"></div></a>';
                         }
                     }
                     echo '</div>';
