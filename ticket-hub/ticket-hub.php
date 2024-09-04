@@ -47,13 +47,17 @@ add_action('init', function () {
     );
 
     register_post_status('thub_archive', array(
-        'label'                     => 'Archived',
+        'label'                     => _x('Archived', 'post status', 'ticket-hub'),
         'public'                    => true,
         'exclude_from_search'       => false,
         'show_in_admin_all_list'    => true,
         'show_in_admin_status_list' => true,
-        // translators: %s: Label count.
-        'label_count'               => _n_noop('Archived <span class="count">(%s)</span>', 'Archived <span class="count">(%s)</span>')
+        // translators: %s: Number of archived posts
+        'label_count'               => _n_noop(
+            'Archived <span class="count">(%s)</span>',
+            'Archived <span class="count">(%s)</span>',
+            'ticket-hub'
+        )
     ));
 });
 
