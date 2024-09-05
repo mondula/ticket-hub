@@ -5,8 +5,8 @@ add_shortcode('thub_changelog', function () {
     global $thub_accordion_enqueue;
 
     if (!$thub_accordion_enqueue) {
-        wp_enqueue_script('thub-accordion-script', PLUGIN_ROOT . 'js/thub-accordion.js', array('jquery'), '1.0.0', true);
-        wp_enqueue_style('thub-accordion-style', PLUGIN_ROOT . 'css/thub-accordion.css', array(), '1.0.0', 'all');
+        wp_enqueue_script('thub-accordion-script', THUB_PLUGIN_ROOT . 'js/thub-accordion.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_style('thub-accordion-style', THUB_PLUGIN_ROOT . 'css/thub-accordion.css', array(), '1.0.0', 'all');
         $thub_accordion_enqueue = true;
     }
 

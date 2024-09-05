@@ -300,7 +300,7 @@ add_action('wp', function () {
 
 add_action('archive_done_tickets', function () {
     $options = get_option('thub_options');
-    $archive_days = isset($options['archive_days']) ? intval($options['archive_days']) : 0; // Default to 0 days if not set
+    $thub_archive_days = isset($options['thub_archive_days']) ? intval($options['thub_archive_days']) : 0; // Default to 0 days if not set
 
     $args = array(
         'post_type'      => 'thub_ticket',
@@ -321,7 +321,7 @@ add_action('archive_done_tickets', function () {
     foreach ($tickets as $ticket) {
         $completed_date = strtotime(get_post_meta($ticket->ID, 'completed_date', true));
         $diff = ($current_time - $completed_date) / DAY_IN_SECONDS;
-        if ($diff > $archive_days) {
+        if ($diff > $thub_archive_days) {
             wp_update_post(array(
                 'ID'          => $ticket->ID,
                 'post_status' => 'thub_archive'

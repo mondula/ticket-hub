@@ -88,7 +88,7 @@ add_action('edit_form_after_title', function ($post) {
         <input type="url" name="link" id="thub-document-link" value="<?php echo esc_url($link); ?>" />
     </div>
 <?php
-    wp_enqueue_script('thub-document-script', PLUGIN_ROOT . 'js/thub-document.js', array('jquery'), '1.0.0', true);
+    wp_enqueue_script('thub-document-script', THUB_PLUGIN_ROOT . 'js/thub-document.js', array('jquery'), '1.0.0', true);
     wp_enqueue_media();
 });
 

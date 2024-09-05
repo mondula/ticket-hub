@@ -9,8 +9,8 @@ add_shortcode('thub_form', function () {
     static $ticket_form_enqueue = false;
 
     if (!$ticket_form_enqueue) {
-        wp_enqueue_style('thub-form-style', PLUGIN_ROOT . 'css/thub-form.css', array(), '1.0.0', 'all');
-        wp_enqueue_script('thub-form-script', PLUGIN_ROOT . 'js/thub-form.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_style('thub-form-style', THUB_PLUGIN_ROOT . 'css/thub-form.css', array(), '1.0.0', 'all');
+        wp_enqueue_script('thub-form-script', THUB_PLUGIN_ROOT . 'js/thub-form.js', array('jquery'), '1.0.0', true);
         $ticket_form_enqueue = true;
     }
 
@@ -74,7 +74,7 @@ add_action('admin_post_submit_ticket_form', function () {
         wp_send_json_error(__('You do not have permission to submit tickets.', 'ticket-hub'));
     }
 
-    if (!isset($_POST['ticket_nonce_field']) || !wp_verify_nonce(sanitize_text_field( wp_unslash ($_POST['ticket_nonce_field'])), 'submit_ticket_nonce')) {
+    if (!isset($_POST['ticket_nonce_field']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['ticket_nonce_field'])), 'submit_ticket_nonce')) {
         wp_send_json_error(__('Security check failed', 'ticket-hub'));
     }
 
@@ -154,8 +154,8 @@ add_action('admin_post_submit_ticket_form', function () {
         }
 
         $options = get_option('thub_options');
-        $prefix = isset($options['ticket_prefix']) ? sanitize_text_field($options['ticket_prefix']) : '';
-        $suffix = isset($options['ticket_suffix']) ? sanitize_text_field($options['ticket_suffix']) : '';
+        $prefix = isset($options['thub_ticket_prefix']) ? sanitize_text_field($options['thub_ticket_prefix']) : '';
+        $suffix = isset($options['thub_ticket_suffix']) ? sanitize_text_field($options['thub_ticket_suffix']) : '';
         $formatted_post_id = sprintf('%06d', $post_id);
         $id = $prefix . $formatted_post_id . $suffix;
         wp_update_post([

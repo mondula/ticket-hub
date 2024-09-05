@@ -49,11 +49,11 @@ function thub_settings_init()
     }
 
     add_settings_section('thub_ticket_id_section', esc_html__('Ticket ID Configuration', 'ticket-hub'), 'thub_ticket_id_section_callback', 'thub_general');
-    add_settings_field('ticket_prefix', esc_html__('Ticket Prefix', 'ticket-hub'), 'thub_text_field_callback', 'thub_general', 'thub_ticket_id_section', array('label_for' => 'ticket_prefix'));
-    add_settings_field('ticket_suffix', esc_html__('Ticket Suffix', 'ticket-hub'), 'thub_text_field_callback', 'thub_general', 'thub_ticket_id_section', array('label_for' => 'ticket_suffix'));
+    add_settings_field('thub_ticket_prefix', esc_html__('Ticket Prefix', 'ticket-hub'), 'thub_text_field_callback', 'thub_general', 'thub_ticket_id_section', array('label_for' => 'thub_ticket_prefix'));
+    add_settings_field('thub_ticket_suffix', esc_html__('Ticket Suffix', 'ticket-hub'), 'thub_text_field_callback', 'thub_general', 'thub_ticket_id_section', array('label_for' => 'thub_ticket_suffix'));
 
     add_settings_section('thub_archive_settings_section', esc_html__('Ticket Archive Settings', 'ticket-hub'), 'thub_archive_settings_section_callback', 'thub_general');
-    add_settings_field('archive_days', esc_html__('Days to Archive', 'ticket-hub'), 'thub_number_field_callback', 'thub_general', 'thub_archive_settings_section', array('label_for' => 'archive_days'));
+    add_settings_field('thub_archive_days', esc_html__('Days to Archive', 'ticket-hub'), 'thub_number_field_callback', 'thub_general', 'thub_archive_settings_section', array('label_for' => 'thub_archive_days'));
 
     // Check if the Plus plugin is active
     if (function_exists('thub_is_tickethub_plus_active') && thub_is_tickethub_plus_active()) {

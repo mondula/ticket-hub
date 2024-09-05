@@ -15,13 +15,13 @@ add_shortcode('thub_tickets', function ($atts) {
     $attributes['user_id'] = sanitize_text_field($attributes['user_id']);
 
     if (!$tickets_enqueue) {
-        wp_enqueue_script('thub-tickets-script', PLUGIN_ROOT . 'js/thub-tickets.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_script('thub-tickets-script', THUB_PLUGIN_ROOT . 'js/thub-tickets.js', array('jquery'), '1.0.0', true);
         wp_localize_script('thub-tickets-script', 'ajax_params', array(
             'ajax_url' => esc_url(admin_url('admin-ajax.php')),
             'user_id' => $attributes['user_id'],
             'nonce' => wp_create_nonce('fetch_tickets_nonce')
         ));
-        wp_enqueue_style('thub-tickets-style', PLUGIN_ROOT . 'css/thub-tickets.css', array(), '1.0.0', 'all');
+        wp_enqueue_style('thub-tickets-style', THUB_PLUGIN_ROOT . 'css/thub-tickets.css', array(), '1.0.0', 'all');
         $tickets_enqueue = true;
     }
 

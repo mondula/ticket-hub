@@ -6,8 +6,8 @@ add_shortcode('thub_documentation', function () {
     static $documentation_enqueue = false;
 
     if (!$documentation_enqueue) {
-        wp_enqueue_script('thub-documentation-script', PLUGIN_ROOT . 'js/thub-documentation.js', array('jquery'), '1.0.0', true);
-        wp_enqueue_style('thub-documentation-style', PLUGIN_ROOT . 'css/thub-documentation.css', array(), '1.0.0', 'all');
+        wp_enqueue_script('thub-documentation-script', THUB_PLUGIN_ROOT . 'js/thub-documentation.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_style('thub-documentation-style', THUB_PLUGIN_ROOT . 'css/thub-documentation.css', array(), '1.0.0', 'all');
         $documentation_enqueue = true;
     }
 

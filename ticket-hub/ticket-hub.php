@@ -13,9 +13,9 @@ Tested up to: 6.6.1
 Tags: tickets, support, faq, documentation, change log
 */
 
-define('PLUGIN_ROOT', plugin_dir_url(__FILE__));
+define('THUB_PLUGIN_ROOT', plugin_dir_url(__FILE__));
 
-function mondula_require_files($directory, $files)
+function thub_require_files($directory, $files)
 {
     // Include a set of files from a specific directory.
     $path = plugin_dir_path(__FILE__) . $directory . '/';
@@ -24,7 +24,7 @@ function mondula_require_files($directory, $files)
     }
 }
 
-mondula_require_files(
+thub_require_files(
     'post-types',
     [
         'thub-ticket-pt.php',
@@ -37,8 +37,8 @@ mondula_require_files(
 
 add_action('init', function () {
     load_plugin_textdomain('ticket-hub', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-    mondula_require_files('includes', ['thub-page-settings.php', 'thub-ticket-tag-subpage.php']);
-    mondula_require_files('shortcodes', ['thub-changelog-sc.php', 'thub-documentation-sc.php', 'thub-faqs-sc.php', 'thub-form-sc.php', 'thub-ticket-sc.php', 'thub-tickets-sc.php', 'thub-profile-sc.php']);
+    thub_require_files('includes', ['thub-page-settings.php', 'thub-ticket-tag-subpage.php']);
+    thub_require_files('shortcodes', ['thub-changelog-sc.php', 'thub-documentation-sc.php', 'thub-faqs-sc.php', 'thub-form-sc.php', 'thub-ticket-sc.php', 'thub-tickets-sc.php', 'thub-profile-sc.php']);
 
     // Define custom capabilities for submitting and commenting on tickets.
     $capabilities = array(
@@ -62,7 +62,7 @@ add_action('init', function () {
 });
 
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('ticket-hub-style', PLUGIN_ROOT . 'css/ticket-hub.css', array(), '1.0.0', 'all');
+    wp_enqueue_style('ticket-hub-style', THUB_PLUGIN_ROOT . 'css/ticket-hub.css', array(), '1.0.0', 'all');
 });
 
 add_filter('single_template', function ($template) {
@@ -104,7 +104,7 @@ add_action('after_setup_theme', function () {
     }
 });
 
-function enqueue_admin_post_status_script($hook_suffix) {
+function thub_enqueue_admin_post_status_script($hook_suffix) {
     global $post;
 
     // Use get_plugin_data() if you need versioning based on your plugin version
@@ -131,7 +131,7 @@ function enqueue_admin_post_status_script($hook_suffix) {
         wp_enqueue_script('thub-admin-post-status-script');
     }
 }
-add_action('admin_enqueue_scripts', 'enqueue_admin_post_status_script');
+add_action('admin_enqueue_scripts', 'thub_enqueue_admin_post_status_script');
 
 
 add_action('admin_enqueue_scripts', function () {
