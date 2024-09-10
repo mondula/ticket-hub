@@ -2,13 +2,6 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_shortcode('thub_ticket', function ($atts) {
-    static $ticket_enqueue = false;
-
-    if (!$ticket_enqueue) {
-        wp_enqueue_script('thub-lightbox-script', THUB_PLUGIN_ROOT . 'js/thub-lightbox.js', array('jquery'), '1.0.0', true);
-        wp_enqueue_style('thub-ticket-style', THUB_PLUGIN_ROOT . 'css/thub-ticket.css', array(), '1.0.0', 'all');
-        $ticket_enqueue = true;
-    }
 
     $atts = shortcode_atts(array('id' => ''), $atts);
     $post_id = intval($atts['id']);

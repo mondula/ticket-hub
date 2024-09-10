@@ -3,13 +3,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_shortcode('thub_profile', function () {
 
-    static $thub_ticket_creator_enqueue = false;
-
-    if (!$thub_ticket_creator_enqueue) {
-        wp_enqueue_style('thub-profile-style', THUB_PLUGIN_ROOT . 'css/thub-profile.css', array(), '1.0.0', 'all');
-        $thub_ticket_creator_enqueue = true;
-    }
-
     // Check if user is logged in
     if (!is_user_logged_in()) {
         // User is not logged in, display the WordPress login form

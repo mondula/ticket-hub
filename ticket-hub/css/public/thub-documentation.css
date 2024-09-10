@@ -58,7 +58,7 @@
   padding: 10px 0;
 }
 
-#search {
+#thub-doc-search {
   border-radius: 20px;
   padding: 10px 15px;
   margin-left: 10px;
@@ -108,7 +108,7 @@
     margin-top: 15px;
   }
 
-  #search {
+  #thub-doc-search {
     margin-right: 15px;
   }
 }

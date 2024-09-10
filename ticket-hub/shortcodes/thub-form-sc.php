@@ -6,14 +6,6 @@ add_shortcode('thub_form', function () {
         return '';
     }
 
-    static $ticket_form_enqueue = false;
-
-    if (!$ticket_form_enqueue) {
-        wp_enqueue_style('thub-form-style', THUB_PLUGIN_ROOT . 'css/thub-form.css', array(), '1.0.0', 'all');
-        wp_enqueue_script('thub-form-script', THUB_PLUGIN_ROOT . 'js/thub-form.js', array('jquery'), '1.0.0', true);
-        $ticket_form_enqueue = true;
-    }
-
     // Fetch custom fields and attachment setting
     $custom_fields = get_option('thub_custom_fields', []);
     $disable_attachments = get_option('thub_disable_attachments', 0); // 0 is unchecked by default

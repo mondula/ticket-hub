@@ -1,4 +1,5 @@
 jQuery(document).ready(function ($) {
+
     $('#thub-form').submit(function (e) {
         e.preventDefault(); // Stop the form from submitting normally
         var formData = new FormData(this); // Get the form data

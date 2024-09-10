@@ -293,12 +293,12 @@ add_action('wp_insert_comment', function ($comment_id, $comment) {
 }, 10, 2);
 
 add_action('wp', function () {
-    if (!wp_next_scheduled('archive_done_tickets')) {
-        wp_schedule_event(time(), 'daily', 'archive_done_tickets');
+    if (!wp_next_scheduled('thub_archive_done_tickets')) {
+        wp_schedule_event(time(), 'daily', 'thub_archive_done_tickets');
     }
 });
 
-add_action('archive_done_tickets', function () {
+add_action('thub_archive_done_tickets', function () {
     $options = get_option('thub_options');
     $thub_archive_days = isset($options['thub_archive_days']) ? intval($options['thub_archive_days']) : 0; // Default to 0 days if not set
 

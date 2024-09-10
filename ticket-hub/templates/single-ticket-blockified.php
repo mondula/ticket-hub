@@ -15,7 +15,7 @@
 	<div class="wp-site-blocks">
 		<?php echo wp_kses_post($header); ?>
 		<main>
-			<div class="wrapper">
+			<div class="thub-wrapper">
 				<?php echo do_shortcode('[thub_ticket id="' . esc_attr(get_the_ID()) . '"]'); ?>
 			</div>
 		</main>

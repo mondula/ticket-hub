@@ -3,14 +3,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_shortcode('thub_documentation', function () {
 
-    static $documentation_enqueue = false;
-
-    if (!$documentation_enqueue) {
-        wp_enqueue_script('thub-documentation-script', THUB_PLUGIN_ROOT . 'js/thub-documentation.js', array('jquery'), '1.0.0', true);
-        wp_enqueue_style('thub-documentation-style', THUB_PLUGIN_ROOT . 'css/thub-documentation.css', array(), '1.0.0', 'all');
-        $documentation_enqueue = true;
-    }
-
     ob_start(); // Start output buffering
 
     $args = array(
@@ -40,7 +32,7 @@ add_shortcode('thub_documentation', function () {
 
     // Output the search field and dropdown for filtering by document type (File types or Link)
     echo '<div class="thub-document-controls">';
-    echo '<input type="text" id="search" placeholder="' . esc_attr__('Search', 'ticket-hub') . '">';
+    echo '<input type="text" id="thub-doc-search" placeholder="' . esc_attr__('Search', 'ticket-hub') . '">';
     echo '<select id="thub-document-type" class="thub-select"><option value="">' . esc_html__('- Type -', 'ticket-hub') . '</option><option value="LINK">' . esc_html__('Link', 'ticket-hub') . '</option>';
     foreach ($file_types as $file_type) {
         echo '<option value="' . esc_attr($file_type) . '">' . esc_html($file_type) . '</option>';

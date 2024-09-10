@@ -3,6 +3,7 @@
  */
 
 jQuery(document).ready(function ($) {
+
     function toggleAccordion(element) {
         var $content = $(element).next('.thub-accordion-content');
         if ($content.is(':visible')) {

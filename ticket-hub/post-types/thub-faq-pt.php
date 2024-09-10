@@ -53,6 +53,7 @@ add_action('edit_form_after_title', function ($post) {
 
 	// Get the current value of the 'answer' field, if any
 	$answer_content = get_post_meta($post->ID, '_thub_answer', true);
+	$answer_content = wp_specialchars_decode($answer_content, ENT_QUOTES);
 
 	// Settings for the wp_editor
 	$settings = array(
@@ -67,7 +68,7 @@ add_action('edit_form_after_title', function ($post) {
 	echo '<h3>' . esc_html__('Answer', 'ticket-hub') . '</h3>';
 
 	// Display the editor
-	wp_editor(esc_textarea($answer_content), 'thub_answer_editor', $settings);
+	wp_editor($answer_content, 'thub_answer_editor', $settings);
 });
 
 add_action('save_post_thub_faq', function ($post_id) {

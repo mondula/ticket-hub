@@ -1,8 +1,9 @@
 /**
- * Document Script
+ * Admin document post type script
  */
 
 jQuery(document).ready(function ($) {
+
     $('#thub-document-type').change(function () {
         if ($(this).val() === 'File') {
             $('#thub-file-upload-section').show();

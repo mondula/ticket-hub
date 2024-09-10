@@ -1,9 +1,9 @@
 /**
- * Form editor tab Script
+ * Admin form editor tab script
  */
 
 jQuery(document).ready(function ($) {
-    var $table = $('#custom_fields_table');
+    var $table = $('#thub_fields_table');
 
     function toggleOptionsTextarea(row) {
         row.find('.input-type').each(function () {
@@ -25,8 +25,8 @@ jQuery(document).ready(function ($) {
     // Add field row
     $('#add_field_button').click(function () {
         var newRow = $('<tr class="field-row">' +
-            '<td><select name="input_type[]" class="input-type"><option value="text">' + tickethub_vars.text + '</option><option value="textarea">' + tickethub_vars.textarea + '</option><option value="select">' + tickethub_vars.select + '</option></select></td>' +
-            '<td><input type="text" name="input_label[]" class="regular-text" placeholder="' + tickethub_vars.label + '" /></td>' +
+            '<td><select name="input_type[]" class="input-type"><option value="text">' + thub_admin_vars.text + '</option><option value="textarea">' + thub_admin_vars.textarea + '</option><option value="select">' + thub_admin_vars.select + '</option></select></td>' +
+            '<td><input type="text" name="input_label[]" class="regular-text" placeholder="' + thub_admin_vars.label + '" /></td>' +
             '<td><textarea name="input_options[]" class="regular-text" style="visibility: hidden;"></textarea></td>' +
             '<td><input type="checkbox" name="input_required[]"></td>' +
             '<td><button type="button" class="button remove_field_button"><span class="dashicons dashicons-no"></span></button></td>' +

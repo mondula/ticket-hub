@@ -3,10 +3,15 @@
  */
 
 jQuery(document).ready(function ($) {
+    // Check if the ticket table doesn't exist
+    if ($('.thub-ticket-table').length === 0) {
+        return; // Exit early if the ticket table is not present
+    }
 
     var page = 1; // Start on the first page
 
     function fetchTickets(shouldResetPage) {
+        console.log('fetchTickets');
         if (shouldResetPage) {
             page = 1; // Reset to the first page when filters change
         }
@@ -20,21 +25,21 @@ jQuery(document).ready(function ($) {
             action: 'fetch_tickets',
             isArchive,
             page,
-            user_id: ajax_params.user_id,
+            user_id: $('.thub-ticket-table tr').children().length === 5 ? 0 : thub_public_vars.user_id,
             searchValue,
             statusValue,
             typeValue,
-            nonce: ajax_params.nonce // Add the nonce here
+            nonce: thub_public_vars.nonce
         };
-        console.log(data);
+        // console.log(data);
 
         $.ajax({
-            url: ajax_params.ajax_url,
+            url: thub_public_vars.ajax_url,
             type: 'POST',
-            dataType: 'json', // Ensuring we handle JSON correctly
+            dataType: 'json',
             data,
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 $('#thub-tickets-container').html(data.tickets);
                 $('#thub-ticket-pagination').html(data.pagination);
             },

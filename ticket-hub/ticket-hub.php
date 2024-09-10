@@ -2,7 +2,7 @@
 /*
 Plugin Name: TicketHub
 Description: Streamline your support system with TicketHub, a powerful and user-friendly plugin for managing tickets, FAQs, and documentation efficiently.
-Version:     1.0
+Version:     1.0.0
 Author:      Mondula GmbH
 Author URI:  https://mondula.com
 License:     GPL2
@@ -61,10 +61,6 @@ add_action('init', function () {
     ));
 });
 
-add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('ticket-hub-style', THUB_PLUGIN_ROOT . 'css/ticket-hub.css', array(), '1.0.0', 'all');
-});
-
 add_filter('single_template', function ($template) {
     global $post;
 
@@ -94,8 +90,12 @@ register_deactivation_hook(__FILE__, function () {
     foreach ($users as $user) {
         $user->set_role('subscriber');  // Change 'subscriber' to whatever default you consider appropriate
     }
-
     remove_role('thub_ticket_creator');
+
+    $timestamp = wp_next_scheduled('thub_archive_done_tickets');
+    if ($timestamp) {
+        wp_unschedule_event($timestamp, 'thub_archive_done_tickets');
+    }
 });
 
 add_action('after_setup_theme', function () {
@@ -104,74 +104,40 @@ add_action('after_setup_theme', function () {
     }
 });
 
-function thub_enqueue_admin_post_status_script($hook_suffix) {
-    global $post;
+function thub_enqueue_admin_scripts() {
+    $plugin_url = plugin_dir_url(__FILE__);
+    $version = '1.0.0'; // You might want to use a dynamic version number
 
-    // Use get_plugin_data() if you need versioning based on your plugin version
-    $version = '1.0.0';
-    
-    // Ensure the script is only loaded on post and edit screens for 'thub_ticket' post type
-    if (($hook_suffix === 'post.php' || $hook_suffix === 'edit.php') && isset($post->post_type) && $post->post_type === 'thub_ticket') {
-        // Register and enqueue the script
-        wp_register_script(
-            'thub-admin-post-status-script', // Handle for the script
-            plugin_dir_url(__FILE__) . 'js/thub-admin-post-status.js', // Correct URL to your JS file
-            array('jquery'), // Dependencies (in this case, jQuery)
-            $version, // Version number
-            true // Load in the footer
-        );
+    // Enqueue admin scripts and styles
+    wp_enqueue_script('thub-admin-js', $plugin_url . 'dist/js/ticket-hub-admin.min.js', array('jquery'), $version, true);
+    wp_enqueue_style('thub-admin-css', $plugin_url . 'dist/css/ticket-hub-admin.min.css', array(), $version);
 
-        // Localize the script with necessary variables
-        wp_localize_script('thub-admin-post-status-script', 'tickethub_status_vars', array(
-            'archived_text' => esc_js(__('Archived', 'ticket-hub')),
-            'post_status' => esc_js($post->post_status),
-        ));
-
-        // Enqueue the script
-        wp_enqueue_script('thub-admin-post-status-script');
-    }
-}
-add_action('admin_enqueue_scripts', 'thub_enqueue_admin_post_status_script');
-
-
-add_action('admin_enqueue_scripts', function () {
-    // Use get_plugin_data() if you need versioning based on your plugin version
-    $version = '1.0.0';
-
-    // Properly form the URL to the stylesheet
-    $admin_style_url = plugins_url('css/thub-admin-style.css', __FILE__);
-
-    // Enqueue the stylesheet
-    wp_enqueue_style('thub-admin-style', $admin_style_url, array(), $version);
-});
-
-//register and enqueue for form editor script
-add_action('admin_enqueue_scripts', function () {
-
-    // Use get_plugin_data() if you need versioning based on your plugin version
-    $version = '1.0.0';
-
-    // Properly form the URL to the stylesheet
-    $admin_form_editor_tab_script_url = plugins_url('js/thub-form-editor-tab.js', __FILE__);
-
-     // Register the script
-     wp_register_script(
-        'thub-form-editor-tab-script', // Handle for the script
-        $admin_form_editor_tab_script_url, // URL of the script file
-        array('jquery'), // Dependencies (in this case, jQuery)
-        $version, // Version number
-        true // Load in footer
-    );
-
-    // Localize the script with translation strings
-    wp_localize_script('thub-form-editor-tab-script', 'tickethub_vars', array(
+    // Localize the script with necessary variables
+    wp_localize_script('thub-admin-js', 'thub_admin_vars', array(
+        'archived_text' => esc_js(__('Archived', 'ticket-hub')),
+        'post_status' => esc_js($GLOBALS['post']->post_status),
         'text' => esc_html__('Text', 'ticket-hub'),
         'textarea' => esc_html__('Textarea', 'ticket-hub'),
         'select' => esc_html__('Select', 'ticket-hub'),
         'label' => esc_html__('Label', 'ticket-hub')
     ));
+}
 
-    // Enqueue the script
-    wp_enqueue_script('thub-form-editor-tab-script');
-});
+function thub_enqueue_public_scripts() {
+    $plugin_url = plugin_dir_url(__FILE__);
+    $version = '1.0.0'; // You might want to use a dynamic version number
+
+    // Enqueue public scripts and styles
+    wp_enqueue_script('thub-public-js', $plugin_url . 'dist/js/ticket-hub.min.js', array('jquery'), $version, true);
+    wp_enqueue_style('thub-public-css', $plugin_url . 'dist/css/ticket-hub.min.css', array(), $version);
+
+    // Localize script
+    wp_localize_script('thub-public-js', 'thub_public_vars', array(
+        'ajax_url' => esc_url(admin_url('admin-ajax.php')),
+        'user_id' => get_current_user_id(),
+        'nonce' => wp_create_nonce('fetch_tickets_nonce')
+    ));
+}
+add_action('wp_enqueue_scripts', 'thub_enqueue_public_scripts');
+add_action('admin_enqueue_scripts', 'thub_enqueue_admin_scripts');
 ?>

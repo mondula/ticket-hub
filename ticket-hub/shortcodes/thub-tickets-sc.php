@@ -5,25 +5,12 @@ add_shortcode('thub_tickets', function ($atts) {
     $options = get_option('thub_plus_options');
     $allow_export = isset($options['allow_export']) && $options['allow_export'] == 1;
 
-    static $tickets_enqueue = false;
-
     $attributes = shortcode_atts(array(
         'user_id' => ''
     ), $atts);
 
     // Sanitize the user_id attribute
     $attributes['user_id'] = sanitize_text_field($attributes['user_id']);
-
-    if (!$tickets_enqueue) {
-        wp_enqueue_script('thub-tickets-script', THUB_PLUGIN_ROOT . 'js/thub-tickets.js', array('jquery'), '1.0.0', true);
-        wp_localize_script('thub-tickets-script', 'ajax_params', array(
-            'ajax_url' => esc_url(admin_url('admin-ajax.php')),
-            'user_id' => $attributes['user_id'],
-            'nonce' => wp_create_nonce('fetch_tickets_nonce')
-        ));
-        wp_enqueue_style('thub-tickets-style', THUB_PLUGIN_ROOT . 'css/thub-tickets.css', array(), '1.0.0', 'all');
-        $tickets_enqueue = true;
-    }
 
     ob_start();
 
@@ -133,12 +120,13 @@ function thub_fetch_tickets_ajax()
         $ticket_link = esc_url(get_permalink());
         $ticket_date = esc_html(get_the_date());
         $author_id = get_the_author_meta('ID');
-        $first_name = esc_html(get_the_author_meta('first_name', $author_id));
-        $last_name = esc_html(get_the_author_meta('last_name', $author_id));
-        $ticket_author = $first_name . ' ' . $last_name;
-
-        if (empty($first_name) && empty($last_name)) {
-            $ticket_author = esc_html(get_the_author_meta('display_name', $author_id));
+        $first_name = get_the_author_meta('first_name', $author_id);
+        $last_name = get_the_author_meta('last_name', $author_id);
+        
+        if (!empty($first_name) || !empty($last_name)) {
+            $ticket_author = esc_html($first_name . ' ' . $last_name);
+        } else {
+            $ticket_author = esc_html(get_the_author_meta('user_login', $author_id));
         }
 
         $output .= "<tr>";

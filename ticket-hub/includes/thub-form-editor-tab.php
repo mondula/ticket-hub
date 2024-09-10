@@ -10,12 +10,12 @@ function thub_ticket_editor_page()
         update_option('thub_disable_attachments', isset($_POST['disable_attachments']) ? 1 : 0);
         $types = isset($_POST['input_type']) ? array_map('sanitize_text_field', wp_unslash($_POST['input_type'])) : [];
         $labels = isset($_POST['input_label']) ? array_map('sanitize_text_field', wp_unslash($_POST['input_label'])) : [];
-        $options_list = isset($_POST['input_options']) ? array_map('sanitize_text_field', wp_unslash($_POST['input_options'])) : [];
+        $options_list = isset($_POST['input_options']) ? array_map('sanitize_textarea_field', wp_unslash($_POST['input_options'])) : [];
         $requireds = isset($_POST['input_required']) ? array_map('sanitize_text_field', wp_unslash($_POST['input_required'])) : [];
         $fields = [];
 
         foreach ($types as $key => $type) {
-            $options = array_filter(array_map('sanitize_text_field', explode("\n", $options_list[$key])));
+            $options = array_filter(array_map('trim', explode("\n", $options_list[$key])));
             $required = isset($requireds[$key]) ? true : false;
             if (!empty($labels[$key]) && !($type === 'select' && empty($options))) {
                 $fields[] = [
@@ -52,7 +52,7 @@ function thub_ticket_editor_page()
             </table>
 
             <h2><?php esc_html_e('Ticket Form Fields', 'ticket-hub'); ?></h2>
-            <table class="wp-list-table widefat striped" id="custom_fields_table">
+            <table class="wp-list-table widefat striped" id="thub_fields_table">
                 <thead>
                     <tr>
                         <th><?php esc_html_e('Field Type', 'ticket-hub'); ?></th>
@@ -78,7 +78,7 @@ function thub_ticket_editor_page()
                                 <input type="text" name="input_label[]" value="<?php echo esc_attr($field['label']); ?>" class="regular-text" />
                             </td>
                             <td>
-                                <textarea name="input_options[]" class="regular-text" style="visibility: hidden;"><?php echo isset($field['options']) ? esc_textarea(implode("\n", $field['options'])) : ''; ?></textarea>
+                                <textarea name="input_options[]" class="regular-text" <?php echo $field['type'] !== 'select' ? 'style="display: none;"' : ''; ?>><?php echo isset($field['options']) ? esc_textarea(implode("\n", $field['options'])) : ''; ?></textarea>
                             </td>
                             <td>
                                 <input type="checkbox" name="input_required[<?php echo esc_attr($index); ?>]" <?php checked($field['required']); ?> />
