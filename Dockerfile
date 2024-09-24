@@ -1,4 +1,4 @@
-FROM wordpress:latest
+FROM wordpress:latest as ticket-hub-wp
 
 # Install WP CLI
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \

@@ -3,10 +3,10 @@ services:
     build: .
     depends_on:
       - db
-    image: wordpress:latest
+    image: ticket-hub-wp:latest
     volumes:
       - ./ticket-hub:/var/www/html/wp-content/plugins/ticket-hub
-      - ticket-hub_wp_data:/var/www/html
+      - wp_data:/var/www/html
     environment:
       - WORDPRESS_DB_HOST=db
       - WORDPRESS_DB_USER=wordpress
@@ -20,7 +20,7 @@ services:
   db:
     image: mysql:8.0
     volumes:
-      - ticket-hub_db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: somewordpress
       MYSQL_DATABASE: wordpress
@@ -35,5 +35,5 @@ services:
       - "1025:1025" # SMTP server
 
 volumes:
-  ticket-hub_db_data:
-  ticket-hub_wp_data:
+  db_data:
+  wp_data:
