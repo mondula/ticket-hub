@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TicketHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-03 12:42+0000\n"
+"POT-Creation-Date: 2024-09-25 11:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -13,18 +13,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.11; wp-6.6.1\n"
+"X-Loco-Version: 2.6.11; wp-6.6.2\n"
 "X-Domain: ticket-hub"
 
 #: post-types/thub-ticket-pt.php:287
 msgid " on your ticket (ID: "
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:50
+#: shortcodes/thub-tickets-sc.php:37
 msgid "- Status -"
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:55 shortcodes/thub-documentation-sc.php:44
+#: shortcodes/thub-tickets-sc.php:42 shortcodes/thub-documentation-sc.php:36
 #: post-types/thub-ticket-pt.php:132
 msgid "- Type -"
 msgstr ""
@@ -93,15 +93,15 @@ msgstr ""
 msgid "All Ticket Tags"
 msgstr ""
 
-#: post-types/thub-faq-pt.php:67
+#: post-types/thub-faq-pt.php:68
 msgid "Answer"
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:44
+#: shortcodes/thub-tickets-sc.php:31
 msgid "Archive"
 msgstr ""
 
-#: ticket-hub.php:122
+#: ticket-hub.php:119
 msgid "Archived"
 msgstr ""
 
@@ -113,12 +113,20 @@ msgid_plural "Archived %s posts."
 msgstr[0] ""
 msgstr[1] ""
 
-#: shortcodes/thub-ticket-sc.php:157
+#. %s: Number of archived posts
+#: ticket-hub.php:58
+#, php-format
+msgid "Archived <span class=\"count\">(%s)</span>"
+msgid_plural "Archived <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: shortcodes/thub-ticket-sc.php:126
 msgid "Attachments"
 msgstr ""
 
 #. %s: Maximum upload size for attachments.
-#: shortcodes/thub-form-sc.php:41
+#: shortcodes/thub-form-sc.php:33
 #, php-format
 msgid "Attachments (up to 3 files, max file size: %s)"
 msgstr ""
@@ -127,11 +135,11 @@ msgstr ""
 msgid "Attachments:"
 msgstr ""
 
-#: shortcodes/thub-ticket-sc.php:61
+#: shortcodes/thub-ticket-sc.php:46
 msgid "Back"
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:37 post-types/thub-ticket-pt.php:134
+#: shortcodes/thub-tickets-sc.php:24 post-types/thub-ticket-pt.php:134
 msgid "Bug report"
 msgstr ""
 
@@ -159,7 +167,7 @@ msgstr ""
 msgid "Change published."
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:38 post-types/thub-ticket-pt.php:135
+#: shortcodes/thub-tickets-sc.php:25 post-types/thub-ticket-pt.php:135
 msgid "Change request"
 msgstr ""
 
@@ -196,15 +204,15 @@ msgstr ""
 msgid "Choose from the most used ticket tags"
 msgstr ""
 
-#: shortcodes/thub-ticket-sc.php:225
+#: shortcodes/thub-ticket-sc.php:171
 msgid "Comment"
 msgstr ""
 
-#: shortcodes/thub-ticket-sc.php:201
+#: shortcodes/thub-ticket-sc.php:147
 msgid "Comments"
 msgstr ""
 
-#: shortcodes/thub-ticket-sc.php:232
+#: shortcodes/thub-ticket-sc.php:178
 msgid "Comments are closed for this ticket"
 msgstr ""
 
@@ -214,7 +222,7 @@ msgid ""
 "archived."
 msgstr ""
 
-#: shortcodes/thub-form-sc.php:216
+#: shortcodes/thub-form-sc.php:208
 msgid "Confirmation of Your Ticket Submission"
 msgstr ""
 
@@ -222,11 +230,11 @@ msgstr ""
 msgid "Create User"
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:150
+#: shortcodes/thub-tickets-sc.php:138
 msgid "Created by"
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:68 shortcodes/thub-ticket-sc.php:109
+#: shortcodes/thub-tickets-sc.php:55 shortcodes/thub-ticket-sc.php:78
 msgid "Creator"
 msgstr ""
 
@@ -234,7 +242,7 @@ msgstr ""
 msgid "Customize the prefix and suffix for ticket IDs."
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:66 shortcodes/thub-tickets-sc.php:148
+#: shortcodes/thub-tickets-sc.php:53 shortcodes/thub-tickets-sc.php:136
 msgid "Date"
 msgstr ""
 
@@ -242,7 +250,7 @@ msgstr ""
 msgid "Days to Archive"
 msgstr ""
 
-#: shortcodes/thub-form-sc.php:33 shortcodes/thub-ticket-sc.php:80
+#: shortcodes/thub-form-sc.php:25 shortcodes/thub-ticket-sc.php:65
 #: post-types/thub-ticket-pt.php:140
 msgid "Description"
 msgstr ""
@@ -304,15 +312,15 @@ msgstr ""
 msgid "Documents list navigation"
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:33 post-types/thub-ticket-pt.php:125
+#: shortcodes/thub-tickets-sc.php:20 post-types/thub-ticket-pt.php:125
 msgid "Done"
 msgstr ""
 
-#: shortcodes/thub-documentation-sc.php:74
+#: shortcodes/thub-documentation-sc.php:66
 msgid "Download"
 msgstr ""
 
-#: shortcodes/thub-ticket-sc.php:110
+#: shortcodes/thub-ticket-sc.php:79
 msgid "E-Mail"
 msgstr ""
 
@@ -349,11 +357,11 @@ msgstr ""
 msgid "Error assigning ticket creator: "
 msgstr ""
 
-#: shortcodes/thub-form-sc.php:153
+#: shortcodes/thub-form-sc.php:145
 msgid "Error creating the ticket. Please try again."
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:62
+#: shortcodes/thub-tickets-sc.php:49
 msgid "Export Tickets"
 msgstr ""
 
@@ -476,13 +484,13 @@ msgid "has changed to: "
 msgstr ""
 
 #. %s: User First name.
-#: shortcodes/thub-profile-sc.php:50
+#: shortcodes/thub-profile-sc.php:43
 #, php-format
 msgid "Hello %s"
 msgstr ""
 
 #. %s: User name.
-#: shortcodes/thub-form-sc.php:215
+#: shortcodes/thub-form-sc.php:207
 #, php-format
 msgid ""
 "Hello %s,\\n\\nThank you for submitting your ticket. It will now be reviewed."
@@ -493,7 +501,7 @@ msgstr ""
 msgid "https://mondula.com"
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:66 shortcodes/thub-tickets-sc.php:145
+#: shortcodes/thub-tickets-sc.php:53 shortcodes/thub-tickets-sc.php:133
 #: post-types/thub-ticket-pt.php:117
 msgid "ID"
 msgstr ""
@@ -514,17 +522,17 @@ msgstr ""
 msgid "Insert into ticket"
 msgstr ""
 
-#: shortcodes/thub-form-sc.php:109
+#: shortcodes/thub-form-sc.php:101
 msgid ""
 "Invalid file type. Only JPG, JPEG, PNG, GIF, PDF, DOC, DOCX, TXT, XLS, XLSX, "
 "CSV, PPT, PPTX, ZIP, and RAR files are allowed."
 msgstr ""
 
-#: shortcodes/thub-ticket-sc.php:240
+#: shortcodes/thub-ticket-sc.php:186
 msgid "Invalid ticket ID."
 msgstr ""
 
-#: ticket-hub.php:167 includes/thub-form-editor-tab.php:59
+#: ticket-hub.php:124 includes/thub-form-editor-tab.php:59
 msgid "Label"
 msgstr ""
 
@@ -533,11 +541,11 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: shortcodes/thub-documentation-sc.php:86
+#: shortcodes/thub-documentation-sc.php:71
 msgid "LINK"
 msgstr ""
 
-#: shortcodes/thub-documentation-sc.php:44 post-types/thub-document-pt.php:71
+#: shortcodes/thub-documentation-sc.php:36 post-types/thub-document-pt.php:71
 #: post-types/thub-document-pt.php:86
 msgid "Link"
 msgstr ""
@@ -546,15 +554,11 @@ msgstr ""
 msgid "List of Ticket Creators"
 msgstr ""
 
-#: post-types/thub-change-pt.php:67
-msgid "Log"
-msgstr ""
-
-#: shortcodes/thub-profile-sc.php:23
+#: shortcodes/thub-profile-sc.php:16
 msgid "Log In"
 msgstr ""
 
-#: shortcodes/thub-profile-sc.php:48
+#: shortcodes/thub-profile-sc.php:41
 msgid "Logout"
 msgstr ""
 
@@ -567,11 +571,11 @@ msgstr ""
 msgid "Mondula GmbH"
 msgstr ""
 
-#: shortcodes/thub-documentation-sc.php:53
+#: shortcodes/thub-documentation-sc.php:45
 msgid "Name"
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:31 post-types/thub-ticket-pt.php:123
+#: shortcodes/thub-tickets-sc.php:18 post-types/thub-ticket-pt.php:123
 msgid "New"
 msgstr ""
 
@@ -599,7 +603,7 @@ msgstr ""
 msgid "New ticket creator assigned."
 msgstr ""
 
-#: shortcodes/thub-form-sc.php:209
+#: shortcodes/thub-form-sc.php:201
 msgid "New Ticket Submitted"
 msgstr ""
 
@@ -615,11 +619,11 @@ msgstr ""
 msgid "No changes found in Trash"
 msgstr ""
 
-#: shortcodes/thub-changelog-sc.php:43
+#: shortcodes/thub-changelog-sc.php:35
 msgid "No changes found."
 msgstr ""
 
-#: shortcodes/thub-ticket-sc.php:214
+#: shortcodes/thub-ticket-sc.php:160
 msgid "No comments yet."
 msgstr ""
 
@@ -639,7 +643,7 @@ msgstr ""
 msgid "No faqs found in Trash"
 msgstr ""
 
-#: shortcodes/thub-faqs-sc.php:41
+#: shortcodes/thub-faqs-sc.php:33
 msgid "No FAQs found."
 msgstr ""
 
@@ -659,7 +663,7 @@ msgstr ""
 msgid "No Users found."
 msgstr ""
 
-#: shortcodes/thub-documentation-sc.php:87
+#: shortcodes/thub-documentation-sc.php:72
 msgid "Open"
 msgstr ""
 
@@ -687,7 +691,7 @@ msgstr ""
 msgid "Parent Ticket:"
 msgstr ""
 
-#: shortcodes/thub-profile-sc.php:21
+#: shortcodes/thub-profile-sc.php:14
 msgid "Password"
 msgstr ""
 
@@ -703,19 +707,24 @@ msgstr ""
 msgid "Popular Ticket Tags"
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:32 post-types/thub-ticket-pt.php:124
+#: ticket-hub.php:52
+msgctxt "post status"
+msgid "Archived"
+msgstr ""
+
+#: shortcodes/thub-tickets-sc.php:19 post-types/thub-ticket-pt.php:124
 msgid "Processing"
 msgstr ""
 
-#: shortcodes/thub-profile-sc.php:48
+#: shortcodes/thub-profile-sc.php:41
 msgid "Profile"
 msgstr ""
 
-#: shortcodes/thub-ticket-sc.php:69
+#: shortcodes/thub-ticket-sc.php:54
 msgid "Related Tickets"
 msgstr ""
 
-#: shortcodes/thub-profile-sc.php:22
+#: shortcodes/thub-profile-sc.php:15
 msgid "Remember Me"
 msgstr ""
 
@@ -731,7 +740,7 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:42 shortcodes/thub-documentation-sc.php:43
+#: shortcodes/thub-tickets-sc.php:29 shortcodes/thub-documentation-sc.php:35
 msgid "Search"
 msgstr ""
 
@@ -755,11 +764,11 @@ msgstr ""
 msgid "Search Tickets"
 msgstr ""
 
-#: includes/thub-page-settings.php:142 shortcodes/thub-form-sc.php:78
+#: includes/thub-page-settings.php:142 shortcodes/thub-form-sc.php:70
 msgid "Security check failed"
 msgstr ""
 
-#: ticket-hub.php:166 includes/thub-page-settings.php:103
+#: ticket-hub.php:123 includes/thub-page-settings.php:103
 #: includes/thub-form-editor-tab.php:74
 msgid "Select"
 msgstr ""
@@ -780,16 +789,16 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: shortcodes/thub-form-sc.php:30
+#: shortcodes/thub-form-sc.php:22
 msgid "Short Description"
 msgstr ""
 
-#: shortcodes/thub-form-sc.php:144
+#: shortcodes/thub-form-sc.php:136
 msgid "Short description and description are required fields."
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:66 shortcodes/thub-tickets-sc.php:146
-#: shortcodes/thub-ticket-sc.php:83 post-types/thub-ticket-pt.php:121
+#: shortcodes/thub-tickets-sc.php:53 shortcodes/thub-tickets-sc.php:134
+#: shortcodes/thub-ticket-sc.php:68 post-types/thub-ticket-pt.php:121
 msgid "Status"
 msgstr ""
 
@@ -803,19 +812,23 @@ msgid ""
 "plugin for managing tickets, FAQs, and documentation efficiently."
 msgstr ""
 
-#: shortcodes/thub-form-sc.php:66
+#: shortcodes/thub-form-sc.php:58
 msgid "Submit"
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:36 post-types/thub-ticket-pt.php:133
+#: shortcodes/thub-tickets-sc.php:23 post-types/thub-ticket-pt.php:133
 msgid "Support"
 msgstr ""
 
-#: ticket-hub.php:164 includes/thub-form-editor-tab.php:72
+#: post-types/thub-change-pt.php:68
+msgid "Test"
+msgstr ""
+
+#: ticket-hub.php:121 includes/thub-form-editor-tab.php:72
 msgid "Text"
 msgstr ""
 
-#: ticket-hub.php:165 includes/thub-form-editor-tab.php:73
+#: ticket-hub.php:122 includes/thub-form-editor-tab.php:73
 msgid "Textarea"
 msgstr ""
 
@@ -823,7 +836,7 @@ msgstr ""
 msgid "The status of your ticket (ID: "
 msgstr ""
 
-#: shortcodes/thub-form-sc.php:129
+#: shortcodes/thub-form-sc.php:121
 msgid "There was an error uploading your file: "
 msgstr ""
 
@@ -835,7 +848,7 @@ msgstr ""
 msgid "This option disables attachments in the ticket form."
 msgstr ""
 
-#: shortcodes/thub-ticket-sc.php:237
+#: shortcodes/thub-ticket-sc.php:183
 msgid "This ticket is private and cannot be displayed."
 msgstr ""
 
@@ -855,7 +868,7 @@ msgstr ""
 msgid "Ticket Attributes"
 msgstr ""
 
-#: ticket-hub.php:85
+#: ticket-hub.php:87
 msgid "Ticket Creator"
 msgstr ""
 
@@ -903,7 +916,7 @@ msgstr ""
 msgid "Ticket Status Update: "
 msgstr ""
 
-#: shortcodes/thub-form-sc.php:218
+#: shortcodes/thub-form-sc.php:210
 msgid "Ticket submitted successfully"
 msgstr ""
 
@@ -959,13 +972,13 @@ msgstr ""
 msgid "Tickets Page"
 msgstr ""
 
-#: shortcodes/thub-tickets-sc.php:66 shortcodes/thub-tickets-sc.php:147
-#: shortcodes/thub-documentation-sc.php:53 shortcodes/thub-ticket-sc.php:84
+#: shortcodes/thub-tickets-sc.php:53 shortcodes/thub-tickets-sc.php:135
+#: shortcodes/thub-documentation-sc.php:45 shortcodes/thub-ticket-sc.php:69
 #: post-types/thub-ticket-pt.php:130 post-types/thub-document-pt.php:67
 msgid "Type"
 msgstr ""
 
-#: shortcodes/thub-ticket-sc.php:223
+#: shortcodes/thub-ticket-sc.php:169
 msgid "Type your comment here"
 msgstr ""
 
@@ -993,7 +1006,7 @@ msgstr ""
 msgid "Uploaded to this ticket"
 msgstr ""
 
-#: includes/thub-ticket-creators-tab.php:103 shortcodes/thub-profile-sc.php:20
+#: includes/thub-ticket-creators-tab.php:103 shortcodes/thub-profile-sc.php:13
 msgid "Username"
 msgstr ""
 
@@ -1033,7 +1046,7 @@ msgstr ""
 msgid "View Tickets"
 msgstr ""
 
-#: shortcodes/thub-form-sc.php:100
+#: shortcodes/thub-form-sc.php:92
 msgid "You can upload a maximum of 3 files."
 msgstr ""
 
@@ -1041,10 +1054,10 @@ msgstr ""
 msgid "You do not have permission to access this page."
 msgstr ""
 
-#: shortcodes/thub-form-sc.php:74
+#: shortcodes/thub-form-sc.php:66
 msgid "You do not have permission to submit tickets."
 msgstr ""
 
-#: shortcodes/thub-profile-sc.php:53
+#: shortcodes/thub-profile-sc.php:46
 msgid "Your Tickets"
 msgstr ""
