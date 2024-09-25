@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html <?php echo esc_attr(language_attributes()); ?>>
+<html 
+<?php 
+if ( ! defined( 'ABSPATH' ) ) exit;
+echo esc_attr(language_attributes()); 
+?>>
 
 <head>
 	<meta charset="<?php echo esc_attr(get_bloginfo('charset')); ?>">
