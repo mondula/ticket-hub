@@ -148,6 +148,11 @@
   min-width: 100px;
 }
 
+.thub-document-table td:last-child {
+  display: flex;
+  justify-content: right;
+}
+
 .thub-document-table tbody td:nthub-child(2) {
   display: flex;
   justify-content: space-between;
