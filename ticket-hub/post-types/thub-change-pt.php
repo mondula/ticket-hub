@@ -65,7 +65,7 @@ add_action('edit_form_after_title', function ($post) {
 	);
 
 	// Display the label
-	echo '<h3>' . esc_html__('Test', 'ticket-hub') . '</h3>';
+	echo '<h3>' . esc_html__('Log', 'ticket-hub') . '</h3>';
 
 	// Display the editor
 	wp_editor($log_content, 'thub_log_editor', $settings);
