@@ -117,7 +117,7 @@ function thub_enqueue_admin_scripts() {
     // Localize the script with necessary variables
     wp_localize_script('thub-admin-js', 'thub_admin_vars', array(
         'archived_text' => esc_js(__('Archived', 'ticket-hub')),
-        'post_status' => esc_js($GLOBALS['post']->post_status),
+        'post_status' => isset($GLOBALS['post']) ? esc_js($GLOBALS['post']->post_status) : '',
         'text' => esc_html__('Text', 'ticket-hub'),
         'textarea' => esc_html__('Textarea', 'ticket-hub'),
         'select' => esc_html__('Select', 'ticket-hub'),
