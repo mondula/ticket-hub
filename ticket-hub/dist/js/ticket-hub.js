@@ -173,7 +173,7 @@ jQuery(document).ready(function ($) {
     var page = 1; // Start on the first page
 
     function fetchTickets(shouldResetPage) {
-        console.log('fetchTickets');
+        // console.log('fetchTickets');
         if (shouldResetPage) {
             page = 1; // Reset to the first page when filters change
         }
@@ -187,7 +187,7 @@ jQuery(document).ready(function ($) {
             action: 'fetch_tickets',
             isArchive,
             page,
-            user_id: $('.thub-ticket-table tr').children().length === 5 ? 0 : thub_public_vars.user_id,
+            user_id: $('.thub-profile-head').length === 0 ? 0 : thub_public_vars.user_id,
             searchValue,
             statusValue,
             typeValue,

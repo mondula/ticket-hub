@@ -3,7 +3,7 @@
  */
 
 jQuery(document).ready(function ($) {
-    console.log('thub_admin_vars', thub_admin_vars);
+    // console.log('thub_admin_vars', thub_admin_vars);
     // Get the archived text from localized variables
     var archivedText = thub_admin_vars.archived_text;
 
