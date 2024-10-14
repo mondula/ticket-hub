@@ -10,7 +10,32 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 TicketHub is a plugin for managing support tickets, FAQs, documentation, and change logs. Streamline your customer support process with ease.
 
 == Description ==
-TicketHub is a comprehensive support management plugin that allows you to create and manage support tickets, FAQs, documentation, and change logs directly from your WordPress site.
+A simple, easy-to-set-up, and streamlined responsive ticket system to manage your customer support.
+Particularly well-suited to ensure transparent support for software applications.
+The plugin offers a built-in logic for ticket management, changelog documentation, FAQs, 
+With this plugin, you can extend your WordPress website with an easy-to-use ticket system or develop a standalone solution as needed.
+As a special feature, it is effortlessly possible to activate an AI-driven chat function. The support chat only needs to be equipped with the appropriate AI code. This way, the personal AI account can be connected to the application, and the most common support inquiries are answered by the bot.
+
+== Key Features ==
+Integrated Ticketsystem with unlimited number of Tickets
+Individualize Ticketnumbers - set ticket pre- and postfixes
+User-based Ticket management
+Integrated Ticket Filter (Status, Typ, Archive)
+Ticket grouping using tags
+Unlimited Numbers of Agents
+Easy integration of Documentations in several Formats
+Easy expandable Formulary for Tickets 
+Email notifications
+During the next weeks we will release a plus version with a  AI-powered chat function and some other great features.
+
+== Coming soon Ticket Hub Plus Key Features ==
+AI Chat Bot
+integrate your personal AI ChatBot
+Upload Userlists
+Registration by user
+Admin choice activation automatically front end display of Support Tickets 
+Export Tickets via CSV
+Automation archive
 
 == Installation ==
 1. Upload the plugin files to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
@@ -25,7 +50,11 @@ TicketHub is a comprehensive support management plugin that allows you to create
 4. Display doc on the frontend
 
 == Changelog ==
-= 1.0 =
+
+= 1.0.1 =
+* Fixed a some small bugs
+
+= 1.0.0 =
 * Initial release of TicketHub.
 
 == Custom Shortcodes ==
