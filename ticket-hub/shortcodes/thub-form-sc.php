@@ -186,7 +186,7 @@ add_action('admin_post_submit_ticket_form', function () {
         $name = '';
 
         if (empty($first_name) && empty($last_name)) {
-            $name = esc_html(get_the_author_meta('display_name', $author_id)); // Get the author's display name
+            $name = esc_html(get_the_author_meta('display_name', $current_user->ID));
         } else {
             $name = trim(esc_html($first_name) . ' ' . esc_html($last_name));
         }
