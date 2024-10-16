@@ -162,10 +162,11 @@ add_action('admin_post_submit_ticket_form', function () {
         $custom_fields = get_option('thub_custom_fields', []);
         $custom_fields_content = "";
         foreach ($custom_fields as $field) {
-            if (isset($_POST['thcf_' . sanitize_title($field['label'])])) {
-                $field_value = sanitize_text_field(wp_unslash($_POST['thcf_' . sanitize_title($field['label'])]));
-                update_post_meta($post_id, 'thcf_' . sanitize_title($field['label']), $field_value);
-                $custom_fields_content .= esc_html($field['label']) . ": " . esc_html($field['value']) . "\n";
+            $field_key = 'thcf_' . sanitize_title($field['label']);
+            if (isset($_POST[$field_key])) {
+                $field_value = sanitize_text_field(wp_unslash($_POST[$field_key]));
+                update_post_meta($post_id, $field_key, $field_value);
+                $custom_fields_content .= esc_html($field['label']) . ": " . esc_html($field_value) . "\n";
             }
         }
 
