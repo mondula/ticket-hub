@@ -3,7 +3,7 @@ Contributors: mondula2016
 Tags: tickets, support, faq, documentation, change log
 Requires at least: 6.0
 Tested up to: 6.6.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,11 @@ Automation archive
 4. Display doc on the frontend
 
 == Changelog ==
+
+= 1.0.2 =
+* Fixed a some small bugs
+* added shortdescription to the ticket page
+* reworked comments to work with ajax
 
 = 1.0.1 =
 * Fixed a some small bugs

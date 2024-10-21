@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /*
 Plugin Name: TicketHub
 Description: Streamline your support system with TicketHub, a powerful and user-friendly plugin for managing tickets, FAQs, and documentation efficiently.
-Version:     1.0.1
+Version:     1.0.2
 Author:      Mondula GmbH
 Author URI:  https://mondula.com
 License:     GPL2
@@ -108,7 +108,7 @@ add_action('after_setup_theme', function () {
 
 function thub_enqueue_admin_scripts() {
     $plugin_url = plugin_dir_url(__FILE__);
-    $version = '1.0.1'; // You might want to use a dynamic version number
+    $version = '1.0.2'; // You might want to use a dynamic version number
 
     // Enqueue admin scripts and styles
     wp_enqueue_script('thub-admin-js', $plugin_url . 'dist/js/ticket-hub-admin.min.js', array('jquery'), $version, true);
@@ -127,7 +127,7 @@ function thub_enqueue_admin_scripts() {
 
 function thub_enqueue_public_scripts() {
     $plugin_url = plugin_dir_url(__FILE__);
-    $version = '1.0.1'; // You might want to use a dynamic version number
+    $version = '1.0.2'; // You might want to use a dynamic version number
 
     // Enqueue public scripts and styles
     wp_enqueue_script('thub-public-js', $plugin_url . 'dist/js/ticket-hub.min.js', array('jquery'), $version, true);
