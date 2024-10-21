@@ -331,14 +331,17 @@ add_action('thub_archive_done_tickets', function () {
 });
 
 add_filter('manage_thub_ticket_posts_columns', function ($columns) {
-    unset($columns['title']);
+    // Create a new array with 'cb' (checkbox) and 'title' as the first two columns
     $new_columns = [
         'cb' => $columns['cb'],
-        'id' => 'ID',
-        'status' => 'Status',
-        'type' => 'Type'
+        'title' => __('Title', 'ticket-hub'),
+        'id' => __('ID', 'ticket-hub'),
+        'status' => __('Status', 'ticket-hub'),
+        'type' => __('Type', 'ticket-hub')
     ];
-    return array_merge($new_columns, $columns);
+    
+    // Merge any remaining columns
+    return array_merge($new_columns, array_diff_key($columns, $new_columns));
 });
 
 add_filter('manage_edit-thub_ticket_sortable_columns', function ($columns) {
@@ -350,6 +353,11 @@ add_filter('manage_edit-thub_ticket_sortable_columns', function ($columns) {
 
 add_action('manage_thub_ticket_posts_custom_column', function ($column, $post_id) {
     switch ($column) {
+        case 'title':
+            $title = get_the_title($post_id);
+            $edit_link = get_edit_post_link($post_id);
+            echo '<a class="row-title" href="' . esc_url($edit_link) . '">' . esc_html($title) . '</a>';
+            break;
         case 'id':
             $id = esc_html(get_post_meta($post_id, 'thub_ticket_id', true));
             $edit_link = get_edit_post_link($post_id);
@@ -458,3 +466,4 @@ function thub_search_by_ticket_id($query)
         }
     }
 }
+
