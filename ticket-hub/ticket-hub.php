@@ -133,19 +133,33 @@ function thub_enqueue_public_scripts() {
     wp_enqueue_script('thub-public-js', $plugin_url . 'dist/js/ticket-hub.min.js', array('jquery'), $version, true);
     wp_enqueue_style('thub-public-css', $plugin_url . 'dist/css/ticket-hub.min.css', array(), $version);
 
-    // Localize script
+    // Localize script with multiple nonces
     wp_localize_script('thub-public-js', 'thub_public_vars', array(
         'ajax_url' => esc_url(admin_url('admin-ajax.php')),
         'user_id' => get_current_user_id(),
-        'nonce' => wp_create_nonce('fetch_tickets_nonce')
+        'nonces' => array(
+            'fetch_tickets' => wp_create_nonce('fetch_tickets_nonce'),
+            'submit_comment' => wp_create_nonce('submit_comment_nonce'),
+            // Add more nonces as needed
+        )
     ));
 }
 add_action('wp_enqueue_scripts', 'thub_enqueue_public_scripts');
 add_action('admin_enqueue_scripts', 'thub_enqueue_admin_scripts');
 
 function thub_handle_comment_submission() {
+    // Check nonce
+    if (!check_ajax_referer('submit_comment_nonce', 'nonce', false)) {
+        wp_send_json_error(['message' => __('Security check failed', 'ticket-hub')]);
+    }
+
+    // Check if the required keys exist in $_POST
+    if (!isset($_POST['post_id']) || !isset($_POST['comment'])) {
+        wp_send_json_error(['message' => __('Required data is missing', 'ticket-hub')]);
+    }
+
     $post_id = intval($_POST['post_id']);
-    $comment_content = sanitize_textarea_field($_POST['comment']);
+    $comment_content = sanitize_textarea_field(wp_unslash($_POST['comment']));
 
     if (!$post_id || !$comment_content) {
         wp_send_json_error(['message' => __('Invalid comment data', 'ticket-hub')]);

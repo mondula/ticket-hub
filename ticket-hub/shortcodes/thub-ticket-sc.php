@@ -183,7 +183,7 @@ add_shortcode('thub_ticket', function ($atts) {
                             $.ajax({
                                 url: '<?php echo esc_url(admin_url('admin-ajax.php')); ?>',
                                 type: 'POST',
-                                data: formData + '&action=thub_submit_comment',
+                                data: formData + '&action=thub_submit_comment&nonce=' + thub_public_vars.nonces.submit_comment,
                                 success: function(response) {
                                     if (response.success) {
                                         $('#thub-comments-container').html(response.data.comments_html);

@@ -191,7 +191,7 @@ jQuery(document).ready(function ($) {
             searchValue,
             statusValue,
             typeValue,
-            nonce: thub_public_vars.nonce
+            nonce: thub_public_vars.nonces.fetch_tickets
         };
         // console.log(data);
 
