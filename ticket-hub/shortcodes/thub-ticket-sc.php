@@ -47,7 +47,7 @@ add_shortcode('thub_ticket', function ($atts) {
                 <?php
                 $ticket_id = get_post_meta($post_id, 'thub_ticket_id', true);
                 if (!empty($ticket_id)) {
-                    echo '<h3>' . esc_html($ticket_id) . '</h3>';
+                    echo '<h3>' . esc_html($ticket_id) . ' - ' . esc_html(get_the_title($post_id)) . '</h3>';
                 }
 
                 if ($related_tickets->have_posts()) {
