@@ -142,4 +142,50 @@ function thub_enqueue_public_scripts() {
 }
 add_action('wp_enqueue_scripts', 'thub_enqueue_public_scripts');
 add_action('admin_enqueue_scripts', 'thub_enqueue_admin_scripts');
+
+function thub_handle_comment_submission() {
+    $post_id = intval($_POST['post_id']);
+    $comment_content = sanitize_textarea_field($_POST['comment']);
+
+    if (!$post_id || !$comment_content) {
+        wp_send_json_error(['message' => __('Invalid comment data', 'ticket-hub')]);
+    }
+
+    $user = wp_get_current_user();
+    $time = current_time('mysql');
+
+    $data = array(
+        'comment_post_ID' => $post_id,
+        'comment_author' => $user->display_name,
+        'comment_author_email' => $user->user_email,
+        'comment_author_url' => $user->user_url,
+        'comment_content' => $comment_content,
+        'comment_type' => '',
+        'comment_parent' => 0,
+        'user_id' => $user->ID,
+        'comment_date' => $time,
+        'comment_approved' => 1,
+    );
+
+    $comment_id = wp_insert_comment($data);
+
+    if ($comment_id) {
+        ob_start();
+        $top_level_comments = get_comments(array(
+            'post_id' => $post_id,
+            'status' => 'approve',
+            'parent' => 0,
+        ));
+        foreach ($top_level_comments as $comment) {
+            thub_display_comment_withub_replies($comment);
+        }
+        $comments_html = ob_get_clean();
+
+        wp_send_json_success(['comments_html' => $comments_html]);
+    } else {
+        wp_send_json_error(['message' => __('Failed to submit comment', 'ticket-hub')]);
+    }
+}
+add_action('wp_ajax_thub_submit_comment', 'thub_handle_comment_submission');
+add_action('wp_ajax_nopriv_thub_submit_comment', 'thub_handle_comment_submission');
 ?>

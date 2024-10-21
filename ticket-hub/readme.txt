@@ -14,8 +14,6 @@ A simple, easy-to-set-up, and streamlined responsive ticket system to manage you
 Particularly well-suited to ensure transparent support for software applications.
 The plugin offers a built-in logic for ticket management, changelog documentation, FAQs, 
 With this plugin, you can extend your WordPress website with an easy-to-use ticket system or develop a standalone solution as needed.
-As a special feature, it is effortlessly possible to activate an AI-driven chat function. The support chat only needs to be equipped with the appropriate AI code. This way, the personal AI account can be connected to the application, and the most common support inquiries are answered by the bot.
-
 == Key Features ==
 Integrated Ticketsystem with unlimited number of Tickets
 Individualize Ticketnumbers - set ticket pre- and postfixes
@@ -25,6 +23,7 @@ Ticket grouping using tags
 Unlimited Numbers of Agents
 Easy integration of Documentations in several Formats
 Easy expandable Formulary for Tickets 
+Unlimited tags
 Email notifications
 During the next weeks we will release a plus version with a  AI-powered chat function and some other great features.
 

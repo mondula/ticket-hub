@@ -522,7 +522,7 @@
   border: none;
   margin-bottom: 30px;
   color: #24133b;
-  max-width: 80%;
+  max-width: 600px;
 }
 
 .thub-comment-area::placeholder {
@@ -589,6 +589,15 @@
 
 .thub-related-tickets>div:not(:first-child):hover {
   background-color: #262626;
+}
+
+#thub-comment-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#thub-comment-form .thub-button {
+  width: fit-content;
 }
 
 @-webkit-keyframes zoom {

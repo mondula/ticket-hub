@@ -146,6 +146,8 @@ add_shortcode('thub_ticket', function ($atts) {
                 echo '<div class="thub-ticket-comments">';
                 echo '<h4>' . esc_html__('Comments', 'ticket-hub') . '</h4>';
 
+                // Add a container for comments
+                echo '<div id="thub-comments-container">';
                 $top_level_comments = get_comments(array(
                     'post_id' => $post_id,
                     'status' => 'approve',
@@ -159,21 +161,42 @@ add_shortcode('thub_ticket', function ($atts) {
                 } else {
                     echo '<p>' . esc_html__('No comments yet.', 'ticket-hub') . '</p>';
                 }
+                echo '</div>'; // Close comments container
 
                 echo '</div>';
                 echo '<div class="thub_ticket-comment-form">';
                 if (comments_open($post_id)) {
-                    $args = array(
-                        'post_id' => $post_id,
-                        'title_reply' => '',
-                        'comment_field' => '<textarea id="comment" name="comment" rows="10" cols="80" class="thub-comment-area" placeholder="' . esc_attr__('Type your comment here', 'ticket-hub') . '" required="required"></textarea>',
-                        'fields' => array(),
-                        'label_submit' => esc_html__('Comment', 'ticket-hub'),
-                        'comment_notes_before' => '',
-                        'comment_notes_after' => '',
-                        'submit_button' => '<button type="submit" class="thub-button">%4$s</button>',
-                    );
-                    comment_form($args);
+                    // Modify the comment form to use AJAX
+                    echo '<form id="thub-comment-form" action="" method="post">';
+                    echo '<textarea id="comment" name="comment" rows="10" cols="80" class="thub-comment-area" placeholder="' . esc_attr__('Type your comment here', 'ticket-hub') . '" required="required"></textarea>';
+                    echo '<input type="hidden" name="post_id" value="' . esc_attr($post_id) . '">';
+                    echo '<button type="submit" class="thub-button">' . esc_html__('Comment', 'ticket-hub') . '</button>';
+                    echo '</form>';
+                    
+                    // Add JavaScript for AJAX submission
+                    ?>
+                    <script>
+                    jQuery(document).ready(function($) {
+                        $('#thub-comment-form').on('submit', function(e) {
+                            e.preventDefault();
+                            var formData = $(this).serialize();
+                            $.ajax({
+                                url: '<?php echo esc_url(admin_url('admin-ajax.php')); ?>',
+                                type: 'POST',
+                                data: formData + '&action=thub_submit_comment',
+                                success: function(response) {
+                                    if (response.success) {
+                                        $('#thub-comments-container').html(response.data.comments_html);
+                                        $('#comment').val('');
+                                    } else {
+                                        alert('Error: ' + response.data.message);
+                                    }
+                                }
+                            });
+                        });
+                    });
+                    </script>
+                    <?php
                 } else {
                     echo '<p>' . esc_html__('Comments are closed for this ticket', 'ticket-hub') . '</p>';
                 }
